@@ -35,7 +35,7 @@ Graphics.initGraphics(True)
 _socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 _server_addr = (_address, _port)
 
-if debug: print("Starting server on {}:{}.".format(*_server_addr))
+print("Starting server on {}:{}.".format(*_server_addr))
 _socket.bind(_server_addr)
 
 _socket.listen(1)
@@ -69,10 +69,8 @@ while True:
 		Backup.Start()
 		Graphics.setStatus(Graphics.status["Idle"])
 
-
-	if debug: print("display update")
 	try:
-		if debug: print("Waiting for client connection.")
+		Graphics.setStatus(Graphics.status["Waiting"])
 		connection, client_address = _socket.accept()
 	except:
 		skip = True

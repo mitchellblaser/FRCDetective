@@ -28,7 +28,8 @@ def OutputCode(_logcode):
 		_output = timestring + " -> " + "Server resumed operation.\n"
 		loggedPause = False
 
-	FileIO.AppendData("CurrentLog.txt", _output)
+	if _output != "":
+		FileIO.AppendData("CurrentLog.txt", _output)
 
 
 def DirectOutput(_output):

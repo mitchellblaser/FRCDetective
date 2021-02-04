@@ -14,7 +14,8 @@ mode = {
 status = {
 	"Idle"   : 0,
 	"Backup" : 1,
-	"Paused" : 2
+	"Paused" : 2,
+	"Waiting": 3
 }
 
 def setGraphics(_mode):

@@ -27,6 +27,7 @@ def cmdPause():
 
 paused = False
 _justPaused = False
+_lastWait = False
 
 window = Tk()
 window.geometry("400x790")
@@ -85,6 +86,7 @@ def isPaused():
 
 def setStatus(_status):
 	global _justPaused
+	global _lastWait
 	_ss = "Server Status: "
 	timestamp = datetime.datetime.now()
 	timestring = "0"*int(2-len(str(timestamp.hour))) + str(timestamp.hour) + ":" + \
@@ -106,5 +108,11 @@ def setStatus(_status):
 			lblStatus.configure(text=_ss + "Execution Paused.")
 			txtServerLog.insert(INSERT, "\n" + timestring + " -> Server Execution temporarily Paused.")
 			txtServerLog.see(END)
+			_lastWait = False
 			_justPaused = True
-
+	if _status == Graphics.status["Waiting"]:
+		if (_lastWait==False):
+			_lastWait = True
+			lblStatus.configure(text=_ss + "Waiting for Connection.")
+			txtServerLog.insert(INSERT, "\n" + timestring + " -> Waiting for connection (polling every 0.2s)")
+			txtServerLog.see(END)
