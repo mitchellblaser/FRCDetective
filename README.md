@@ -2,7 +2,7 @@
 
 
 
-<img src="https://github.com/mitchellblaser/FRCDetective/blob/main/logo.jpg?raw=true" align=right style="zoom:13%;" />A scouting system for the First Robotics Competition which does not rely on an internet connection, or bluetooth/wifi mesh network.
+<img src="https://github.com/mitchellblaser/FRCDetective/blob/main/logo.jpg?raw=true" align=right width=225 />A scouting system for the First Robotics Competition which does not rely on an internet connection, or bluetooth/wifi mesh network.
 
 Developed by @mitchellblaser and @Dilka30003.
 
