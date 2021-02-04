@@ -15,5 +15,4 @@ View our progress and planned features for the future [at this link.](https://ap
 ***The server application is not complete as of yet.***
 
 - Python 3
-- socket library (comes with modern py3 releases.)
-- tkinter library (should also come with py3)
+- socket, tkinter, os (should all come with py3 install)

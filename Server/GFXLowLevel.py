@@ -4,3 +4,6 @@
 
 def initGraphics():
 	print("Low Level Graphics Initialised.")
+
+def updateGraphics():
+	print("u")

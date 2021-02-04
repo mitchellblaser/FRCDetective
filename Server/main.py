@@ -10,6 +10,8 @@ import socket
 ##Our custom deps
 import ParseArgument
 import Graphics
+import HashScript
+import Communications
 
 ##Parse arguments from command line
 if ParseArgument.isEmpty() == False:
@@ -24,6 +26,7 @@ else:
 
 ##Init the GUI
 Graphics.setGraphics(Graphics.mode[_gfxMode.lower()])
+Graphics.initGraphics()
 
 #Do TCP/IP Stuff
 _socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -33,20 +36,31 @@ if debug: print("Starting server on {}:{}.".format(*_server_addr))
 _socket.bind(_server_addr)
 
 _socket.listen(1)
+_socket.settimeout(0.2)
 
 while True:
-	if debug: print("Waiting for client connection.")
-	connection, client_address = _socket.accept()
-	try:
-		print("Connection from " + client_address)
 
-		while True:
-			data = connection.recv(_maxpacket)
-			if data:
-				##TODO: Do stuff with the data.
-				connection.sendall(b'OK')
-			else:
-				print("No data recieved from client. Restarting.")
-				break
-	finally:
-		connection.close()
+	skip = False
+
+	Graphics.updateGraphics()
+	print("update")
+	try:
+		print("Waiting for client connection.")
+		connection, client_address = _socket.accept()
+	except:
+		skip = True
+
+	if (skip == False):
+		try:
+			print("Connection from " + client_address)
+
+			while True:
+				data = connection.recv(_maxpacket)
+				if data:
+					##TODO: Do stuff with the data.
+					connection.sendall(b'OK')
+				else:
+					print("No data recieved from client. Restarting.")
+					break
+		finally:
+			connection.close()
