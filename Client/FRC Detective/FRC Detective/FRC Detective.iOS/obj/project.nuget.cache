@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "P5AZK7o7I4ikkS1kJkxb/QwvqN1G1sm7uuEX1oKk7P5dYDXJOWgJDM+F2XYOwEyGKNkfPF2sn3tkCVu41MtadA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\dhilu\\OneDrive\\Documents\\Github\\FRCDetective\\Client\\FRC Detective\\FRC Detective\\FRC Detective.iOS\\FRC Detective.iOS.csproj",
+  "expectedPackageFiles": [
+    "C:\\Microsoft\\Xamarin\\NuGet\\xamarin.essentials\\1.5.3.2\\xamarin.essentials.1.5.3.2.nupkg.sha512",
+    "C:\\Microsoft\\Xamarin\\NuGet\\xamarin.forms\\4.8.0.1451\\xamarin.forms.4.8.0.1451.nupkg.sha512"
+  ],
+  "logs": []
+}
