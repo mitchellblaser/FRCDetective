@@ -1,0 +1,11 @@
+FRC DETECTIVE
+Command Line Arguments:
+	--address (-a) [IP ADDRESS]
+		Set the address for the server
+		(usually just use localhost)
+
+	--port (-p) [PORT]
+		Set the port to connect to
+
+	--debug (-d) [True/False]
+		Show debug messages
