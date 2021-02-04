@@ -6,7 +6,6 @@ Developed by @mitchellblaser and @Dilka30003.
 
 
 
-<!--View our progress here:-->
-
-​	<!--https://app.gitkraken.com/glo/board/YBvMzRdxdwARfCdr-->
+View our progress here:
+  https://app.gitkraken.com/glo/board/YBvMzRdxdwARfCdr
 
