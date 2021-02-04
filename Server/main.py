@@ -9,14 +9,21 @@ import socket
 
 ##Our custom deps
 import ParseArgument
-
-
+import Graphics
 
 ##Parse arguments from command line
-_args = ParseArgument.parseArgs()
-_address = _args[0]
-_port = _args[1]
-debug = _args[2]
+if ParseArgument.isEmpty() == False:
+	_args = ParseArgument.parseArgs()
+	_address = _args[0]
+	_port = _args[1]
+	debug = _args[2]
+	_gfxMode = _args[3]
+else:
+	ParseArgument.printHelp()
+	exit()
+
+##Init the GUI
+Graphics.setGraphics(Graphics.mode[_gfxMode.lower()])
 
 #Do TCP/IP Stuff
 _socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

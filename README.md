@@ -16,3 +16,4 @@ View our progress and planned features for the future [at this link.](https://ap
 
 - Python 3
 - socket library (comes with modern py3 releases.)
+- tkinter library (should also come with py3)
