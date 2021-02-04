@@ -43,9 +43,9 @@ while True:
 	skip = False
 
 	Graphics.updateGraphics()
-	print("update")
+	if debug: print("update")
 	try:
-		print("Waiting for client connection.")
+		if debug: print("Waiting for client connection.")
 		connection, client_address = _socket.accept()
 	except:
 		skip = True
@@ -58,7 +58,7 @@ while True:
 				data = connection.recv(_maxpacket)
 				if data:
 					##TODO: Do stuff with the data.
-					connection.sendall(b'OK')
+					connection.sendall(b'RECV_OK')
 				else:
 					print("No data recieved from client. Restarting.")
 					break
