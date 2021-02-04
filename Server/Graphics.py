@@ -4,10 +4,17 @@
 
 import GFXWindowed
 import GFXLowLevel
+import LogOutput
 
 mode = {
 	"windowed" : 0,
 	"lowlevel" : 1
+}
+
+status = {
+	"Idle"   : 0,
+	"Backup" : 1,
+	"Paused" : 2
 }
 
 def setGraphics(_mode):
@@ -18,8 +25,14 @@ def setGraphics(_mode):
 	if _mode == mode["lowlevel"]:
 		SelectedMode = 1
 
-def initGraphics():
+def initGraphics(_log):
 	global SelectedMode
+	global DoLogOutput
+
+	if _log:
+		DoLogOutput = True
+	else:
+		DoLogOutput = False
 
 	if SelectedMode == mode["windowed"]:
 		GFXWindowed.initGraphics()
@@ -31,3 +44,17 @@ def updateGraphics():
 		GFXWindowed.updateGraphics()
 	if SelectedMode == mode["lowlevel"]:
 		GFXLowLevel.updateGraphics()
+
+def setStatus(_status):
+	if SelectedMode == mode["windowed"]:
+		GFXWindowed.setStatus(_status)
+	if SelectedMode == mode["lowlevel"]:
+		GFXLowLevel.setStatus(_status)
+	if DoLogOutput == True:
+		LogOutput.OutputCode(_status)
+
+def isPaused():
+	if SelectedMode == mode["windowed"]:
+		return GFXWindowed.isPaused()
+	if SelectedMode == mode["lowlevel"]:
+		print("Pause operation not supported on non-windowed application.")

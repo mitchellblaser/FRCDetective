@@ -4,55 +4,71 @@
 
 from tkinter import *
 from PIL import Image, ImageTk
+import sys
+import datetime
 
 import Communications
+import Graphics
 
 def cmdTest():
 	print("TEST <<<<<<<")
 def cmdExit():
-	print("Exiting.")
+	window.destroy()
+def cmdPause():
+	global paused
+	if paused == True:
+		setStatus(Graphics.status["Idle"])
+		btnPause.configure(text="Pause")
+		paused = False
+	else:
+		setStatus(Graphics.status["Paused"])
+		btnPause.configure(text="Resume")
+		paused = True
 
-_statusMsg = "Idle."
+paused = False
+_justPaused = False
 
 window = Tk()
 window.geometry("400x790")
 window.title("FRC Detective Server")
-window.configure(bg="gray97")
+window.configure(bg="gray8")
 
 ##Logo
 imgLogo = Image.open("logo.png")
 imgrLogo = ImageTk.PhotoImage(imgLogo)
-imglLogo = Label(window, image=imgrLogo, bg="gray97")
+imglLogo = Label(window, image=imgrLogo, bg="gray8")
 imglLogo.pack(pady=(20, 0))
 
 ##Titles
-lblTitle = Label(window, text="FRC Detective", font=("Arial Bold", 50), bg="gray97")
+lblTitle = Label(window, text="FRC Detective", font=("Arial Bold", 50), fg="white", bg="gray8")
 lblTitle.pack()
-lblSubtitle = Label(window, text="Server Version 1.0", font=("Arial", 28), bg="gray97")
+lblSubtitle = Label(window, text="Server Version 1.0", font=("Arial", 28), fg="white", bg="gray8")
 lblSubtitle.pack(pady=(0,60))
 
 ##Connected IP
-lblIP = Label(window, text="Server IP: " + Communications.checkIPAddress(), font=("Arial", 14), bg="gray97")
+lblIP = Label(window, text="Server IP: " + Communications.checkIPAddress(), font=("Arial", 14), fg="white", bg="gray8")
 lblIP.pack()
 
 ##Status
-lblStatus = Label(window, text="Server Status: " + _statusMsg, font=("Arial", 14), bg="gray97")
+lblStatus = Label(window, text="Server Status: " + "Idle.", font=("Arial", 14), fg="white", bg="gray8")
 lblStatus.pack(pady=(0,60))
 
 
 ##Server Log
-lblServerLog = Label(window, text="Server Log", font=("Arial", 14), bg="gray97")
+lblServerLog = Label(window, text="Server Log", font=("Arial", 14), fg="white", bg="gray8")
 lblServerLog.pack()
-txtServerLog = Text(window, bd=0, bg="grey90", highlightbackground="gray97")
+txtServerLog = Text(window, bd=0, bg="grey12", fg="white", highlightbackground="gray8")
 txtServerLog.pack(fill="y", expand=True)
 
 ##Buttons
 frmButtons = Frame(window)
 frmButtons.pack(fill="x", expand=True)
 
-btnSave = Button(frmButtons, text="Save", command=cmdTest)
+btnSave = Button(frmButtons, text="Save", command=cmdTest, bg="gray8")
 btnSave.pack(side="left", fill="both", expand=True)
-btnExit = Button(frmButtons, text="Exit", command=cmdExit)
+btnPause = Button(frmButtons, text="Pause", command=cmdPause, bg="gray8")
+btnPause.pack(side="left", fill="both", expand=True)
+btnExit = Button(frmButtons, text="Exit", command=cmdExit, bg="gray8")
 btnExit.pack(side="right", fill="both", expand=True)
 
 def initGraphics():
@@ -63,4 +79,32 @@ def initGraphics():
 def updateGraphics():
 	window.update_idletasks()
 	window.update()
+
+def isPaused():
+	return paused
+
+def setStatus(_status):
+	global _justPaused
+	_ss = "Server Status: "
+	timestamp = datetime.datetime.now()
+	timestring = "0"*int(2-len(str(timestamp.hour))) + str(timestamp.hour) + ":" + \
+				 "0"*int(2-len(str(timestamp.minute))) + str(timestamp.minute) + ":" + \
+				 "0"*int(2-len(str(timestamp.second))) + str(timestamp.second)
+
+	if _status == Graphics.status["Backup"]:
+		lblStatus.configure(text=_ss + "Backing Up.")
+		txtServerLog.insert(INSERT, "\n" + timestring + " -> Backing up now.")
+		txtServerLog.see(END)
+	if _status == Graphics.status["Idle"]:
+		lblStatus.configure(text=_ss + "Idle.")
+		if _justPaused == True:
+			txtServerLog.insert(INSERT, "\n" + timestring + " -> Server Execution Resumed.")
+			txtServerLog.see(END)
+			_justPaused = False
+	if _status == Graphics.status["Paused"]:
+		if _justPaused == False:
+			lblStatus.configure(text=_ss + "Execution Paused.")
+			txtServerLog.insert(INSERT, "\n" + timestring + " -> Server Execution temporarily Paused.")
+			txtServerLog.see(END)
+			_justPaused = True
 

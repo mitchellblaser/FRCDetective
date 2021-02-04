@@ -10,10 +10,39 @@ View our progress and planned features for the future [at this link.](https://ap
 
 
 
+**Starting the server:**
+
+The server requries Python 3 (and some additional libraries - mentioned below) to be installed. Once you've got it, you can just run:
+
+```bash
+python3 ./main.py -a localhost -p [port]
+```
+
+The full list of possible command line arguments are:
+
+```bash
+--address (-a) [IP ADDRESS]
+  Set the address for the server
+  (usually just use localhost)
+
+--port (-p) [PORT]
+  Set the port to connect to
+
+--debug (-d) [True/False]
+  Show debug messages
+
+--graphics (-g) [windowed/lowlevel]
+  Set the graphics mode
+  (lowlevel for led output on raspberry pi)
+```
+
+
+
 ### Requirements (Server)
 
 ***The server application is not complete as of yet.***
 
 - Python 3
-- socket, tkinter, os (should all come with py3 install)
+- socket, tkinter, os, datetime (should all come with py3 install)
 - pillow (pip3 install pillow)
+
