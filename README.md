@@ -2,7 +2,7 @@
 
 
 
-<img src="https://github.com/mitchellblaser/FRCDetective/blob/main/logo.png?raw=true" align=right width=225 />A scouting system for the First Robotics Competition which does not rely on an internet connection, or bluetooth/wifi mesh network.
+<img src="https://github.com/mitchellblaser/FRCDetective/blob/main/Readme/logo.png?raw=true" align=right width=225 />A scouting system for the First Robotics Competition which does not rely on an internet connection, or bluetooth/wifi mesh network.
 
 Developed by [@mitchellblaser](https://github.com/mitchellblaser) and [@Dilka30003](https://github.com/Dilka30003).
 
@@ -12,7 +12,7 @@ View our progress and planned features for the future [at this link.](https://ap
 
 **Starting the server:**
 
-The server requries Python 3 (and some additional libraries - mentioned below) to be installed. Once you've got it, you can just run:
+The server requries Python 3 (and some additional libraries - mentioned below) to be installed. Once you've got it, you can just run:<img src="https://github.com/mitchellblaser/FRCDetective/blob/main/Readme/Server%20Window.png?raw=true" align=right width=350>
 
 ```bash
 python3 ./main.py -a localhost -p [port]
