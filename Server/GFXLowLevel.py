@@ -7,3 +7,6 @@ def initGraphics():
 
 def updateGraphics():
 	print("u")
+
+def setStatus(_status):
+	print("s")

@@ -4,15 +4,29 @@
 
 from tkinter import *
 from PIL import Image, ImageTk
+import sys
+import datetime
 
 import Communications
+import Graphics
 
 def cmdTest():
 	print("TEST <<<<<<<")
 def cmdExit():
-	print("Exiting.")
+	window.destroy()
+def cmdPause():
+	global paused
+	if paused == True:
+		setStatus(Graphics.status["Idle"])
+		btnPause.configure(text="Pause")
+		paused = False
+	else:
+		setStatus(Graphics.status["Paused"])
+		btnPause.configure(text="Resume")
+		paused = True
 
-_statusMsg = "Idle."
+paused = False
+_justPaused = False
 
 window = Tk()
 window.geometry("400x790")
@@ -36,7 +50,7 @@ lblIP = Label(window, text="Server IP: " + Communications.checkIPAddress(), font
 lblIP.pack()
 
 ##Status
-lblStatus = Label(window, text="Server Status: " + _statusMsg, font=("Arial", 14), fg="white", bg="gray8")
+lblStatus = Label(window, text="Server Status: " + "Idle.", font=("Arial", 14), fg="white", bg="gray8")
 lblStatus.pack(pady=(0,60))
 
 
@@ -52,6 +66,8 @@ frmButtons.pack(fill="x", expand=True)
 
 btnSave = Button(frmButtons, text="Save", command=cmdTest, bg="gray8")
 btnSave.pack(side="left", fill="both", expand=True)
+btnPause = Button(frmButtons, text="Pause", command=cmdPause, bg="gray8")
+btnPause.pack(side="left", fill="both", expand=True)
 btnExit = Button(frmButtons, text="Exit", command=cmdExit, bg="gray8")
 btnExit.pack(side="right", fill="both", expand=True)
 
@@ -63,4 +79,32 @@ def initGraphics():
 def updateGraphics():
 	window.update_idletasks()
 	window.update()
+
+def isPaused():
+	return paused
+
+def setStatus(_status):
+	global _justPaused
+	_ss = "Server Status: "
+	timestamp = datetime.datetime.now()
+	timestring = "0"*int(2-len(str(timestamp.hour))) + str(timestamp.hour) + ":" + \
+				 "0"*int(2-len(str(timestamp.minute))) + str(timestamp.minute) + ":" + \
+				 "0"*int(2-len(str(timestamp.second))) + str(timestamp.second)
+
+	if _status == Graphics.status["Backup"]:
+		lblStatus.configure(text=_ss + "Backing Up.")
+		txtServerLog.insert(INSERT, "\n" + timestring + " -> Backing up now.")
+		txtServerLog.see(END)
+	if _status == Graphics.status["Idle"]:
+		lblStatus.configure(text=_ss + "Idle.")
+		if _justPaused == True:
+			txtServerLog.insert(INSERT, "\n" + timestring + " -> Server Execution Resumed.")
+			txtServerLog.see(END)
+			_justPaused = False
+	if _status == Graphics.status["Paused"]:
+		if _justPaused == False:
+			lblStatus.configure(text=_ss + "Execution Paused.")
+			txtServerLog.insert(INSERT, "\n" + timestring + " -> Server Execution temporarily Paused.")
+			txtServerLog.see(END)
+			_justPaused = True
 

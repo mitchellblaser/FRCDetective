@@ -9,5 +9,3 @@ def checkIPAddress():
 	_hostname = socket.gethostname()
 	_localip = socket.gethostbyname(_hostname)
 	return _localip
-
-

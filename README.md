@@ -15,5 +15,6 @@ View our progress and planned features for the future [at this link.](https://ap
 ***The server application is not complete as of yet.***
 
 - Python 3
-- socket, tkinter, os (should all come with py3 install)
+- socket, tkinter, os, datetime (should all come with py3 install)
 - pillow (pip3 install pillow)
+
