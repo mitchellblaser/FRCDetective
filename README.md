@@ -16,3 +16,4 @@ View our progress and planned features for the future [at this link.](https://ap
 
 - Python 3
 - socket, tkinter, os (should all come with py3 install)
+- pillow (pip3 install pillow)
