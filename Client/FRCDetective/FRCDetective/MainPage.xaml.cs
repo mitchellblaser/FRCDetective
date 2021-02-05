@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using System.Net.Sockets;
 using System.Net;
+using System.Threading;
 
 namespace FRCDetective
 {
@@ -15,17 +16,37 @@ namespace FRCDetective
         bool _netStatus = false;
 
 
-        private string ip = "192.168.1.68";
-        private string port = "5584";
+        private static string ip = "192.168.1.68";
+        private static string port = "5584";
         private static Connection _instance;
         private TcpClient client;
+        private bool isLoaded;
 
 
         public MainPage()
         {
             InitializeComponent();
             NetworkStatus.Source = ImageSource.FromFile("baseline_sensors_off_black_18dp.png");
+        }
 
+        protected async override void OnAppearing()
+        {
+            if (!isLoaded)
+            {
+                await Task.Run(async () =>
+                {
+                    await networkInterface();
+                });
+                isLoaded = true;
+            }
+        }
+
+        async Task networkInterface()
+        {/*
+            while (true)
+            {
+                
+            }*/
         }
 
         void toggleNetwork(object sender, EventArgs e)
@@ -76,9 +97,47 @@ namespace FRCDetective
 
         void send(object sender, EventArgs e)
         {
-            byte[] message = System.Text.Encoding.ASCII.GetBytes("Hello World\n");
+            byte[] time = BitConverter.GetBytes((ulong)DateTimeOffset.Now.ToUnixTimeSeconds());
+            byte[] team = BitConverter.GetBytes((Int32)5584);
+
+            Console.WriteLine(time);
+
+            byte[] data = new byte[39];
+
+            data[0] = 0x00; data[1] = 0x11; data[2] = 0x22; data[3] = 0x33; // UID
+            for (int i = 4; i < 12; i++)    // Time
+            {
+                data[i] = time[i - 4];
+            }
+            data[12] = 0;   // Division
+            data[13] = 0;   // Round Type
+            data[14] = 1;   // Round Number
+            for (int i = 15; i < 19; i++)    // Team
+            {
+                data[i] = team[i - 15];
+            }
+            data[19] = 0;   // Alliance
+            /* Auto */
+            data[20] = 1;   // Initiation Line
+            data[21] = 6;   // Top Balls
+            data[22] = 0;   // Bottom Balls
+            /* Teleop */
+            data[23] = 50;  // Top Balls
+            data[24] = 0;   // Bottom Balls
+            data[25] = 1;   // Rotation Control
+            data[26] = 1;   // Position Control
+            data[27] = 2;   // Climb
+            data[28] = 1;   // Level
+            data[29] = 0xFF;// Start Hash
+            for (int i = 30; i < 38; i++)   // Hash
+            {
+                data[i] = 0xFF;
+            }
+            data[38] = 0;   // End Byte
+
+
             NetworkStream stream = client.GetStream();
-            stream.Write(message, 0, message.Length);
+            stream.Write(data, 0, data.Length);
         }
         void receive(object sender, EventArgs e)
         {
