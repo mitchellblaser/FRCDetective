@@ -5,7 +5,7 @@
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   <application android:theme="@style/MainTheme" android:label="Detective" android:name="android.app.Application" android:allowBackup="true" android:icon="@mipmap/icon" android:extractNativeLibs="true">
-    <activity android:configChanges="orientation|smallestScreenSize|screenLayout|screenSize|uiMode" android:icon="@mipmap/icon" android:label="FRCDetective" android:theme="@style/MainTheme" android:name="crc64cc065a8f8580796e.MainActivity">
+    <activity android:configChanges="orientation|smallestScreenSize|screenLayout|screenSize|uiMode" android:icon="@mipmap/icon" android:theme="@style/MainTheme" android:name="crc64cc065a8f8580796e.MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />

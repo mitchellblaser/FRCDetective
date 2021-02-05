@@ -103,18 +103,18 @@
 	.section	.rodata.map_aname.17,"aMS",@progbits,1
 	.type	.L.map_aname.17, @object
 .L.map_aname.17:
-	.asciz	"Xamarin.Android.Support.Design"
-	.size	.L.map_aname.17, 31
+	.asciz	"Mono.Android"
+	.size	.L.map_aname.17, 13
 
 	.section	.rodata.map_aname.18,"aMS",@progbits,1
 	.type	.L.map_aname.18, @object
 .L.map_aname.18:
-	.asciz	"Xamarin.Android.Arch.Lifecycle.ViewModel"
-	.size	.L.map_aname.18, 41
+	.asciz	"Xamarin.Android.Support.Design"
+	.size	.L.map_aname.18, 31
 
 	.section	.rodata.map_aname.19,"aMS",@progbits,1
 	.type	.L.map_aname.19, @object
 .L.map_aname.19:
-	.asciz	"Mono.Android"
-	.size	.L.map_aname.19, 13
+	.asciz	"Xamarin.Android.Arch.Lifecycle.ViewModel"
+	.size	.L.map_aname.19, 41
 
