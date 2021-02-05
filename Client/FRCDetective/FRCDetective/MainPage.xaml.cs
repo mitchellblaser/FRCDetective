@@ -14,6 +14,7 @@ namespace FRCDetective
     public partial class MainPage : ContentPage
     {
         bool _netStatus = false;
+        bool _lastNetStatus = false;
 
 
         private static string ip = "192.168.1.68";
@@ -42,24 +43,78 @@ namespace FRCDetective
         }
 
         async Task networkInterface()
-        {/*
+        {
             while (true)
             {
-                
-            }*/
+                _netStatus = IsConnected;
+                if (!_netStatus)
+                {
+                    connect();
+                }
+
+                if (_netStatus == false && _lastNetStatus == true)
+                {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        NetworkStatus.Source = ImageSource.FromFile("baseline_sensors_off_black_18dp.png");
+                    });
+                }
+                else if (_netStatus == true && _lastNetStatus == false)
+                {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        NetworkStatus.Source = ImageSource.FromFile("baseline_sensors_black_18dp.png");
+                    });
+                    _netStatus = true;
+                    send();
+                }
+                _lastNetStatus = _netStatus;
+                Thread.Sleep(1000);
+            }
         }
 
-        void toggleNetwork(object sender, EventArgs e)
+        public bool IsConnected
         {
-            if (_netStatus == true)
+            get
             {
-                NetworkStatus.Source = ImageSource.FromFile("baseline_sensors_off_black_18dp.png");
-                _netStatus = false;
-            }
-            else
-            {
-                NetworkStatus.Source = ImageSource.FromFile("baseline_sensors_black_18dp.png");
-                _netStatus = true;
+                try
+                {
+                    if (client != null && client.Client != null && client.Client.Connected)
+                    {
+                        /* pear to the documentation on Poll:
+                         * When passing SelectMode.SelectRead as a parameter to the Poll method it will return 
+                         * -either- true if Socket.Listen(Int32) has been called and a connection is pending;
+                         * -or- true if data is available for reading; 
+                         * -or- true if the connection has been closed, reset, or terminated; 
+                         * otherwise, returns false
+                         */
+
+                        // Detect if client disconnected
+                        if (client.Client.Poll(0, SelectMode.SelectRead))
+                        {
+                            byte[] buff = new byte[1];
+                            if (client.Client.Receive(buff, SocketFlags.Peek) == 0)
+                            {
+                                // Client disconnected
+                                return false;
+                            }
+                            else
+                            {
+                                return true;
+                            }
+                        }
+
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch
+                {
+                    return false;
+                }
             }
         }
 
@@ -68,39 +123,38 @@ namespace FRCDetective
             await Navigation.PushAsync(new GameEntryPage());
         }
 
-        void connect(object sender, EventArgs e)
+        void connect()
         {
-            client = new TcpClient();
-
             try
             {
-                client.Connect(ip, Convert.ToInt32(port));
-                if (client.Connected)
+                client = new TcpClient();
+
+                var result = client.BeginConnect(ip, Convert.ToInt32(port), null, null);
+
+                var success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(1));
+
+                if (!success)
                 {
-                    Connection.Instance.client = client;
-                    NetworkStatus.Source = ImageSource.FromFile("baseline_sensors_black_18dp.png");
-                    _netStatus = true;
-                    DisplayAlert("Success", "Connected", "OK");
+                    throw new Exception("Failed to connect.");
                 }
-                else
-                {
-                    NetworkStatus.Source = ImageSource.FromFile("baseline_sensors_off_black_18dp.png");
-                    _netStatus = false;
-                    DisplayAlert("Error", "Connection Failed", "OK");
-                }
+
+                // we have connected
+                client.EndConnect(result);
             }
             catch (Exception x)
             {
-                 DisplayAlert("Error", x.Message, "OK");
+                //DisplayAlert("Error", x.Message, "OK");
             }
         }
-
         void send(object sender, EventArgs e)
+        {
+            send();
+        }
+
+        void send()
         {
             byte[] time = BitConverter.GetBytes((ulong)DateTimeOffset.Now.ToUnixTimeSeconds());
             byte[] team = BitConverter.GetBytes((Int32)5584);
-
-            Console.WriteLine(time);
 
             byte[] data = new byte[39];
 
@@ -135,9 +189,15 @@ namespace FRCDetective
             }
             data[38] = 0;   // End Byte
 
-
-            NetworkStream stream = client.GetStream();
-            stream.Write(data, 0, data.Length);
+            try
+            {
+                NetworkStream stream = client.GetStream();
+                stream.Write(data, 0, data.Length);
+            }
+            catch(Exception e)
+            {
+                DisplayError(e.Message);
+            }
         }
         void receive(object sender, EventArgs e)
         {
@@ -145,6 +205,11 @@ namespace FRCDetective
             byte[] data = new byte[256];
             Int32 bytes = stream.Read(data, 0, data.Length);
             DisplayAlert("Message", System.Text.Encoding.ASCII.GetString(data, 0, bytes), "OK");
+        }
+
+        void DisplayError(string message)
+        {
+            DisplayAlert("Error", message, "this is so sad :(");
         }
     }
 }
