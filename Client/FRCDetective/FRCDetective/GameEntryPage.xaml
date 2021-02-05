@@ -1,12 +1,79 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FRCDetective.GameEntryPage">
+             x:Class="FRCDetective.GameEntryPage"
+             BackgroundColor="White"
+             NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+
+            <Label Text="Add Game Data" FontFamily="Helvetica" FontSize="Title" TextColor="Black" Margin="22,-8,0,6"/>
+
+            <Grid>
+                <Image Source="blurry_strip.jpg"/>
+                <Label Text="TEAM 5584." FontFamily="Helvetica" FontSize="Small" TextColor="White"
+                       VerticalOptions="CenterAndExpand" Margin="26,0,0,0"/>
+            </Grid>
+
+            <Frame Margin="0,-6,0,0" HeightRequest="40" Padding="0">
+                <StackLayout Orientation="Horizontal">
+                    <ImageButton x:Name="btnTeleop"
+                            BackgroundColor="White"
+                            Source="teleop.png"
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            Clicked="ShowTeleop"/>
+                    <ImageButton x:Name="btnAuto"
+                            BackgroundColor="LightSteelBlue"
+                            Source="auto.png"
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            Clicked="ShowAuto"/>
+                </StackLayout>
+            </Frame>
+
+            <Frame HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsVisible="True"
+                  x:Name="GridAuto" Margin="0,-5,0,0">
+                <Frame.GestureRecognizers>
+                    <SwipeGestureRecognizer Direction="Right" Swiped="ShowTeleop"/>
+                </Frame.GestureRecognizers>
+
+                <StackLayout>
+                    <Label Text="Autonomous" FontSize="Title" FontFamily="Helvetica" TextColor="Black"/>
+
+                    <StackLayout Orientation="Horizontal">
+                        <CheckBox x:Name="chkAuto_InitLine" Margin="10,3,0,0"/>
+                        <Label Text="Crossed Initiation Line" TextColor="Black"
+                            Grid.Column="1" VerticalTextAlignment="Center"/>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Text="High Goal: " TextColor="Black" VerticalTextAlignment="Center"
+                               HorizontalOptions="FillAndExpand" Margin="15,0,0,0"/>
+                        <Label x:Name="lblAuto_BallsTop" Text="00" TextColor="Black" VerticalTextAlignment="Center"/>
+                        <Stepper x:Name="stpAuto_BallsTop" ValueChanged="UpdateSteppers" Margin="0,0,10,0"/>
+                    </StackLayout>
+
+
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Low Goal: " TextColor="Black" VerticalTextAlignment="Center"
+                               HorizontalOptions="FillAndExpand" Margin="15,0,0,0"/>
+                        <Label x:Name="lblAuto_BallsBottom" Text="00" TextColor="Black" VerticalTextAlignment="Center"/>
+                        <Stepper x:Name="stpAuto_BallsBottom" ValueChanged="UpdateSteppers" Margin="0,0,10,0"/>
+                    </StackLayout>
+
+                </StackLayout>
+            </Frame>
+
+            <Frame HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsVisible="False"
+                  x:Name="GridTeleop" Margin="0,-5,0,0">
+                <Frame.GestureRecognizers>
+                    <SwipeGestureRecognizer Direction="Left" Swiped="ShowAuto"/>
+                </Frame.GestureRecognizers>
+
+                <Label Text="Teleop" FontSize="Title" FontFamily="Helvetica" TextColor="Black"/>
+            </Frame>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
