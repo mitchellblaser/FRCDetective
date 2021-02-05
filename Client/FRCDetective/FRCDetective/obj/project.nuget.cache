@@ -1,14 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "kcFTE14VeIzXlepODmk4rOpL78WRjHzRf5QoKxMo+KSpvHkGpn2wiWYSWH2v50XaFkJ+HdVffLucic+DWWTprw==",
+  "dgSpecHash": "8/4RSc5nKbjdH8leDPLDBYhadXbZGXen9CV1RRAR4u5gMp7/DHtBUZR/JvjQfZbp7hwAHhuI82QiOPWayxxe8w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\dhilu\\OneDrive\\Documents\\Github\\FRCDetective\\Client\\FRCDetective\\FRCDetective\\FRCDetective.csproj",
+  "projectFilePath": "/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\dhilu\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-    "C:\\Users\\dhilu\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
-    "C:\\Users\\dhilu\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
-    "C:\\Microsoft\\Xamarin\\NuGet\\xamarin.essentials\\1.5.3.2\\xamarin.essentials.1.5.3.2.nupkg.sha512",
-    "C:\\Microsoft\\Xamarin\\NuGet\\xamarin.forms\\4.8.0.1451\\xamarin.forms.4.8.0.1451.nupkg.sha512"
+    "/Users/madi/.nuget/packages/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "/Users/madi/.nuget/packages/netstandard.library/2.0.3/netstandard.library.2.0.3.nupkg.sha512",
+    "/Users/madi/.nuget/packages/system.numerics.vectors/4.5.0/system.numerics.vectors.4.5.0.nupkg.sha512",
+    "/Users/madi/.nuget/packages/xamarin.essentials/1.5.3.2/xamarin.essentials.1.5.3.2.nupkg.sha512",
+    "/Users/madi/.nuget/packages/xamarin.forms/4.8.0.1451/xamarin.forms.4.8.0.1451.nupkg.sha512"
   ],
   "logs": []
 }
