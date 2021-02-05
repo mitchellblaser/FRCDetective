@@ -73,5 +73,19 @@ namespace FRCDetective
                  DisplayAlert("Error", x.Message, "OK");
             }
         }
+
+        void send(object sender, EventArgs e)
+        {
+            byte[] message = System.Text.Encoding.ASCII.GetBytes("Hello World\n");
+            NetworkStream stream = client.GetStream();
+            stream.Write(message, 0, message.Length);
+        }
+        void receive(object sender, EventArgs e)
+        {
+            NetworkStream stream = client.GetStream();
+            byte[] data = new byte[256];
+            Int32 bytes = stream.Read(data, 0, data.Length);
+            DisplayAlert("Message", System.Text.Encoding.ASCII.GetString(data, 0, bytes), "OK");
+        }
     }
 }
