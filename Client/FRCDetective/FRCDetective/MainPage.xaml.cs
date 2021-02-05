@@ -5,12 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using System.Net.Sockets;
+using System.Net;
 
 namespace FRCDetective
 {
     public partial class MainPage : ContentPage
     {
         bool _netStatus = false;
+
+        public static TcpClient client;
+        private static TcpListener listener;
+        private static string ipString;
 
         public MainPage()
         {
@@ -36,6 +42,19 @@ namespace FRCDetective
         async void entryPage(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new GameEntryPage());
+        }
+
+        void connect(object sender, EventArgs e)
+        {
+            IPAddress[] localIp = Dns.GetHostAddresses(Dns.GetHostName());
+            foreach (IPAddress address in localIp)
+            {
+                if (address.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    ipString = address.ToString();
+                    connectLabel.Text = ipString;
+                }
+            }
         }
     }
 }
