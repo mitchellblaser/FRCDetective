@@ -14,9 +14,12 @@ namespace FRCDetective
     {
         bool _netStatus = false;
 
-        public static TcpClient client;
-        private static TcpListener listener;
-        private static string ipString;
+
+        private string ip = "192.168.1.68";
+        private string port = "5584";
+        private static Connection _instance;
+        private TcpClient client;
+
 
         public MainPage()
         {
@@ -46,14 +49,28 @@ namespace FRCDetective
 
         void connect(object sender, EventArgs e)
         {
-            IPAddress[] localIp = Dns.GetHostAddresses(Dns.GetHostName());
-            foreach (IPAddress address in localIp)
+            client = new TcpClient();
+
+            try
             {
-                if (address.AddressFamily == AddressFamily.InterNetwork)
+                client.Connect(ip, Convert.ToInt32(port));
+                if (client.Connected)
                 {
-                    ipString = address.ToString();
-                    connectLabel.Text = ipString;
+                    Connection.Instance.client = client;
+                    NetworkStatus.Source = ImageSource.FromFile("baseline_sensors_black_18dp.png");
+                    _netStatus = true;
+                    DisplayAlert("Success", "Connected", "OK");
                 }
+                else
+                {
+                    NetworkStatus.Source = ImageSource.FromFile("baseline_sensors_off_black_18dp.png");
+                    _netStatus = false;
+                    DisplayAlert("Error", "Connection Failed", "OK");
+                }
+            }
+            catch (Exception x)
+            {
+                 DisplayAlert("Error", x.Message, "OK");
             }
         }
     }
