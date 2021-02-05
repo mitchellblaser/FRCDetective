@@ -411,3 +411,5 @@
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Release/stamp/_GenerateJavaStubs.stamp
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Release/stamp/_GeneratePackageManagerJava.stamp
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Release/stamp/_ResolveLibraryProjectImports.stamp
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Release/android/assets/FRCDetective.Android 2.dll
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Release/android/assets/FRCDetective.Android 2.pdb

@@ -11,3 +11,4 @@
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/obj/Debug/netstandard2.0/FRCDetective.dll
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/obj/Debug/netstandard2.0/ref/FRCDetective.dll
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/obj/Debug/netstandard2.0/FRCDetective.pdb
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/obj/Debug/netstandard2.0/FRCDetective.csprojAssemblyReference.cache

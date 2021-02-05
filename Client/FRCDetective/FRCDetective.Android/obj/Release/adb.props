@@ -1,2 +1,2 @@
-AdbTarget=-s S5PRO20200000855
+AdbTarget=-s emulator-5554
 AdbOptions=
