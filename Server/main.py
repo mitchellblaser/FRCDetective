@@ -77,7 +77,7 @@ while True:
 
 	if (skip == False):
 		try:
-			print("Connection from " + client_address)
+			#print("Connection from " + client_address)
 
 			while True:
 				data = connection.recv(_maxpacket)
