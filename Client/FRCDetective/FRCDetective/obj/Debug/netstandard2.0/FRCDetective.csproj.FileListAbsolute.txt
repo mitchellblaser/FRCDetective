@@ -1,0 +1,13 @@
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/bin/Debug/netstandard2.0/FRCDetective.deps.json
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/bin/Debug/netstandard2.0/FRCDetective.dll
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/bin/Debug/netstandard2.0/ref/FRCDetective.dll
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/bin/Debug/netstandard2.0/FRCDetective.pdb
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/obj/Debug/netstandard2.0/App.xaml.g.cs
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/obj/Debug/netstandard2.0/MainPage.xaml.g.cs
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/obj/Debug/netstandard2.0/FRCDetective.AssemblyInfoInputs.cache
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/obj/Debug/netstandard2.0/FRCDetective.AssemblyInfo.cs
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/obj/Debug/netstandard2.0/FRCDetective.csproj.CoreCompileInputs.cache
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/obj/Debug/netstandard2.0/XamlC.stamp
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/obj/Debug/netstandard2.0/FRCDetective.dll
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/obj/Debug/netstandard2.0/ref/FRCDetective.dll
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/obj/Debug/netstandard2.0/FRCDetective.pdb

@@ -1,0 +1,38 @@
+﻿<Properties StartupConfiguration="{D453C2C2-478C-4789-988B-F5FC30725F2F}|Default">
+  <MonoDevelop.Ide.ItemProperties.FRCDetective.iOS FirstBuild="True" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="FRCDetective.Android/Properties/AndroidManifest.xml">
+    <Files>
+      <File FileName="FRCDetective/MainPage.xaml" Line="42" Column="1" />
+      <File FileName="FRCDetective/MainPage.xaml.cs" Line="15" Column="35" />
+      <File FileName="FRCDetective.Android/Resources/values/styles.xml" />
+      <File FileName="FRCDetective.Android/MainActivity.cs" />
+      <File FileName="FRCDetective.Android/Resources/mipmap-anydpi-v26/icon.xml" Line="5" Column="17" />
+      <File FileName="FRCDetective.Android/Properties/AndroidManifest.xml" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="FRCDetective" expanded="True">
+            <Node name="FRCDetective" expanded="True">
+              <Node name="Resources" expanded="True" />
+              <Node name="App.xaml" expanded="True" />
+              <Node name="MainPage.xaml" expanded="True" />
+            </Node>
+            <Node name="FRCDetective.Android" expanded="True">
+              <Node name="Properties" expanded="True">
+                <Node name="AndroidManifest.xml" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.FRCDetective.Android AndroidDesignerPreferredTheme="MainTheme" TriggeredFromHotReload="False" PreferredExecutionTarget="Android.S5PRO20200000855" />
+</Properties>
