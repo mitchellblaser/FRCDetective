@@ -495,3 +495,6 @@ C:\Users\dhilu\OneDrive\Documents\Github\FRCDetective\Client\FRCDetective\FRCDet
 C:\Users\dhilu\OneDrive\Documents\Github\FRCDetective\Client\FRCDetective\FRCDetective.Android\obj\Debug\90\stamp\_GenerateJavaStubs.stamp
 C:\Users\dhilu\OneDrive\Documents\Github\FRCDetective\Client\FRCDetective\FRCDetective.Android\obj\Debug\90\stamp\_GeneratePackageManagerJava.stamp
 C:\Users\dhilu\OneDrive\Documents\Github\FRCDetective\Client\FRCDetective\FRCDetective.Android\obj\Debug\90\stamp\_ResolveLibraryProjectImports.stamp
+C:\Users\dhilu\OneDrive\Documents\Github\FRCDetective\Client\FRCDetective\FRCDetective.Android\obj\Debug\90\res\drawable\blurry_strip.jpg
+C:\Users\dhilu\OneDrive\Documents\Github\FRCDetective\Client\FRCDetective\FRCDetective.Android\obj\Debug\90\res\drawable\teleop.png
+C:\Users\dhilu\OneDrive\Documents\Github\FRCDetective\Client\FRCDetective\FRCDetective.Android\obj\Debug\90\res\drawable\auto.png

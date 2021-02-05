@@ -129,7 +129,7 @@ namespace FRCDetective
             {
                 client = new TcpClient();
 
-                var result = client.BeginConnect(ip, Convert.ToInt32(port), null, null);
+                var result = client.BeginConnect(IPAddressEntry.Text, Convert.ToInt32(port), null, null);
 
                 var success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(1));
 
@@ -141,7 +141,7 @@ namespace FRCDetective
                 // we have connected
                 client.EndConnect(result);
             }
-            catch (Exception x)
+            catch (Exception e)
             {
                 //DisplayAlert("Error", x.Message, "OK");
             }
@@ -201,10 +201,17 @@ namespace FRCDetective
         }
         void receive(object sender, EventArgs e)
         {
-            NetworkStream stream = client.GetStream();
-            byte[] data = new byte[256];
-            Int32 bytes = stream.Read(data, 0, data.Length);
-            DisplayAlert("Message", System.Text.Encoding.ASCII.GetString(data, 0, bytes), "OK");
+            try
+            {
+                NetworkStream stream = client.GetStream();
+                byte[] data = new byte[256];
+                Int32 bytes = stream.Read(data, 0, data.Length);
+                DisplayAlert("Message", System.Text.Encoding.ASCII.GetString(data, 0, bytes), "OK");
+            }
+            catch (Exception ex)
+            {
+                DisplayError(ex.Message);
+            }
         }
 
         void DisplayError(string message)
