@@ -32,5 +32,10 @@ namespace FRCDetective
                 _netStatus = true;
             }
         }
+
+        async void entryPage(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new GameEntryPage());
+        }
     }
 }

@@ -1,25 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj": {}
+    "C:\\Users\\dhilu\\OneDrive\\Documents\\Github\\FRCDetective\\Client\\FRCDetective\\FRCDetective\\FRCDetective.csproj": {}
   },
   "projects": {
-    "/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj": {
+    "C:\\Users\\dhilu\\OneDrive\\Documents\\Github\\FRCDetective\\Client\\FRCDetective\\FRCDetective\\FRCDetective.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj",
+        "projectUniqueName": "C:\\Users\\dhilu\\OneDrive\\Documents\\Github\\FRCDetective\\Client\\FRCDetective\\FRCDetective\\FRCDetective.csproj",
         "projectName": "FRCDetective",
-        "projectPath": "/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj",
-        "packagesPath": "/Users/madi/.nuget/packages/",
-        "outputPath": "/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/obj/",
+        "projectPath": "C:\\Users\\dhilu\\OneDrive\\Documents\\Github\\FRCDetective\\Client\\FRCDetective\\FRCDetective\\FRCDetective.csproj",
+        "packagesPath": "C:\\Users\\dhilu\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\dhilu\\OneDrive\\Documents\\Github\\FRCDetective\\Client\\FRCDetective\\FRCDetective\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "/Users/madi/.config/NuGet/NuGet.Config"
+          "C:\\Users\\dhilu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -63,7 +70,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.102/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }
