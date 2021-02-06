@@ -129,7 +129,7 @@ namespace FRCDetective
             {
                 client = new TcpClient();
 
-                var result = client.BeginConnect(IPAddressEntry.Text, Convert.ToInt32(port), null, null);
+                var result = client.BeginConnect(IPAddressEntry.Text, Convert.ToInt32(PortEntry.Text), null, null);
 
                 var success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(1));
 

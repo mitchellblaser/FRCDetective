@@ -37,14 +37,15 @@
 
         <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="0,10,0,0">
             <Label Text="Match Log" TextColor="Black" FontSize="Title"
-               FontFamily="Helvetica" Margin="20,13,0,0"/>
+               FontFamily="Helvetica" Margin="20,0,0,0"/>
             <Button x:Name="btnNew" Clicked="entryPage" Text="New" CornerRadius="35" TextColor="Black" BackgroundColor="White" Margin="115,10,0,0" HeightRequest="40"/>
         </StackLayout>
 
         <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="0,10,0,0">
-            <Label Text="IP Address" TextColor="Black" FontSize="Title"
+            <Label Text="Server: " TextColor="Black" FontSize="Title"
                FontFamily="Helvetica" Margin="20,13,0,0"/>
-            <Entry Placeholder="192.168.1.68" x:Name="IPAddressEntry"/>
+            <Entry Placeholder="IP Address" x:Name="IPAddressEntry"/>
+            <Entry Placeholder="Port" x:Name="PortEntry"/>
         </StackLayout>
 
         <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="0,10,0,0">
