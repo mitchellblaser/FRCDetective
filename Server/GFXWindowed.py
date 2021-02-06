@@ -116,3 +116,22 @@ def setStatus(_status):
 			lblStatus.configure(text=_ss + "Waiting for Connection.")
 			txtServerLog.insert(INSERT, "\n" + timestring + " -> Waiting for connection (polling every 0.2s)")
 			txtServerLog.see(END)
+	if _status == Graphics.status["Connect"]:
+		lblStatus.configure(text=_ss + "Client Connected.")
+		txtServerLog.insert(INSERT, "\n" + timestring + " -> Client Connected.")
+		txtServerLog.see(END)
+	if _status == Graphics.status["Disconnect"]:
+		lblStatus.configure(text=_ss + "Client Disconnected.")
+		txtServerLog.insert(INSERT, "\n" + timestring + " -> Client Disconnected.")
+		txtServerLog.see(END)
+
+def setStatusString(_statusTitle, _statusMessage):
+	_ss = "Server Status: "
+	timestamp = datetime.datetime.now()
+	timestring = "0"*int(2-len(str(timestamp.hour))) + str(timestamp.hour) + ":" + \
+				 "0"*int(2-len(str(timestamp.minute))) + str(timestamp.minute) + ":" + \
+				 "0"*int(2-len(str(timestamp.second))) + str(timestamp.second)
+	lblStatus.configure(text=_ss + _statusTitle)
+	txtServerLog.insert(INSERT, "\n" + timestring + " " + _statusMessage)
+	txtServerLog.see(END)
+

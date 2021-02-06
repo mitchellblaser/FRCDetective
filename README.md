@@ -15,7 +15,7 @@ View our progress and planned features for the future [at this link.](https://ap
 The server requries Python 3 (and some additional libraries - mentioned below) to be installed. Once you've got it, you can just run:<img src="https://github.com/mitchellblaser/FRCDetective/blob/main/Readme/Server%20Window.png?raw=true" align=right width=350>
 
 ```bash
-python3 ./main.py -a localhost -p [port]
+python3 ./main.py -p [port]
 ```
 
 The full list of possible command line arguments are:
@@ -25,7 +25,7 @@ The full list of possible command line arguments are:
   Set the address for the server
   (usually just use localhost)
 
---port (-p) [PORT]
+--port (-p) [PORT] (Required)
   Set the port to connect to
 
 --debug (-d) [True/False]
