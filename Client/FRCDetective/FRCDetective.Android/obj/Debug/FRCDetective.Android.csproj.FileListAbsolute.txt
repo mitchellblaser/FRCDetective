@@ -14,16 +14,9 @@
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/_VerifyXamarinAndroidSupportVersions.stamp
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/stamp/_BuildLibraryImportsCache.stamp
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/res.flag
-/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/lp/12/jl/files.cache
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/lp/13/jl/files.cache
-/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/lp/17/jl/files.cache
-/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/lp/19/jl/files.cache
-/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/lp/26/jl/files.cache
-/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/lp/30/jl/files.cache
-/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/lp/32/jl/files.cache
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/lp/33/jl/files.cache
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/lp/34/jl/files.cache
-/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/lp/38/jl/files.cache
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/lp/39/jl/files.cache
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/R.txt
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/R.cs.flag
@@ -491,7 +484,6 @@
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/app_shared_libraries/x86/libxamarin-app.so
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/app_shared_libraries/x86_64/libxamarin-app.so
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/android/bin/classes.dex
-/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/stamp/_CleanIntermediateIfNeeded 4.stamp
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/stamp/_CleanIntermediateIfNeeded.stamp
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/stamp/_CompileToDalvik.stamp
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/stamp/_ConvertCustomView.stamp
@@ -499,3 +491,18 @@
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/stamp/_GenerateJavaStubs.stamp
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/stamp/_GeneratePackageManagerJava.stamp
 /Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/stamp/_ResolveLibraryProjectImports.stamp
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/lp/1/jl/files.cache
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/lp/14/jl/files.cache
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/lp/18/jl/files.cache
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/lp/20/jl/files.cache
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/lp/27/jl/files.cache
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/lp/31/jl/files.cache
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/lp/35/jl/files.cache
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/lp/40/jl/files.cache
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/android/assets/Newtonsoft.Json.dll
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/android/assets/PCLStorage.Abstractions.dll
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/android/assets/PCLStorage.dll
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/android/assets/System.Diagnostics.Debug.dll
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/android/assets/System.IO.dll
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/android/assets/System.Resources.ResourceManager.dll
+/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/Debug/android/assets/System.Threading.Tasks.dll

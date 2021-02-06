@@ -7,6 +7,9 @@ _maxpacket = 1024
 ##Python standard libs
 import socket
 import datetime
+import sys
+import threading
+import select
 
 ##Our custom deps
 import ParseArgument
@@ -15,6 +18,9 @@ import HashScript
 import Communications
 import FileIO
 import Backup
+import ParseData
+
+backup = False
 
 ##Parse arguments from command line
 if ParseArgument.isEmpty() == False:
@@ -39,7 +45,13 @@ print("Starting server on {}:{}.".format(*_server_addr))
 _socket.bind(_server_addr)
 
 _socket.listen(1)
-_socket.settimeout(0.2)
+_socket.settimeout(1)
+
+
+Sending = False
+def ThreadedSend():
+	global Sending
+	connection.sendall(b'RECV_OK')
 
 _paused = False
 
@@ -67,8 +79,9 @@ while True:
 		Graphics.setStatus(Graphics.status["Backup"])
 		Graphics.updateGraphics()
 		Backup.Start()
-		Graphics.setStatus(Graphics.status["Idle"])
-
+		if not Sending:
+			Graphics.setStatus(Graphics.status["Idle"])
+			Sending = True
 	try:
 		Graphics.setStatus(Graphics.status["Waiting"])
 		connection, client_address = _socket.accept()
@@ -78,14 +91,34 @@ while True:
 	if (skip == False):
 		try:
 			##print("Connection from " + client_address)
-
+			Graphics.setStatus(Graphics.status["Connect"])
 			while True:
-				data = connection.recv(_maxpacket)
-				if data:
-					##TODO: Do stuff with the data.
-					connection.sendall(b'RECV_OK')
-				else:
+				print("update")
+				Graphics.updateGraphics()
+
+				_secs = 10
+				for i in range(1, (_secs*4)):
+					connection.setblocking(0)
+					ready = select.select([connection], [], [], 0.25) #last param is timeout in secs
+					if ready[0]:
+						data = connection.recv(_maxpacket) 
+						Graphics.setStatusString("Recieved Data." "Recieved Data.")
+						break
+					Graphics.updateGraphics()
+
+
+				try:
+					if data:
+						Graphics.updateGraphics()
+						ParseData.Parse(data)
+						threadedSend = threading.Thread(target=ThreadedSend, args=())
+						threadedSend.start()
+					else:
+						print("No data recieved from client. Restarting.")
+						break
+				except:
 					print("No data recieved from client. Restarting.")
 					break
 		finally:
+			Graphics.setStatus(Graphics.status["Disconnect"])
 			connection.close()

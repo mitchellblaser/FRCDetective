@@ -12,10 +12,12 @@ mode = {
 }
 
 status = {
-	"Idle"   : 0,
-	"Backup" : 1,
-	"Paused" : 2,
-	"Waiting": 3
+	"Idle"       : 0,
+	"Backup"     : 1,
+	"Paused"     : 2,
+	"Waiting"    : 3,
+	"Connect"    : 4,
+	"Disconnect" : 5
 }
 
 def setGraphics(_mode):
@@ -53,6 +55,10 @@ def setStatus(_status):
 		GFXLowLevel.setStatus(_status)
 	if DoLogOutput == True:
 		LogOutput.OutputCode(_status)
+
+def setStatusString(_statusTitle, _statusMessage):
+	if SelectedMode == mode["windowed"]:
+		GFXWindowed.setStatusString(_statusTitle, _statusMessage)
 
 def isPaused():
 	if SelectedMode == mode["windowed"]:
