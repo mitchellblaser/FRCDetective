@@ -18,4 +18,7 @@
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="C:\Microsoft\Xamarin\NuGet\xamarin.forms\4.8.0.1451\buildTransitive\Xamarin.Forms.props" Condition="Exists('C:\Microsoft\Xamarin\NuGet\xamarin.forms\4.8.0.1451\buildTransitive\Xamarin.Forms.props')" />
   </ImportGroup>
+  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgMicrosoft_Bcl_Build Condition=" '$(PkgMicrosoft_Bcl_Build)' == '' ">C:\Users\dhilu\.nuget\packages\microsoft.bcl.build\1.0.10</PkgMicrosoft_Bcl_Build>
+  </PropertyGroup>
 </Project>
