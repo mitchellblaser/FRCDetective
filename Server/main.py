@@ -25,7 +25,10 @@ backup = False
 ##Parse arguments from command line
 if ParseArgument.isEmpty() == False:
 	_args = ParseArgument.parseArgs()
-	_address = _args[0]
+	if (_args[0] == "localhost"):
+		_address = Communications.checkIPAddress()
+	else:
+		_address = _args[0]
 	_port = _args[1]
 	debug = _args[2]
 	_gfxMode = _args[3]
@@ -65,8 +68,11 @@ while True:
 	if Graphics.isPaused():
 		Graphics.setStatus(Graphics.status["Paused"])
 		_paused = True
-		while Graphics.isPaused():
-			Graphics.updateGraphics()
+		while Graphics.isPaused(): ##Need to check for exitingm while paused too.
+			try:
+				Graphics.updateGraphics()
+			except:
+				exit()
 	if _paused:
 		Graphics.setStatus(Graphics.status["Idle"])
 		_paused = False

@@ -20,7 +20,7 @@ def parseArgs():
 
 	##Set defaults here
 	_a = "localhost"
-	_p = 0000
+	_p = 5584
 	_d = False
 	_g = "windowed"
 
