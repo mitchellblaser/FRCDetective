@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+using Newtonsoft.Json;
+using PCLStorage;
+
 namespace FRCDetective
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -48,5 +51,42 @@ namespace FRCDetective
 
         }
 
+        void Save(object sender, EventArgs e)
+        {
+            Task.Run(async () =>
+            {
+                await SaveData();
+            });
+
+            DisplayAlert("Message", "Done", "OK");
+        }
+
+        async void Load(object sender, EventArgs e)
+        {
+            IFolder rootFolder = FileSystem.Current.LocalStorage;
+            IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
+            IFile file = await folder.GetFileAsync("1B_5584" + ".json");
+            string json = await file.ReadAllTextAsync();
+
+            RoundData round = JsonConvert.DeserializeObject<RoundData>(json);
+            chkAuto_InitLine.IsChecked = round.InitLine;
+            stpAuto_BallsTop.Value = round.AutoHighGoal;
+            stpAuto_BallsBottom.Value = round.AutoLowGoal;
+        }
+
+        async Task SaveData()
+        {
+            RoundData round = new RoundData();
+            round.InitLine = chkAuto_InitLine.IsChecked;
+            round.AutoHighGoal = (int)stpAuto_BallsTop.Value;
+            round.AutoLowGoal = (int)stpAuto_BallsBottom.Value;
+
+            string json = JsonConvert.SerializeObject(round);
+
+            IFolder rootFolder = FileSystem.Current.LocalStorage;
+            IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
+            IFile file = await folder.CreateFileAsync("1B_5584" + ".json", CreationCollisionOption.ReplaceExisting);
+            await file.WriteAllTextAsync(json);
+        }
     }
 }
