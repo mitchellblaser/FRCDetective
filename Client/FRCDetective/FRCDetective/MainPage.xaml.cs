@@ -156,7 +156,7 @@ namespace FRCDetective
             byte[] time = BitConverter.GetBytes((ulong)DateTimeOffset.Now.ToUnixTimeSeconds());
             byte[] team = BitConverter.GetBytes((Int32)5584);
 
-            byte[] data = new byte[39];
+            byte[] data = new byte[41];
 
             data[0] = 0x00; data[1] = 0x11; data[2] = 0x22; data[3] = 0x33; // UID
             for (int i = 4; i < 12; i++)    // Time
@@ -182,12 +182,14 @@ namespace FRCDetective
             data[26] = 1;   // Position Control
             data[27] = 2;   // Climb
             data[28] = 1;   // Level
+            data[29] = 40;  // Foul
+            data[30] = 40;  // Tech Foul
             data[29] = 0xFF;// Start Hash
-            for (int i = 30; i < 38; i++)   // Hash
+            for (int i = 32; i < 40; i++)   // Hash
             {
                 data[i] = 0xFF;
             }
-            data[38] = 0;   // End Byte
+            data[40] = 0;   // End Byte
 
             try
             {
