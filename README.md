@@ -29,7 +29,7 @@ The full list of possible command line arguments are:
   Set the address for the server
   (usually just use localhost)
 
---port (-p) [PORT]
+--port (-p) [PORT] (Required)
   Set the port to connect to
 
 --debug (-d) [True/False]
