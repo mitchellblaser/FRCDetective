@@ -14,9 +14,13 @@ View our progress and planned features for the future [at this link.](https://ap
 
 The server requries Python 3 (and some additional libraries - mentioned below) to be installed. Once you've got it, you can just run:<img src="https://github.com/mitchellblaser/FRCDetective/blob/main/Readme/Server%20Window.png?raw=true" align=right width=350>
 
+If you're on a UNIX system, you can run the following command:
+
 ```bash
-python3 ./main.py -a localhost -p [port]
+./detective -p [port]
 ```
+
+For windows, you may need to run python3 ./detective, and then your options.
 
 The full list of possible command line arguments are:
 

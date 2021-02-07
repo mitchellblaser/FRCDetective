@@ -934,19 +934,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/madi/.nuget/packages/": {}
+    "/Users/mblaser/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj",
+      "projectUniqueName": "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj",
       "projectName": "FRCDetective",
-      "projectPath": "/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj",
-      "packagesPath": "/Users/madi/.nuget/packages/",
-      "outputPath": "/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/obj/",
+      "projectPath": "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj",
+      "packagesPath": "/Users/mblaser/.nuget/packages/",
+      "outputPath": "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/madi/.config/NuGet/NuGet.Config"
+        "/Users/mblaser/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.0"

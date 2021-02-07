@@ -1147,20 +1147,20 @@
     ]
   },
   "packageFolders": {
-    "/Users/madi/.nuget/packages/": {}
+    "/Users/mblaser/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.iOS/FRCDetective.iOS.csproj",
+      "projectUniqueName": "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.iOS/FRCDetective.iOS.csproj",
       "projectName": "FRCDetective.iOS",
-      "projectPath": "/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.iOS/FRCDetective.iOS.csproj",
-      "packagesPath": "/Users/madi/.nuget/packages/",
-      "outputPath": "/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.iOS/obj/",
+      "projectPath": "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.iOS/FRCDetective.iOS.csproj",
+      "packagesPath": "/Users/mblaser/.nuget/packages/",
+      "outputPath": "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.iOS/obj/",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [
-        "/Users/madi/.config/NuGet/NuGet.Config"
+        "/Users/mblaser/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "xamarinios10"
@@ -1171,8 +1171,8 @@
       "frameworks": {
         "xamarinios10": {
           "projectReferences": {
-            "/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj": {
-              "projectPath": "/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj"
+            "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj": {
+              "projectPath": "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj"
             }
           }
         }

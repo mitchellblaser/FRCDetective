@@ -66,7 +66,7 @@ namespace FRCDetective
                         NetworkStatus.Source = ImageSource.FromFile("baseline_sensors_black_18dp.png");
                     });
                     _netStatus = true;
-                    send();
+                    //send();
                 }
                 _lastNetStatus = _netStatus;
                 Thread.Sleep(1000);
