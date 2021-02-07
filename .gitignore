@@ -196,3 +196,5 @@ FakesAssemblies/
 Client/FRCDetective/FRCDetective.Android/bin/Debug/
 
 Client/FRCDetective/FRCDetective/obj/Debug/
+
+Server/__pycache__/
