@@ -4,8 +4,13 @@
     <RestoreSuccess Condition=" '$(RestoreSuccess)' == '' ">True</RestoreSuccess>
     <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
     <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
+<<<<<<< HEAD
     <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
     <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\dhilu\.nuget\packages\;C:\Microsoft\Xamarin\NuGet\;C:\Program Files\dotnet\sdk\NuGetFallbackFolder</NuGetPackageFolders>
+=======
+    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">/Users/mblaser/.nuget/packages/</NuGetPackageRoot>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">/Users/mblaser/.nuget/packages/</NuGetPackageFolders>
+>>>>>>> main
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
     <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">5.8.1</NuGetToolVersion>
   </PropertyGroup>
@@ -19,6 +24,10 @@
     <Import Project="C:\Microsoft\Xamarin\NuGet\xamarin.forms\4.8.0.1451\buildTransitive\Xamarin.Forms.props" Condition="Exists('C:\Microsoft\Xamarin\NuGet\xamarin.forms\4.8.0.1451\buildTransitive\Xamarin.Forms.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+<<<<<<< HEAD
     <PkgMicrosoft_Bcl_Build Condition=" '$(PkgMicrosoft_Bcl_Build)' == '' ">C:\Users\dhilu\.nuget\packages\microsoft.bcl.build\1.0.10</PkgMicrosoft_Bcl_Build>
+=======
+    <PkgMicrosoft_Bcl_Build Condition=" '$(PkgMicrosoft_Bcl_Build)' == '' ">/Users/mblaser/.nuget/packages/microsoft.bcl.build/1.0.10</PkgMicrosoft_Bcl_Build>
+>>>>>>> main
   </PropertyGroup>
 </Project>

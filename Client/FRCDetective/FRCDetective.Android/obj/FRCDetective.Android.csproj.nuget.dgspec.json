@@ -1,6 +1,7 @@
 {
   "format": 1,
   "restore": {
+<<<<<<< HEAD
     "C:\\Users\\dhilu\\OneDrive\\Documents\\Github\\FRCDetective\\Client\\FRCDetective\\FRCDetective.Android\\FRCDetective.Android.csproj": {}
   },
   "projects": {
@@ -12,15 +13,32 @@
         "projectPath": "C:\\Users\\dhilu\\OneDrive\\Documents\\Github\\FRCDetective\\Client\\FRCDetective\\FRCDetective.Android\\FRCDetective.Android.csproj",
         "packagesPath": "C:\\Users\\dhilu\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\dhilu\\OneDrive\\Documents\\Github\\FRCDetective\\Client\\FRCDetective\\FRCDetective.Android\\obj\\",
+=======
+    "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/FRCDetective.Android.csproj": {}
+  },
+  "projects": {
+    "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/FRCDetective.Android.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/FRCDetective.Android.csproj",
+        "projectName": "FRCDetective.Android",
+        "projectPath": "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/FRCDetective.Android.csproj",
+        "packagesPath": "/Users/mblaser/.nuget/packages/",
+        "outputPath": "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/",
+>>>>>>> main
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
+<<<<<<< HEAD
           "C:\\Users\\dhilu\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+=======
+          "/Users/mblaser/.config/NuGet/NuGet.Config"
+>>>>>>> main
         ],
         "originalTargetFrameworks": [
           "monoandroid90"
@@ -32,8 +50,13 @@
         "frameworks": {
           "monoandroid90": {
             "projectReferences": {
+<<<<<<< HEAD
               "C:\\Users\\dhilu\\OneDrive\\Documents\\Github\\FRCDetective\\Client\\FRCDetective\\FRCDetective\\FRCDetective.csproj": {
                 "projectPath": "C:\\Users\\dhilu\\OneDrive\\Documents\\Github\\FRCDetective\\Client\\FRCDetective\\FRCDetective\\FRCDetective.csproj"
+=======
+              "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj": {
+                "projectPath": "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj"
+>>>>>>> main
               }
             }
           }
@@ -54,6 +77,7 @@
         }
       }
     },
+<<<<<<< HEAD
     "C:\\Users\\dhilu\\OneDrive\\Documents\\Github\\FRCDetective\\Client\\FRCDetective\\FRCDetective\\FRCDetective.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -62,15 +86,29 @@
         "projectPath": "C:\\Users\\dhilu\\OneDrive\\Documents\\Github\\FRCDetective\\Client\\FRCDetective\\FRCDetective\\FRCDetective.csproj",
         "packagesPath": "C:\\Users\\dhilu\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\dhilu\\OneDrive\\Documents\\Github\\FRCDetective\\Client\\FRCDetective\\FRCDetective\\obj\\",
+=======
+    "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj",
+        "projectName": "FRCDetective",
+        "projectPath": "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj",
+        "packagesPath": "/Users/mblaser/.nuget/packages/",
+        "outputPath": "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/obj/",
+>>>>>>> main
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
+<<<<<<< HEAD
           "C:\\Users\\dhilu\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+=======
+          "/Users/mblaser/.config/NuGet/NuGet.Config"
+>>>>>>> main
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"

@@ -91,6 +91,7 @@ while True:
 	try:
 		Graphics.setStatus(Graphics.status["Waiting"])
 		connection, client_address = _socket.accept()
+		skip = False
 	except:
 		skip = True
 
@@ -102,13 +103,15 @@ while True:
 				print("update")
 				Graphics.updateGraphics()
 
+				data = []
+
 				_secs = 10
 				for i in range(1, (_secs*4)):
 					connection.setblocking(0)
 					ready = select.select([connection], [], [], 0.25) #last param is timeout in secs
 					if ready[0]:
 						data = connection.recv(_maxpacket) 
-						Graphics.setStatusString("Recieved Data." "Recieved Data.")
+						Graphics.setStatusString("Recieved Data.", "Recieved Data.")
 						break
 					Graphics.updateGraphics()
 

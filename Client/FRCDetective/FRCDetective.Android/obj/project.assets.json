@@ -2033,20 +2033,20 @@
     ]
   },
   "packageFolders": {
-    "/Users/madi/.nuget/packages/": {}
+    "/Users/mblaser/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/FRCDetective.Android.csproj",
+      "projectUniqueName": "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/FRCDetective.Android.csproj",
       "projectName": "FRCDetective.Android",
-      "projectPath": "/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/FRCDetective.Android.csproj",
-      "packagesPath": "/Users/madi/.nuget/packages/",
-      "outputPath": "/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/",
+      "projectPath": "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/FRCDetective.Android.csproj",
+      "packagesPath": "/Users/mblaser/.nuget/packages/",
+      "outputPath": "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.Android/obj/",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [
-        "/Users/madi/.config/NuGet/NuGet.Config"
+        "/Users/mblaser/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "monoandroid90"
@@ -2057,8 +2057,8 @@
       "frameworks": {
         "monoandroid90": {
           "projectReferences": {
-            "/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj": {
-              "projectPath": "/Users/madi/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj"
+            "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj": {
+              "projectPath": "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj"
             }
           }
         }

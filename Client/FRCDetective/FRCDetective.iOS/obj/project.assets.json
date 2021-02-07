@@ -1147,26 +1147,42 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
     "C:\\Users\\dhilu\\.nuget\\packages\\": {},
     "C:\\Microsoft\\Xamarin\\NuGet\\": {}
+=======
+    "/Users/mblaser/.nuget/packages/": {}
+>>>>>>> main
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\dhilu\\OneDrive\\Documents\\Github\\FRCDetective\\Client\\FRCDetective\\FRCDetective.iOS\\FRCDetective.iOS.csproj",
       "projectName": "FRCDetective.iOS",
       "projectPath": "C:\\Users\\dhilu\\OneDrive\\Documents\\Github\\FRCDetective\\Client\\FRCDetective\\FRCDetective.iOS\\FRCDetective.iOS.csproj",
       "packagesPath": "C:\\Users\\dhilu\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\dhilu\\OneDrive\\Documents\\Github\\FRCDetective\\Client\\FRCDetective\\FRCDetective.iOS\\obj\\",
+=======
+      "projectUniqueName": "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.iOS/FRCDetective.iOS.csproj",
+      "projectName": "FRCDetective.iOS",
+      "projectPath": "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.iOS/FRCDetective.iOS.csproj",
+      "packagesPath": "/Users/mblaser/.nuget/packages/",
+      "outputPath": "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective.iOS/obj/",
+>>>>>>> main
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
+<<<<<<< HEAD
         "C:\\Users\\dhilu\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+=======
+        "/Users/mblaser/.config/NuGet/NuGet.Config"
+>>>>>>> main
       ],
       "originalTargetFrameworks": [
         "xamarinios10"
@@ -1178,8 +1194,13 @@
       "frameworks": {
         "xamarinios10": {
           "projectReferences": {
+<<<<<<< HEAD
             "C:\\Users\\dhilu\\OneDrive\\Documents\\Github\\FRCDetective\\Client\\FRCDetective\\FRCDetective\\FRCDetective.csproj": {
               "projectPath": "C:\\Users\\dhilu\\OneDrive\\Documents\\Github\\FRCDetective\\Client\\FRCDetective\\FRCDetective\\FRCDetective.csproj"
+=======
+            "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj": {
+              "projectPath": "/Users/mblaser/Documents/FRC Detective/FRCDetective/Client/FRCDetective/FRCDetective/FRCDetective.csproj"
+>>>>>>> main
             }
           }
         }
