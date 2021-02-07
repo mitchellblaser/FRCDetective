@@ -184,7 +184,7 @@ namespace FRCDetective
             data[28] = 1;   // Level
             data[29] = 40;  // Foul
             data[30] = 40;  // Tech Foul
-            data[29] = 0xFF;// Start Hash
+            data[31] = 0xFF;// Start Hash
             for (int i = 32; i < 40; i++)   // Hash
             {
                 data[i] = 0xFF;
@@ -203,18 +203,38 @@ namespace FRCDetective
         }
         void receive(object sender, EventArgs e)
         {
+            byte[] data = receive();
+
+            if (data == null)
+            {
+                DisplayError("IDK But i needed to show an error.\nMaybe go talk to Dhiluka or something\n\nor maybe fix it yourself");
+            }
+            else
+            {
+                DisplayAlert("Message", System.Text.Encoding.ASCII.GetString(data, 0, data.Length), "OK");
+            }
+        }
+        byte[] receive()
+        {
             try
             {
                 NetworkStream stream = client.GetStream();
                 byte[] data = new byte[256];
                 Int32 bytes = stream.Read(data, 0, data.Length);
-                DisplayAlert("Message", System.Text.Encoding.ASCII.GetString(data, 0, bytes), "OK");
+
+                byte[] received = new byte[bytes];
+
+                for (int i = 0; i < bytes; i++)
+                {
+                    received[i] = data[i];
+                }
+                return received;
             }
-            catch (Exception ex)
-            {
-                DisplayError(ex.Message);
-            }
+            catch { }
+
+            return null;
         }
+
         void DisplayError(string message)
         {
             DisplayAlert("Error", message, "this is so sad :(");
