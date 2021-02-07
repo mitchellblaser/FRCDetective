@@ -28,6 +28,8 @@ namespace FRCDetective
         {
             InitializeComponent();
             NetworkStatus.Source = ImageSource.FromFile("baseline_sensors_off_black_18dp.png");
+
+            client = new TcpClient();
         }
 
         protected async override void OnAppearing()
@@ -127,8 +129,6 @@ namespace FRCDetective
         {
             try
             {
-                client = new TcpClient();
-
                 var result = client.BeginConnect(IPAddressEntry.Text, Convert.ToInt32(PortEntry.Text), null, null);
 
                 var success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(1));
@@ -153,6 +153,8 @@ namespace FRCDetective
 
         void send()
         {
+            bool replyOK = false;
+
             byte[] time = BitConverter.GetBytes((ulong)DateTimeOffset.Now.ToUnixTimeSeconds());
             byte[] team = BitConverter.GetBytes((Int32)5584);
 
@@ -184,36 +186,82 @@ namespace FRCDetective
             data[28] = 1;   // Level
             data[29] = 40;  // Foul
             data[30] = 40;  // Tech Foul
-            data[29] = 0xFF;// Start Hash
+            data[31] = 0xFF;// Start Hash
             for (int i = 32; i < 40; i++)   // Hash
             {
                 data[i] = 0xFF;
             }
             data[40] = 0;   // End Byte
 
-            try
+            while (!replyOK)
             {
-                NetworkStream stream = client.GetStream();
-                stream.Write(data, 0, data.Length);
-            }
-            catch(Exception e)
-            {
-                DisplayError(e.Message);
+                try
+                {
+                    NetworkStream stream = client.GetStream();
+                    stream.Write(data, 0, data.Length);
+                }
+                catch (Exception e)
+                {
+                    DisplayError(e.Message);
+                    return;
+                }
+
+                byte[] ok = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x4f, 0x4b };
+                byte[] no = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x4e, 0x4f };
+
+                byte[] reply = receive();
+
+                if (reply == null)
+                {
+                    DisplayError("Server Sent No Reply. Are you connected to the server?");
+                    return;
+                }
+
+                if (Enumerable.SequenceEqual(reply, ok))
+                {
+                    DisplayAlert("Message", "Yay the data is good", ":)");
+                    replyOK = true;
+                }
+                else if (Enumerable.SequenceEqual(reply, no))
+                {
+                    //DisplayError("Blame mitch his server broke");
+                }
             }
         }
         void receive(object sender, EventArgs e)
+        {
+            byte[] data = receive();
+
+            if (data == null)
+            {
+                DisplayError("IDK whats wrong but i needed to show an error.\nMaybe go talk to Dhiluka or something\n\nor maybe fix it yourself");
+            }
+            else
+            {
+                DisplayAlert("Message", System.Text.Encoding.ASCII.GetString(data, 0, data.Length), "OK");
+            }
+        }
+        byte[] receive()
         {
             try
             {
                 NetworkStream stream = client.GetStream();
                 byte[] data = new byte[256];
-                Int32 bytes = stream.Read(data, 0, data.Length);
-                DisplayAlert("Message", System.Text.Encoding.ASCII.GetString(data, 0, bytes), "OK");
+                client.ReceiveTimeout = 5000;
+
+                int bytes = stream.Read(data, 0, data.Length);
+
+                byte[] received = new byte[bytes];
+
+                for (int i = 0; i < bytes; i++)
+                {
+                    received[i] = data[i];
+                }
+                return received;
             }
-            catch (Exception ex)
-            {
-                DisplayError(ex.Message);
-            }
+            catch { }
+
+            return null;
         }
 
         void DisplayError(string message)
