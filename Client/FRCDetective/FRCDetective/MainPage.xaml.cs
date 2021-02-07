@@ -200,6 +200,20 @@ namespace FRCDetective
             {
                 DisplayError(e.Message);
             }
+
+            byte[] ok = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x4f, 0x4b };
+            byte[] no = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x4e, 0x4f };
+
+            byte[] reply = receive();
+
+            if (Enumerable.SequenceEqual(reply, ok))
+            {
+                DisplayAlert("Message", "Yay the data is good", ":)");
+            }
+            else if (Enumerable.SequenceEqual(reply, no))
+            {
+                DisplayError("Blame mitch his server broke");
+            }
         }
         void receive(object sender, EventArgs e)
         {
@@ -207,7 +221,7 @@ namespace FRCDetective
 
             if (data == null)
             {
-                DisplayError("IDK But i needed to show an error.\nMaybe go talk to Dhiluka or something\n\nor maybe fix it yourself");
+                DisplayError("IDK whats wrong but i needed to show an error.\nMaybe go talk to Dhiluka or something\n\nor maybe fix it yourself");
             }
             else
             {
