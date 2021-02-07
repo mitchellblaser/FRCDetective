@@ -153,6 +153,8 @@ namespace FRCDetective
 
         void send()
         {
+            bool replyOK = false;
+
             byte[] time = BitConverter.GetBytes((ulong)DateTimeOffset.Now.ToUnixTimeSeconds());
             byte[] team = BitConverter.GetBytes((Int32)5584);
 
@@ -191,28 +193,32 @@ namespace FRCDetective
             }
             data[40] = 0;   // End Byte
 
-            try
+            while (!replyOK)
             {
-                NetworkStream stream = client.GetStream();
-                stream.Write(data, 0, data.Length);
-            }
-            catch(Exception e)
-            {
-                DisplayError(e.Message);
-            }
+                try
+                {
+                    NetworkStream stream = client.GetStream();
+                    stream.Write(data, 0, data.Length);
+                }
+                catch (Exception e)
+                {
+                    DisplayError(e.Message);
+                }
 
-            byte[] ok = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x4f, 0x4b };
-            byte[] no = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x4e, 0x4f };
+                byte[] ok = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x4f, 0x4b };
+                byte[] no = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x4e, 0x4f };
 
-            byte[] reply = receive();
+                byte[] reply = receive();
 
-            if (Enumerable.SequenceEqual(reply, ok))
-            {
-                DisplayAlert("Message", "Yay the data is good", ":)");
-            }
-            else if (Enumerable.SequenceEqual(reply, no))
-            {
-                DisplayError("Blame mitch his server broke");
+                if (Enumerable.SequenceEqual(reply, ok))
+                {
+                    DisplayAlert("Message", "Yay the data is good", ":)");
+                    replyOK = true;
+                }
+                else if (Enumerable.SequenceEqual(reply, no))
+                {
+                    //DisplayError("Blame mitch his server broke");
+                }
             }
         }
         void receive(object sender, EventArgs e)
