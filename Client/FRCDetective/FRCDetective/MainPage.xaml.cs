@@ -28,6 +28,8 @@ namespace FRCDetective
         {
             InitializeComponent();
             NetworkStatus.Source = ImageSource.FromFile("baseline_sensors_off_black_18dp.png");
+
+            client = new TcpClient();
         }
 
         protected async override void OnAppearing()
@@ -127,8 +129,6 @@ namespace FRCDetective
         {
             try
             {
-                client = new TcpClient();
-
                 var result = client.BeginConnect(IPAddressEntry.Text, Convert.ToInt32(PortEntry.Text), null, null);
 
                 var success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(1));
@@ -203,12 +203,19 @@ namespace FRCDetective
                 catch (Exception e)
                 {
                     DisplayError(e.Message);
+                    return;
                 }
 
                 byte[] ok = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x4f, 0x4b };
                 byte[] no = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x4e, 0x4f };
 
                 byte[] reply = receive();
+
+                if (reply == null)
+                {
+                    DisplayError("Server Sent No Reply. Are you connected to the server?");
+                    return;
+                }
 
                 if (Enumerable.SequenceEqual(reply, ok))
                 {
@@ -240,7 +247,9 @@ namespace FRCDetective
             {
                 NetworkStream stream = client.GetStream();
                 byte[] data = new byte[256];
-                Int32 bytes = stream.Read(data, 0, data.Length);
+                client.ReceiveTimeout = 5000;
+
+                int bytes = stream.Read(data, 0, data.Length);
 
                 byte[] received = new byte[bytes];
 
