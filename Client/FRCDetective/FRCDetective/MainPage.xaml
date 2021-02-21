@@ -46,6 +46,7 @@
                FontFamily="Helvetica" Margin="20,13,0,0"/>
             <Entry Placeholder="IP Address" x:Name="IPAddressEntry"/>
             <Entry Placeholder="Port" x:Name="PortEntry"/>
+            <Entry Placeholder="1" x:Name="RoundEntry"/>
         </StackLayout>
 
         <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="0,10,0,0">

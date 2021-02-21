@@ -165,7 +165,7 @@ namespace FRCDetective
             }
             data[12] = 0;   // Division
             data[13] = 0;   // Round Type
-            data[14] = 1;   // Round Number
+            data[14] = Convert.ToByte(Convert.ToInt32(RoundEntry.Text));   // Round Number
             for (int i = 15; i < 19; i++)    // Team
             {
                 data[i] = team[i - 15];
@@ -184,7 +184,7 @@ namespace FRCDetective
             data[28] = 1;   // Level
             data[29] = 40;  // Foul
             data[30] = 40;  // Tech Foul
-            data[29] = 0xFF;// Start Hash
+            data[31] = 0xFF;// Start Hash
             for (int i = 32; i < 40; i++)   // Hash
             {
                 data[i] = 0xFF;

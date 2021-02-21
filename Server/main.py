@@ -10,6 +10,7 @@ import datetime
 import sys
 import threading
 import select
+import pprint
 
 ##Our custom deps
 import ParseArgument
@@ -39,6 +40,8 @@ else:
 ##Init the GUI
 Graphics.setGraphics(Graphics.mode[_gfxMode.lower()])
 Graphics.initGraphics(True)
+
+pp = pprint.PrettyPrinter(width=41, compact=True)
 
 #Do TCP/IP Stuff
 _socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -115,11 +118,15 @@ while True:
 						break
 					Graphics.updateGraphics()
 
-
 				try:
 					if data:
 						Graphics.updateGraphics()
-						ParseData.Parse(data)
+						##FileIO.SaveData("Storage.json", ParseData.Parse(data))
+						global x
+						global PARSEDJSON
+						PARSEDJSON = ParseData.Parse(data)
+						x = str(PARSEDJSON["Division"]) + "-" + str(PARSEDJSON["RoundType"]) + "-" + str(PARSEDJSON["RoundNumber"]) + "-" + str(PARSEDJSON["TeamNumber"]) + "-" + str(PARSEDJSON["Timestamp"])
+						FileIO.AppendData("Storage.json", x, PARSEDJSON)
 						threadedSend = threading.Thread(target=ThreadedSend, args=())
 						threadedSend.start()
 					else:
