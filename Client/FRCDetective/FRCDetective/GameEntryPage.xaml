@@ -51,7 +51,7 @@
                         <Label Text="High Goal: " TextColor="Black" VerticalTextAlignment="Center"
                                HorizontalOptions="FillAndExpand" Margin="15,0,0,0"/>
                         <Label x:Name="lblAuto_BallsTop" Text="00" TextColor="Black" VerticalTextAlignment="Center"/>
-                        <Stepper x:Name="stpAuto_BallsTop" ValueChanged="UpdateSteppers" Margin="0,0,10,0"/>
+                        <Stepper x:Name="stpAuto_BallsTop" Minimum="0" Maximum="99" ValueChanged="UpdateSteppers" Margin="0,0,10,0"/>
                     </StackLayout>
 
 
@@ -59,7 +59,7 @@
                         <Label Text="Low Goal: " TextColor="Black" VerticalTextAlignment="Center"
                                HorizontalOptions="FillAndExpand" Margin="15,0,0,0"/>
                         <Label x:Name="lblAuto_BallsBottom" Text="00" TextColor="Black" VerticalTextAlignment="Center"/>
-                        <Stepper x:Name="stpAuto_BallsBottom" ValueChanged="UpdateSteppers" Margin="0,0,10,0"/>
+                        <Stepper x:Name="stpAuto_BallsBottom" Minimum="0" Maximum="99" ValueChanged="UpdateSteppers" Margin="0,0,10,0"/>
                     </StackLayout>
 
                 </StackLayout>

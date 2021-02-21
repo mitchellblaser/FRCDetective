@@ -63,15 +63,29 @@ namespace FRCDetective
 
         async void Load(object sender, EventArgs e)
         {
-            IFolder rootFolder = FileSystem.Current.LocalStorage;
-            IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
-            IFile file = await folder.GetFileAsync("1B_5584" + ".json");
-            string json = await file.ReadAllTextAsync();
+            try
+            {
+                IFolder rootFolder = FileSystem.Current.LocalStorage;
+                IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
+                IFile file = await folder.GetFileAsync("1B_5584hhh" + ".json");
+                string json = await file.ReadAllTextAsync();
 
-            RoundData round = JsonConvert.DeserializeObject<RoundData>(json);
-            chkAuto_InitLine.IsChecked = round.InitLine;
-            stpAuto_BallsTop.Value = round.AutoHighGoal;
-            stpAuto_BallsBottom.Value = round.AutoLowGoal;
+                RoundData round = JsonConvert.DeserializeObject<RoundData>(json);
+                chkAuto_InitLine.IsChecked = round.InitLine;
+                stpAuto_BallsTop.Value = round.AutoHighGoal;
+                stpAuto_BallsBottom.Value = round.AutoLowGoal;
+            }
+            catch (Exception ex)
+            {
+                if (ex.GetType().ToString() == "PCLStorage.Exceptions.FileNotFoundException")   // Change when you learn to do this properly
+                {
+                    DisplayError("File Not Found\nAre you sure you have a local copy of the round and team?");
+                }
+                else
+                {
+                    DisplayError(ex.Message);
+                }
+            }
         }
 
         async Task SaveData()
@@ -87,6 +101,11 @@ namespace FRCDetective
             IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
             IFile file = await folder.CreateFileAsync("1B_5584" + ".json", CreationCollisionOption.ReplaceExisting);
             await file.WriteAllTextAsync(json);
+        }
+
+        void DisplayError(string message)
+        {
+            DisplayAlert("Error", message, "this is so sad :(");
         }
     }
 }
