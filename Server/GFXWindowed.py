@@ -13,7 +13,8 @@ import Graphics
 def cmdTest():
 	print("TEST <<<<<<<")
 def cmdExit():
-	window.destroy()
+	setStatusString("Exit Scheduled.", "Application scheduled to close.")
+	Communications.scheduleSocketClose(True)
 def cmdPause():
 	global paused
 	if paused == True:
@@ -24,6 +25,9 @@ def cmdPause():
 		setStatus(Graphics.status["Paused"])
 		btnPause.configure(text="Resume")
 		paused = True
+
+def CloseApplication():
+	window.destroy()
 
 paused = False
 _justPaused = False

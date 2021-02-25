@@ -6,6 +6,7 @@ import os
 import socket
 
 CustomAddress = "NULL"
+SocketShouldClose = False
 
 def setCustomAddr(_addr):
 	global CustomAddress
@@ -18,3 +19,11 @@ def checkIPAddress():
 	_hostname = socket.gethostname()
 	_localip = socket.gethostbyname(_hostname)
 	return _localip
+
+def scheduleSocketClose(_state):
+	global SocketShouldClose
+	SocketShouldClose = _state
+
+def ShouldSocketClose():
+	global SocketShouldClose
+	return SocketShouldClose

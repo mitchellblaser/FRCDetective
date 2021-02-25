@@ -65,3 +65,7 @@ def isPaused():
 		return GFXWindowed.isPaused()
 	if SelectedMode == mode["lowlevel"]:
 		print("Pause operation not supported on non-windowed application.")
+
+def CloseApplication():
+	if SelectedMode == mode["windowed"]:
+		GFXWindowed.CloseApplication()
