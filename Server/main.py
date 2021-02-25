@@ -17,11 +17,12 @@ import pprint
 ##Our custom deps
 import ParseArgument
 import Communications
-#import Graphics 		#We need to do this later so that TK doesn't get our IP before we can set it. (ln44)
+#import Graphics 		#We need to do this later so that TK doesn't get our IP before we can set it. (ln46)
 import HashScript
 import FileIO
 import Backup
 import ParseData
+import Database
 
 backup = False
 
@@ -73,8 +74,9 @@ while True:
 		try:
 			connection.close()
 			_socket.shutdown(1)
-		finally:
-			Graphics.CloseApplication()
+		except:
+			print("Scheduled Exit: Socket does not yet exist. Quitting without close().")
+		Graphics.CloseApplication()
 
 	skip = False
 	try:
