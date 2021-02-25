@@ -136,6 +136,6 @@ def setStatusString(_statusTitle, _statusMessage):
 				 "0"*int(2-len(str(timestamp.minute))) + str(timestamp.minute) + ":" + \
 				 "0"*int(2-len(str(timestamp.second))) + str(timestamp.second)
 	lblStatus.configure(text=_ss + _statusTitle)
-	txtServerLog.insert(INSERT, "\n" + timestring + " " + _statusMessage)
+	txtServerLog.insert(INSERT, "\n" + timestring + " -> " + _statusMessage)
 	txtServerLog.see(END)
 
