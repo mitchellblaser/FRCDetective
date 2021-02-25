@@ -30,8 +30,8 @@ def Difference(ServerDataList, ClientDataList):
 		if keys in ClientDataList:
 			##Check if date is newer server-side: send if it is.
 			if CheckServerModifiedDate(keys) > CheckClientModifiedDate(keys):
-			print("DB -> Server Key " + keys + " has a newer version.")
-			ClientNeeds.append(keys)
+				print("DB -> Server Key " + keys + " has a newer version.")
+				ClientNeeds.append(keys)
 		else:
 			print("DB -> Server Key " + keys + " does not exist on client.")
 			ClientNeeds.append(keys)
@@ -44,4 +44,5 @@ def CheckServerModifiedDate(_key):
 
 
 def CheckClientModifiedDate(_key):
+	##TODO: Add the check here once I actually have key data streaming from the client implemented.
 	return 0
