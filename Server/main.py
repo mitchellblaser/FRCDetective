@@ -7,15 +7,17 @@ _maxpacket = 1024
 ##Python standard libs
 import socket
 import datetime
+import time
 import sys
 import threading
 import select
+import pprint
 
 ##Our custom deps
 import ParseArgument
-import Graphics
-import HashScript
 import Communications
+#import Graphics 		#We need to do this later so that TK doesn't get our IP before we can set it. (ln44)
+import HashScript
 import FileIO
 import Backup
 import ParseData
@@ -35,10 +37,15 @@ if ParseArgument.isEmpty() == False:
 else:
 	ParseArgument.printHelp()
 	exit()
+if _address != "localhost":
+	Communications.setCustomAddr(_address)
 
 ##Init the GUI
+import Graphics
 Graphics.setGraphics(Graphics.mode[_gfxMode.lower()])
 Graphics.initGraphics(True)
+
+pp = pprint.PrettyPrinter(width=41, compact=True)
 
 #Do TCP/IP Stuff
 _socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -115,11 +122,15 @@ while True:
 						break
 					Graphics.updateGraphics()
 
-
 				try:
 					if data:
 						Graphics.updateGraphics()
-						ParseData.Parse(data)
+						##FileIO.SaveData("Storage.json", ParseData.Parse(data))
+						global jsonuid
+						global PARSEDJSON
+						PARSEDJSON = ParseData.Parse(data)
+						jsonuid = str(PARSEDJSON["Division"]) + "-" + str(PARSEDJSON["RoundType"]) + "-" + str(PARSEDJSON["RoundNumber"]) + "-" + str(PARSEDJSON["TeamNumber"]) + "-" + str(PARSEDJSON["Timestamp"])
+						FileIO.AppendData("Storage.json", jsonuid, PARSEDJSON)
 						threadedSend = threading.Thread(target=ThreadedSend, args=())
 						threadedSend.start()
 					else:

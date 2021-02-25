@@ -29,8 +29,10 @@ def OutputCode(_logcode):
 		loggedPause = False
 
 	if _output != "":
-		FileIO.AppendData("CurrentLog.txt", _output)
+		return
+		#FileIO.AppendData("CurrentLog.txt", _output)
 
 
 def DirectOutput(_output):
-	FileIO.AppendData("CurrentLog.txt", _output)
+	#FileIO.AppendData("CurrentLog.txt", _output)
+	return

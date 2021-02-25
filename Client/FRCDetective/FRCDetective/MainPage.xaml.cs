@@ -167,7 +167,7 @@ namespace FRCDetective
             }
             data[12] = 0;   // Division
             data[13] = 0;   // Round Type
-            data[14] = 1;   // Round Number
+            data[14] = Convert.ToByte(Convert.ToInt32(RoundEntry.Text));   // Round Number
             for (int i = 15; i < 19; i++)    // Team
             {
                 data[i] = team[i - 15];
