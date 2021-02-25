@@ -197,6 +197,7 @@ namespace FRCDetective
             {
                 try
                 {
+                    client.SendTimeout = 5000;
                     NetworkStream stream = client.GetStream();
                     stream.Write(data, 0, data.Length);
                 }
@@ -245,9 +246,9 @@ namespace FRCDetective
         {
             try
             {
+                client.ReceiveTimeout = 5000;
                 NetworkStream stream = client.GetStream();
                 byte[] data = new byte[256];
-                client.ReceiveTimeout = 5000;
 
                 int bytes = stream.Read(data, 0, data.Length);
 
