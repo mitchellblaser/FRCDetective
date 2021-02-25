@@ -23,6 +23,7 @@ import FileIO
 import Backup
 import ParseData
 import Database
+import Format
 
 backup = False
 
@@ -64,7 +65,7 @@ _socket.settimeout(1)
 Sending = False
 def ThreadedSend():
 	global Sending
-	connection.sendall(b'RECV_OK')
+	connection.sendall(b'RECV_DC')
 
 _paused = False
 
@@ -75,7 +76,7 @@ while True:
 			connection.close()
 			_socket.shutdown(1)
 		except:
-			print("Scheduled Exit: Socket does not yet exist. Quitting without close().")
+			print("Scheduled Exit: Socket does not exist. Quitting without close().")
 		Graphics.CloseApplication()
 
 	skip = False
@@ -141,7 +142,7 @@ while True:
 						global jsonuid
 						global PARSEDJSON
 						PARSEDJSON = ParseData.Parse(data)
-						jsonuid = str(PARSEDJSON["Division"]) + "-" + str(PARSEDJSON["RoundType"]) + "-" + str(PARSEDJSON["RoundNumber"]) + "-" + str(PARSEDJSON["TeamNumber"]) + "-" + str(PARSEDJSON["Timestamp"])
+						jsonuid = Format.PadNumber(PARSEDJSON["Division"], 1) + "-" + Format.PadNumber(PARSEDJSON["RoundType"], 1) + "-" + Format.PadNumber(PARSEDJSON["RoundNumber"], 3) + "-" + Format.PadNumber(PARSEDJSON["TeamNumber"], 5)
 						FileIO.AppendData("Storage.json", jsonuid, PARSEDJSON)
 						threadedSend = threading.Thread(target=ThreadedSend, args=())
 						threadedSend.start()
