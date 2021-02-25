@@ -9,8 +9,6 @@ def SaveData(_filepath, _data):
 		json.dump(_data, write_file)
 		write_file.close()
 
-
-
 def ReadData(_filepath):
 	with open(_filepath, "r") as read_file:
 		data = json.load(read_file)
