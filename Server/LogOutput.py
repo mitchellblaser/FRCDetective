@@ -34,3 +34,4 @@ def OutputCode(_logcode):
 
 def DirectOutput(_output):
 	#FileIO.AppendData("CurrentLog.txt", _output)
+	return
