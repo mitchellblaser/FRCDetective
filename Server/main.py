@@ -5,6 +5,7 @@
 _maxpacket = 1024
 
 ##Python standard libs
+from socket import *
 import socket
 import datetime
 import time
@@ -49,6 +50,7 @@ pp = pprint.PrettyPrinter(width=41, compact=True)
 
 #Do TCP/IP Stuff
 _socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+_socket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 _server_addr = (_address, _port)
 
 print("Starting server on {}:{}.".format(*_server_addr))
@@ -66,6 +68,14 @@ def ThreadedSend():
 _paused = False
 
 while True:
+
+	if Communications.ShouldSocketClose() == True:
+		try:
+			connection.close()
+			_socket.shutdown(1)
+		finally:
+			Graphics.CloseApplication()
+
 	skip = False
 	try:
 		Graphics.updateGraphics()
@@ -135,10 +145,11 @@ while True:
 						threadedSend.start()
 					else:
 						print("No data recieved from client. Restarting.")
+						connection.close()
 						break
 				except:
 					print("No data recieved from client. Restarting.")
+					connection.close()
 					break
 		finally:
 			Graphics.setStatus(Graphics.status["Disconnect"])
-			connection.close()
