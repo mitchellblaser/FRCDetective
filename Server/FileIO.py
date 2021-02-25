@@ -23,5 +23,5 @@ def AppendData(_filepath, _key, _data):
 		data = json.load(read_file)
 	data[_key] = _data
 	with open(_filepath, "w") as write_file:
-		json.dump(_data, write_file)
+		json.dump(data, write_file)
 		write_file.close()
