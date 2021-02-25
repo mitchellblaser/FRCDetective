@@ -228,6 +228,7 @@ namespace FRCDetective
                     //DisplayError("Blame mitch his server broke");
                 }
             }
+            client.Close();
         }
         void receive(object sender, EventArgs e)
         {
