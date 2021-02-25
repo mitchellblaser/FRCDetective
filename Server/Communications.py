@@ -8,6 +8,7 @@ import socket
 CustomAddress = "NULL"
 
 def setCustomAddr(_addr):
+	global CustomAddress
 	CustomAddress = _addr
 
 def checkIPAddress():
