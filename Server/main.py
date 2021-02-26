@@ -23,6 +23,7 @@ import FileIO
 import Backup
 import ParseData
 import Database
+import Format
 
 backup = False
 
@@ -62,9 +63,9 @@ _socket.settimeout(1)
 
 
 Sending = False
-def ThreadedSend():
+def ThreadedSend(_data):
 	global Sending
-	connection.sendall(b'RECV_OK')
+	connection.sendall(_data)
 
 _paused = False
 
@@ -75,7 +76,7 @@ while True:
 			connection.close()
 			_socket.shutdown(1)
 		except:
-			print("Scheduled Exit: Socket does not yet exist. Quitting without close().")
+			break
 		Graphics.CloseApplication()
 
 	skip = False
@@ -137,13 +138,16 @@ while True:
 				try:
 					if data:
 						Graphics.updateGraphics()
-						##FileIO.SaveData("Storage.json", ParseData.Parse(data))
+						
+						###	IMPORTANT: Add a check here to see if data is a "keep alive" byte	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+						###			    because we do not want to parse it as json if it is. (so skip over the whole loop)
+
 						global jsonuid
 						global PARSEDJSON
 						PARSEDJSON = ParseData.Parse(data)
-						jsonuid = str(PARSEDJSON["Division"]) + "-" + str(PARSEDJSON["RoundType"]) + "-" + str(PARSEDJSON["RoundNumber"]) + "-" + str(PARSEDJSON["TeamNumber"]) + "-" + str(PARSEDJSON["Timestamp"])
+						jsonuid = Format.PadNumber(PARSEDJSON["Division"], 1) + "-" + Format.PadNumber(PARSEDJSON["RoundType"], 1) + "-" + Format.PadNumber(PARSEDJSON["RoundNumber"], 3) + "-" + Format.PadNumber(PARSEDJSON["TeamNumber"], 5)
 						FileIO.AppendData("Storage.json", jsonuid, PARSEDJSON)
-						threadedSend = threading.Thread(target=ThreadedSend, args=())
+						threadedSend = threading.Thread(target=ThreadedSend, args=(b'RECV_OK'))
 						threadedSend.start()
 					else:
 						print("No data recieved from client. Restarting.")
