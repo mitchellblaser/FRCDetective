@@ -20,13 +20,13 @@ namespace FRCDetective
     }
     public partial class FileViewPage : ContentPage
     {
-        ObservableCollection<RoundData> roundData = new ObservableCollection<RoundData>();
-        public ObservableCollection<RoundData> RoundData { get { return roundData; } }
+        ObservableCollection<RoundData> roundList = new ObservableCollection<RoundData>();
+        public ObservableCollection<RoundData> RoundList { get { return roundList; } }
 
         public FileViewPage()
         {
             InitializeComponent();
-            lstFiles.ItemsSource = roundData;
+            lstFiles.ItemsSource = roundList;
 
             Refresh();
         }
@@ -42,7 +42,7 @@ namespace FRCDetective
                 string json = await file.ReadAllTextAsync();
 
                 RoundData round = JsonConvert.DeserializeObject<RoundData>(json);
-                RoundData.Add(round);
+                RoundList.Add(round);
             }
         }
         public void OnMore(object sender, EventArgs e)
@@ -58,7 +58,7 @@ namespace FRCDetective
             var mi = ((MenuItem)sender);
             RoundData round = (RoundData)mi.CommandParameter;
 
-            RoundData.Remove(round);
+            RoundList.Remove(round);
             IFolder rootFolder = FileSystem.Current.LocalStorage;
             IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
             IFile file = await folder.CreateFileAsync(round.Filename, CreationCollisionOption.ReplaceExisting);
