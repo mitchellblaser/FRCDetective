@@ -4,8 +4,9 @@ using System.Text;
 
 namespace FRCDetective
 {
-    class RoundData
+    public class RoundData
     {
+        public string DisplayName { get; set; }
         public bool InitLine { get; set; }
         public int AutoHighGoal { get; set; }
         public int AutoLowGoal { get; set; }

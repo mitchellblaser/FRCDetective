@@ -20,6 +20,9 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Update="FileViewPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="GameEntryPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

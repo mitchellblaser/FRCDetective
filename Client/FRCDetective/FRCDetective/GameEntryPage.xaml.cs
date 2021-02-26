@@ -63,6 +63,8 @@ namespace FRCDetective
 
         async void Load(object sender, EventArgs e)
         {
+            await Navigation.PushAsync(new FileViewPage());
+            /*
             try
             {
                 IFolder rootFolder = FileSystem.Current.LocalStorage;
@@ -86,11 +88,25 @@ namespace FRCDetective
                     DisplayError(ex.Message);
                 }
             }
+            */
+        }
+
+        async void Index(object sender, EventArgs e)
+        {
+            IFolder rootFolder = FileSystem.Current.LocalStorage;
+            IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
+
+            foreach(IFile file in await folder.GetFilesAsync())
+            {
+                Console.WriteLine(file.Name);
+            }
         }
 
         async Task SaveData()
         {
             RoundData round = new RoundData();
+            round.DisplayName = "mitch";
+
             round.InitLine = chkAuto_InitLine.IsChecked;
             round.AutoHighGoal = (int)stpAuto_BallsTop.Value;
             round.AutoLowGoal = (int)stpAuto_BallsBottom.Value;
