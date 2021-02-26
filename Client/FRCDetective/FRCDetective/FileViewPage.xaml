@@ -6,11 +6,23 @@
              NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Autonomous" FontSize="Title" FontFamily="Helvetica" TextColor="Black"/>
-            <ListView x:Name="lstFiles" ItemsSource="{Binding MyList}">
+            <Label Text="Saved Data" FontSize="Title" FontFamily="Helvetica" TextColor="Black"/>
+            <ListView x:Name="lstFiles" ItemsSource="{Binding RoundData}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Text="{Binding DisplayName}" />
+                        <ViewCell>
+                            <StackLayout Padding="15,0">
+                                <Label Text="{Binding DisplayName}" FontSize="Medium" />
+                            </StackLayout>
+                            <ViewCell.ContextActions>
+                                <MenuItem Clicked="OnMore"
+                                          CommandParameter="{Binding .}"
+                                          Text="More" />
+                                <MenuItem Clicked="OnDelete"
+                                          CommandParameter="{Binding .}"
+                                          Text="Delete" IsDestructive="True" />
+                            </ViewCell.ContextActions>
+                        </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

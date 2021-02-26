@@ -20,30 +20,15 @@ namespace FRCDetective
     }
     public partial class FileViewPage : ContentPage
     {
-        ObservableCollection<RoundData> myList = new ObservableCollection<RoundData>();
-        public ObservableCollection<RoundData> MyList { get { return myList; } }
+        ObservableCollection<RoundData> roundData = new ObservableCollection<RoundData>();
+        public ObservableCollection<RoundData> RoundData { get { return roundData; } }
 
         public FileViewPage()
         {
             InitializeComponent();
-            lstFiles.ItemsSource = myList;
+            lstFiles.ItemsSource = roundData;
 
-            RoundData round1 = new RoundData();
-            round1.DisplayName = "mitch";
-
-            round1.InitLine = true;
-            round1.AutoHighGoal = 1;
-            round1.AutoLowGoal = 2;
-
-            RoundData round2 = new RoundData();
-            round2.DisplayName = "not mitch";
-
-            round2.InitLine = true;
-            round2.AutoHighGoal = 1;
-            round2.AutoLowGoal = 2;
-
-            MyList.Add(round1);
-            MyList.Add(round2);
+            Refresh();
         }
 
         async void Refresh()
@@ -54,8 +39,30 @@ namespace FRCDetective
             foreach (IFile file in await folder.GetFilesAsync())
             {
                 //Console.WriteLine(file.Name);
-                
+                string json = await file.ReadAllTextAsync();
+
+                RoundData round = JsonConvert.DeserializeObject<RoundData>(json);
+                RoundData.Add(round);
             }
+        }
+        public void OnMore(object sender, EventArgs e)
+        {
+            var mi = ((MenuItem)sender);
+            RoundData round = (RoundData)mi.CommandParameter;
+
+            DisplayAlert("More Context Action", round.DisplayName + " more context action", "OK");
+        }
+
+        public async void OnDelete(object sender, EventArgs e)
+        {
+            var mi = ((MenuItem)sender);
+            RoundData round = (RoundData)mi.CommandParameter;
+
+            RoundData.Remove(round);
+            IFolder rootFolder = FileSystem.Current.LocalStorage;
+            IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
+            IFile file = await folder.CreateFileAsync(round.Filename, CreationCollisionOption.ReplaceExisting);
+            await file.DeleteAsync();
         }
     }
 }

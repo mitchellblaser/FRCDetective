@@ -41,6 +41,30 @@
                 <StackLayout>
                     <Label Text="Autonomous" FontSize="Title" FontFamily="Helvetica" TextColor="Black"/>
 
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="0,0,0,0">
+                        <Label Text="Team: " TextColor="Black" FontSize="Medium" FontFamily="Helvetica" Margin="20,10,-5,0"/>
+                        <Entry Placeholder="5584" x:Name="TeamEntry" FontSize="Default" Keyboard="Numeric"/>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="0,-20,0,0">
+                        <Label Text="Round: " TextColor="Black" FontSize="Medium" FontFamily="Helvetica" Margin="20,10,-5,0"/>
+                        <Entry Placeholder="3" x:Name="RoundEntry" FontSize="Default" Keyboard="Numeric" />
+                    </StackLayout>
+
+                    <StackLayout>
+                        <StackLayout Orientation="Horizontal" Margin="0,0,0,0">
+                            <CheckBox x:Name="chkRed" Color="Red" CheckedChanged="RedChecked" Margin="10,0,0,0" IsChecked="True"/>
+                            <Label Text="Red" TextColor="Black" Grid.Column="1" VerticalTextAlignment="Center"/>
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal" Margin="0,0,0,0">
+                            <CheckBox x:Name="chkBlue" Color="Blue" CheckedChanged="BlueChecked" Margin="10,-10,0,0"/>
+                            <Label Text="Blue" TextColor="Black" Grid.Column="1" VerticalTextAlignment="Center" Margin="0,-10,0,0"/>
+                        </StackLayout>
+                    </StackLayout>
+
+
+
                     <StackLayout Orientation="Horizontal">
                         <CheckBox x:Name="chkAuto_InitLine" Margin="10,3,0,0"/>
                         <Label Text="Crossed Initiation Line" TextColor="Black"

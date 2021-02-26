@@ -10,6 +10,7 @@ using Xamarin.Forms.Xaml;
 using Newtonsoft.Json;
 using PCLStorage;
 
+
 namespace FRCDetective
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -18,6 +19,12 @@ namespace FRCDetective
         public GameEntryPage()
         {
             InitializeComponent();
+        }
+
+        public bool IsNumeric(string input)
+        {
+            int test;
+            return int.TryParse(input, out test);
         }
 
         void ShowAuto(object sender, EventArgs e)
@@ -51,14 +58,73 @@ namespace FRCDetective
 
         }
 
-        void Save(object sender, EventArgs e)
+        void RedChecked(object sender, EventArgs e)
         {
-            Task.Run(async () =>
+            if (chkRed.IsChecked)
             {
-                await SaveData();
-            });
+                chkBlue.IsChecked = false;
+            }
+        }
 
-            DisplayAlert("Message", "Done", "OK");
+        void BlueChecked(object sender, EventArgs e)
+        {
+            if (chkBlue.IsChecked)
+            {
+                chkRed.IsChecked = false;
+            }
+        }
+
+        async void Save(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(TeamEntry.Text))
+            {
+                await DisplayAlert("Data Error", "Team Number Cannot Be Empty", "OK");
+                return;
+            }
+            else if (!IsNumeric(TeamEntry.Text))
+            {
+                await DisplayAlert("Data Error", "Team Number Must Be Numeric", "OK");
+                return;
+            }
+            else if (string.IsNullOrEmpty(RoundEntry.Text))
+            {
+                await DisplayAlert("Data Error", "Round Number Cannot Be Empty", "OK");
+                return;
+            }
+            else if (!IsNumeric(RoundEntry.Text))
+            {
+                await DisplayAlert("Data Error", "Round Number Must Be Numeric", "OK");
+                return;
+            }
+            else
+            {
+                RoundData round = new RoundData();
+                round.Team = Convert.ToInt32(TeamEntry.Text);
+                round.Round = Convert.ToInt32(RoundEntry.Text);
+                round.Alliance = Convert.ToInt32(chkRed.IsChecked);
+                round.DisplayName = "Round " + RoundEntry.Text + " Team " + TeamEntry.Text;
+
+                round.InitLine = chkAuto_InitLine.IsChecked;
+                round.AutoHighGoal = (int)stpAuto_BallsTop.Value;
+                round.AutoLowGoal = (int)stpAuto_BallsBottom.Value;
+
+                string FileName = "";
+                FileName += RoundEntry.Text;
+                if (chkRed.IsChecked) { FileName += "R"; } else { FileName += "B"; }
+                FileName += "_";
+                FileName += TeamEntry.Text;
+                FileName += ".json";
+                round.Filename = FileName;
+
+                string json = JsonConvert.SerializeObject(round);
+
+                IFolder rootFolder = FileSystem.Current.LocalStorage;
+                IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
+                IFile file = await folder.CreateFileAsync(FileName, CreationCollisionOption.ReplaceExisting);
+                await file.WriteAllTextAsync(json);
+
+                await DisplayAlert("Message", "Done", "OK");
+            }
         }
 
         async void Load(object sender, EventArgs e)
@@ -102,22 +168,6 @@ namespace FRCDetective
             }
         }
 
-        async Task SaveData()
-        {
-            RoundData round = new RoundData();
-            round.DisplayName = "mitch";
-
-            round.InitLine = chkAuto_InitLine.IsChecked;
-            round.AutoHighGoal = (int)stpAuto_BallsTop.Value;
-            round.AutoLowGoal = (int)stpAuto_BallsBottom.Value;
-
-            string json = JsonConvert.SerializeObject(round);
-
-            IFolder rootFolder = FileSystem.Current.LocalStorage;
-            IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
-            IFile file = await folder.CreateFileAsync("1B_5584" + ".json", CreationCollisionOption.ReplaceExisting);
-            await file.WriteAllTextAsync(json);
-        }
 
         void DisplayError(string message)
         {
