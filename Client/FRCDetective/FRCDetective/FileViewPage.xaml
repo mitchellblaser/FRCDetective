@@ -6,13 +6,14 @@
              NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Saved Data" FontSize="Title" FontFamily="Helvetica" TextColor="Black"/>
+            <Label Text="Saved Data" FontSize="Title" FontFamily="Helvetica" TextColor="Black" Margin="15,0,0,0"/>
             <ListView x:Name="lstFiles" ItemsSource="{Binding RoundList}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Padding="15,0">
                                 <Label Text="{Binding DisplayName}" FontSize="Medium" />
+                                <Label Text="{Binding Timestamp}" FontSize="Default" Margin="0,-5,0,0"/>
                             </StackLayout>
                             <ViewCell.ContextActions>
                                 <MenuItem Clicked="OnMore"

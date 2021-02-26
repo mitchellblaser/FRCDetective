@@ -102,7 +102,15 @@ namespace FRCDetective
                 round.Team = Convert.ToInt32(TeamEntry.Text);
                 round.Round = Convert.ToInt32(RoundEntry.Text);
                 round.Alliance = Convert.ToInt32(chkRed.IsChecked);
-                round.DisplayName = "Round " + RoundEntry.Text + " Team " + TeamEntry.Text;
+                round.Timestamp = DateTime.Now;
+
+                string DisplayName = "";
+                DisplayName += "Round ";
+                DisplayName += RoundEntry.Text;
+                if (chkRed.IsChecked) { DisplayName += " Red Alliance "; } else { DisplayName += " Blue Alliance "; }
+                DisplayName += "Team ";
+                DisplayName += TeamEntry.Text;
+                round.DisplayName = DisplayName;
 
                 round.InitLine = chkAuto_InitLine.IsChecked;
                 round.AutoHighGoal = (int)stpAuto_BallsTop.Value;
