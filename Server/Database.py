@@ -39,10 +39,20 @@ def Difference(ServerDataList, ClientDataList):
 	return {"ServerNeeds": ServerNeeds, "ClientNeeds": ClientNeeds}
 
 
+def StoreClientDataList(_data):
+	global ClientData
+	ClientData = _data
+
+
+def GetClientDataList():
+	global ClientData
+	return list(ClientData.keys())
+
+
 def CheckServerModifiedDate(_key):
-	return FileIO.ReadData("Storage.json")[_key]["Timestamp"]
+	return int(FileIO.ReadData("Storage.json")[_key]["Timestamp"])
 
 
 def CheckClientModifiedDate(_key):
-	##TODO: Add the check here once I actually have key data streaming from the client implemented.
-	return 0
+	global ClientData
+	return int(ClientData[_key])
