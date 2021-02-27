@@ -207,3 +207,5 @@ Client/FRCDetective/FRCDetective/obj/
 Client/FRCDetective/FRCDetective.Android/obj/
 
 Client/FRCDetective/FRCDetective.Android/FRCDetective.Android.csproj
+
+PythonTestClient/.idea/
