@@ -16,9 +16,18 @@ namespace FRCDetective
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class GameEntryPage : ContentPage
     {
-        public GameEntryPage()
+        public GameEntryPage(RoundData round = null)
         {
             InitializeComponent();
+            if (round != null)
+            {
+                TeamEntry.Text = round.Team.ToString();
+                RoundEntry.Text = round.Round.ToString();
+                if (round.Alliance == 1) { chkRed.IsChecked = true; chkBlue.IsChecked = false; } else { chkRed.IsChecked = false; chkBlue.IsChecked = true;  }
+                chkAuto_InitLine.IsChecked = round.InitLine;
+                stpAuto_BallsTop.Value = round.AutoHighGoal;
+                stpAuto_BallsBottom.Value = round.AutoLowGoal;
+            }
         }
 
         public bool IsNumeric(string input)
@@ -74,6 +83,22 @@ namespace FRCDetective
             }
         }
 
+        void QualifierChecked(object sender, EventArgs e)
+        {
+            if (chkQuals.IsChecked)
+            {
+                chkFinal.IsChecked = false;
+            }
+        }
+
+        void FinalChecked(object sender, EventArgs e)
+        {
+            if (chkFinal.IsChecked)
+            {
+                chkQuals.IsChecked = false;
+            }
+        }
+
         async void Save(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(TeamEntry.Text))
@@ -102,6 +127,8 @@ namespace FRCDetective
                 round.Team = Convert.ToInt32(TeamEntry.Text);
                 round.Round = Convert.ToInt32(RoundEntry.Text);
                 round.Alliance = Convert.ToInt32(chkRed.IsChecked);
+                round.Division = 0;
+                round.Type = Convert.ToInt32(chkFinal.IsChecked);
                 round.Timestamp = DateTime.Now;
 
                 string DisplayName = "";
@@ -116,12 +143,18 @@ namespace FRCDetective
                 round.AutoHighGoal = (int)stpAuto_BallsTop.Value;
                 round.AutoLowGoal = (int)stpAuto_BallsBottom.Value;
 
-                string FileName = "";
-                FileName += RoundEntry.Text;
-                if (chkRed.IsChecked) { FileName += "R"; } else { FileName += "B"; }
-                FileName += "_";
-                FileName += TeamEntry.Text;
-                FileName += ".json";
+                string ID = "";
+                ID += round.Division.ToString();
+                ID += "-";
+                ID += round.Type;
+                ID += "-";
+                ID += round.Round.ToString("D3");
+                ID += "-";
+                ID += round.Team.ToString("D5");
+
+                round.ID = ID;
+
+                string FileName = ID + ".json";
                 round.Filename = FileName;
 
                 string json = JsonConvert.SerializeObject(round);
@@ -138,43 +171,8 @@ namespace FRCDetective
         async void Load(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new FileViewPage());
-            /*
-            try
-            {
-                IFolder rootFolder = FileSystem.Current.LocalStorage;
-                IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
-                IFile file = await folder.GetFileAsync("1B_5584hhh" + ".json");
-                string json = await file.ReadAllTextAsync();
-
-                RoundData round = JsonConvert.DeserializeObject<RoundData>(json);
-                chkAuto_InitLine.IsChecked = round.InitLine;
-                stpAuto_BallsTop.Value = round.AutoHighGoal;
-                stpAuto_BallsBottom.Value = round.AutoLowGoal;
-            }
-            catch (Exception ex)
-            {
-                if (ex.GetType().ToString() == "PCLStorage.Exceptions.FileNotFoundException")   // Change when you learn to do this properly
-                {
-                    DisplayError("File Not Found\nAre you sure you have a local copy of the round and team?");
-                }
-                else
-                {
-                    DisplayError(ex.Message);
-                }
-            }
-            */
         }
 
-        async void Index(object sender, EventArgs e)
-        {
-            IFolder rootFolder = FileSystem.Current.LocalStorage;
-            IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
-
-            foreach(IFile file in await folder.GetFilesAsync())
-            {
-                Console.WriteLine(file.Name);
-            }
-        }
 
 
         void DisplayError(string message)

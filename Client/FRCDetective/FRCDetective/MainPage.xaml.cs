@@ -9,6 +9,9 @@ using System.Net.Sockets;
 using System.Net;
 using System.Threading;
 
+using Newtonsoft.Json;
+using PCLStorage;
+
 namespace FRCDetective
 {
     public partial class MainPage : ContentPage
@@ -249,7 +252,7 @@ namespace FRCDetective
             }
             else
             {
-                DisplayAlert("Message", System.Text.Encoding.ASCII.GetString(data, 0, data.Length), "OK");
+                DisplayAlert("Message", System.Text.Encoding.UTF8.GetString(data, 0, data.Length), "OK");
             }
         }
         byte[] receive()
@@ -273,6 +276,43 @@ namespace FRCDetective
             catch { }
 
             return null;
+        }
+
+        async void Index(object sender, EventArgs e)
+        {
+            IFolder rootFolder = FileSystem.Current.LocalStorage;
+            IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
+
+            List<Byte> data = new List<byte>();
+
+            data.Add(Encoding.UTF8.GetBytes("L")[0]);
+
+            foreach (IFile file in await folder.GetFilesAsync())
+            {
+                string json = await file.ReadAllTextAsync();
+                RoundData round = JsonConvert.DeserializeObject<RoundData>(json);
+
+                foreach (byte Byte in Encoding.UTF8.GetBytes(round.ID))
+                {
+                    data.Add(Byte);
+                }
+                foreach (byte Byte in BitConverter.GetBytes(((DateTimeOffset)round.Timestamp).ToUnixTimeSeconds()))
+                {
+                    data.Add(Byte);
+                }
+            }
+
+            try
+            {
+                client.SendTimeout = 5000;
+                NetworkStream stream = client.GetStream();
+                stream.Write(data.ToArray(), 0, data.Count);
+            }
+            catch (Exception ex)
+            {
+                DisplayError(ex.Message);
+                return;
+            }
         }
 
         void DisplayError(string message)

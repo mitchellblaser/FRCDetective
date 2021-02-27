@@ -38,7 +38,6 @@ namespace FRCDetective
 
             foreach (IFile file in await folder.GetFilesAsync())
             {
-                //Console.WriteLine(file.Name);
                 string json = await file.ReadAllTextAsync();
 
                 RoundData round = JsonConvert.DeserializeObject<RoundData>(json);
@@ -63,6 +62,19 @@ namespace FRCDetective
             IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
             IFile file = await folder.CreateFileAsync(round.Filename, CreationCollisionOption.ReplaceExisting);
             await file.DeleteAsync();
+        }
+
+        async void ItemSelected(object sender, EventArgs e)
+        {
+            RoundData round = (RoundData)lstFiles.SelectedItem;
+            if (!round.Synced)
+            {
+                await Navigation.PushAsync(new GameEntryPage(round));
+            }
+            else
+            {
+                await DisplayAlert("Edit Error", "This entry has already been synced with the server. Please connect to the server to edit.", "OK");
+            }
         }
     }
 }
