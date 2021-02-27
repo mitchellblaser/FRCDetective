@@ -144,11 +144,24 @@ while True:
 
 						global jsonuid
 						global PARSEDJSON
-						PARSEDJSON = ParseData.Parse(data)
-						jsonuid = Format.PadNumber(PARSEDJSON["Division"], 1) + "-" + Format.PadNumber(PARSEDJSON["RoundType"], 1) + "-" + Format.PadNumber(PARSEDJSON["RoundNumber"], 3) + "-" + Format.PadNumber(PARSEDJSON["TeamNumber"], 5)
-						FileIO.AppendData("Storage.json", jsonuid, PARSEDJSON)
-						threadedSend = threading.Thread(target=ThreadedSend, args=(b'RECV_OK'))
-						threadedSend.start()
+
+						if data[0] == 76:
+							print("Recieving Round List from Client.")
+							connection.sendall(b'RECV_OK')
+							print("Sending Diff.")
+							Database.StoreClientDataList(ParseData.ParseRoundList(data))
+							print(Database.Difference(Database.GetKeyList(), Database.GetClientDataList()))
+							connection.sendall(b'DIFF')
+
+
+						#PARSEDJSON = ParseData.Parse(data)
+						#jsonuid = Format.PadNumber(PARSEDJSON["Division"], 1) + "-" + Format.PadNumber(PARSEDJSON["RoundType"], 1) + "-" + Format.PadNumber(PARSEDJSON["RoundNumber"], 3) + "-" + Format.PadNumber(PARSEDJSON["TeamNumber"], 5)
+						#FileIO.AppendData("Storage.json", jsonuid, PARSEDJSON)
+
+						#threadedSend = threading.Thread(target=ThreadedSend, args=(b'RECV_OK'))
+						#threadedSend.start()
+						#connection.sendall(b'RECV_OK')
+
 					else:
 						print("No data recieved from client. Restarting.")
 						connection.close()

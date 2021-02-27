@@ -51,3 +51,27 @@ def Parse(_data):
 	datalist["End"] = int.from_bytes([_data[40]], "little")
 
 	return datalist
+
+
+def ParseRoundList(_data):
+	datalist = {}
+	print("".join("\\x%02x" % i for i in _data)) #display the hex
+	print("LENGTH:      " + str(len(_data)) + "b")
+
+	#Length of data (in bytes)
+	MatchLength = 13
+	TimestampLength = 8
+
+	i = 1 ## ignore byte zero - it's b'L' to designate list mode
+	while i < len(_data):
+		key = bytes([ _data[i], _data[i+1], _data[i+2], _data[i+3], _data[i+4], _data[i+5], _data[i+6], _data[i+7], _data[i+8], _data[i+9], _data[i+10], _data[i+11], _data[i+12] ]).decode("utf-8")
+		timestamp = int.from_bytes([_data[i+13], _data[i+14], _data[i+15], _data[i+16], _data[i+17], _data[i+18], _data[i+19], _data[i+20]], "little")
+		print(str(key) + ": " + str(timestamp))
+		datalist[str(key)] = int(timestamp)
+		i = i + MatchLength + TimestampLength
+
+	print(datalist)
+	return datalist
+
+
+
