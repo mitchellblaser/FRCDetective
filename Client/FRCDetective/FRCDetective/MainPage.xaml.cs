@@ -151,7 +151,7 @@ namespace FRCDetective
                 Console.WriteLine(e.Message);
             }
         }
-        void send(object sender, EventArgs e)
+        void Send(object sender, EventArgs e)
         {
             send();
         }
@@ -242,7 +242,7 @@ namespace FRCDetective
             }
             //client.Close();
         }
-        void receive(object sender, EventArgs e)
+        void Receive(object sender, EventArgs e)
         {
             byte[] data = receive();
 
@@ -261,7 +261,7 @@ namespace FRCDetective
             {
                 client.ReceiveTimeout = 5000;
                 NetworkStream stream = client.GetStream();
-                byte[] data = new byte[256];
+                byte[] data = new byte[1024];
 
                 int bytes = stream.Read(data, 0, data.Length);
 
@@ -313,6 +313,33 @@ namespace FRCDetective
                 DisplayError(ex.Message);
                 return;
             }
+
+            byte[] returnFlag = receive();
+            if (Encoding.UTF8.GetString(returnFlag) != "RECV_OK")
+            {
+                DisplayError("Uh the server didn't like what i sent :(");
+                return;
+            }
+            byte[] returnData = receive();
+
+            int IDLength = 13;
+            List<string> toSend = new List<string>();
+
+            for (int i = 1; i < returnData.Length; i+=IDLength)
+            {
+                byte[] tempArray = new byte[IDLength];
+                Array.Copy(returnData, i, tempArray, 0, IDLength);
+                toSend.Add(Encoding.UTF8.GetString(tempArray));
+            }
+
+            string display = "Server has requested: \n";
+            foreach(string item in toSend)
+            {
+                display += item;
+                display += "\n";
+            }
+            await DisplayAlert("Requested Data", display, ":D");
+
         }
 
         void DisplayError(string message)
