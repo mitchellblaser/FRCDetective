@@ -85,7 +85,7 @@ def NeedsToClientBytes(_data):
 	return output
 
 
-def ReconstructFromJson(_key):
+def ReconstructFromJson(_key, end):
 	json = FileIO.ReadData("Storage.json")
 	UID = int.to_bytes(json[_key]["UID"], 4, "little")
 	Timestamp = int.to_bytes(json[_key]["Timestamp"], 8, "little")
@@ -107,5 +107,5 @@ def ReconstructFromJson(_key):
 	TechFouls = int.to_bytes(json[_key]["TechFouls"], 1, "little")
 	StartHash = int.to_bytes(json[_key]["StartHash"], 1, "little")
 	Hash = int.to_bytes(json[_key]["Hash"], 1, "little")
-	End	 = int.to_bytes(json[_key]["End"], 1, "little")
+	End	 = int.to_bytes(end, 1, "little")
 	return bytes(UID + Timestamp + Division + RoundType + RoundNumber + TeamNumber + Alliance + AutoInitiationLine + AutoTopBalls + AutoBottomBalls + TeleopTopBalls + TeleopBottomBalls + TeleopColorWheelRotation + TeleopColorWheelPosition + TeleopClimb + TeleopSwitch + Fouls + TechFouls + StartHash + Hash + End)

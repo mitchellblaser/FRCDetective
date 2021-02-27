@@ -169,8 +169,24 @@ while True:
 							clientneeds = Database.Difference(Database.GetKeyList(), Database.GetClientDataList())['ClientNeeds']
 							for i in range (0, len(clientneeds)):
 								print("Sending to Client: " + str(clientneeds[i]))
-								senddata = ParseData.ReconstructFromJson(clientneeds[i])
+								endbyte = 1
+								if i == len(clientneeds)-1:
+									print("Sending End Byte with data.")
+									endbyte = 0
+								print(endbyte)
+								time.sleep(0.1)
+								senddata = ParseData.ReconstructFromJson(clientneeds[i], endbyte)
 								connection.sendall(senddata)
+								try:
+									response = connection.recv(_maxpacket)
+									if response == b'RECV_OK':
+										print("RECV_OK. Continuing...")
+									else:
+										#connection.close()
+										break
+								except:
+									#connection.close()
+									break
 
 						else:
 							print("Unknown Code. (" + str(int(data[0])) + ")")

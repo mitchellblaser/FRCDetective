@@ -144,8 +144,15 @@ if SendRoundList(RoundList) == b'RECV_OK':
     time.sleep(0.2)
     if response[0] == 68:
         print("Ready to receive data.")
-        try:
-            data = sock.recv(1024)
-            print(data)
-        except:
-            print("Error receiving data.")
+        exit = False
+        while exit == False:
+            print("Run Loop")
+            try:
+                data = sock.recv(1024)
+                print(data)
+                if data[33] == 0:
+                    print("End Byte")
+                    exit = True
+            except:
+                print("Error receiving data.")
+            sock.sendall(b'RECV_OK')
