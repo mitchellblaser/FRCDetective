@@ -74,4 +74,11 @@ def ParseRoundList(_data):
 	return datalist
 
 
+def NeedsToClientBytes(_data):
+	output = b'N'
+	for i in range(0, len(_data['ServerNeeds'])):
+		print(_data['ServerNeeds'][i])
+		output = output + bytes(_data['ServerNeeds'][i], 'utf-8')
+	return output
+
 

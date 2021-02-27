@@ -148,10 +148,10 @@ while True:
 						if data[0] == 76:
 							print("Recieving Round List from Client.")
 							connection.sendall(b'RECV_OK')
+							time.sleep(0.5)
 							print("Sending Diff.")
 							Database.StoreClientDataList(ParseData.ParseRoundList(data))
-							print(Database.Difference(Database.GetKeyList(), Database.GetClientDataList()))
-							connection.sendall(b'DIFF')
+							connection.sendall(ParseData.NeedsToClientBytes(Database.Difference(Database.GetKeyList(), Database.GetClientDataList())))
 
 
 						#PARSEDJSON = ParseData.Parse(data)

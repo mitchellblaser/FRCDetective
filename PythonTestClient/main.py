@@ -6,10 +6,14 @@
 #########################################
 import socket
 import sys
+import time
 
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-FakeRoundData = []
+
+
+def GenerateTimestamp():
+    return PadEpochTimeBytes(int(time.time()))
 
 
 def ConvertIntToBytes(input):
@@ -20,13 +24,18 @@ def ConvertIntToBytes(input):
     return bytes(output)
 
 
+def ConvertIntToByte(input):
+    output = []
+    output.append(input)
+    return bytes(output)
+
+
 def PadEpochTimeBytes(input):
     output = []
     for i in range(0, 8 - len(str(input))):
         output.append(0)
     for i in range(0, len(str(input))):
         output.append(int(str(input)[i]))
-    print(str(bytes(output)))
     return bytes(output)
 
 
@@ -76,10 +85,41 @@ def GetDataToSend():
 
 def SendRoundData(data):
     global sock
-    print("")
+    try:
+        print("Sending round data.")
+        sock.sendall(b'R')
+    finally:
+        print("Finished Sending.")
+
+
+def ParseServerRequirements(data):
+    print("Parsing server requirements list")
+    requirements = {'count': 0, 'rounds': []}
+    KeyLength = 13
+    i = 1
+    while i < len(data):
+        requirements['rounds'].append(bytes([data[i], data[i+1], data[i+2], data[i+3], data[i+4], data[i+5], data[i+6], data[i+7], data[i+8], data[i+9], data[i+10], data[i+11], data[i+12]]).decode('utf-8'))
+        requirements['count'] = requirements['count'] + 1
+        i = i + 13
+    print("Server Wants: " + str(requirements))
+    return requirements
 
 
 SetupSocket('localhost', 5584)
-RoundList = ParseRoundList({'0-0-000-05584': 123456, '0-0-001-05584': 234567})
+RoundList = ParseRoundList({'0-0-001-05584': 123456, '0-0-003-05584': 234567})
 if SendRoundList(RoundList) == b'RECV_OK':
-    print(GetDataToSend())
+    req = ParseServerRequirements(GetDataToSend())
+
+    for i in range(0, req['count']):
+        print("Generating data for round " + req['rounds'][i] + "...")
+        timestamp = GenerateTimestamp()
+        print("    Timestamp (current):   " + str(int.from_bytes(timestamp, "little")))
+        roundnumber = ConvertIntToByte(int(req['rounds'][i][4:7]))
+        print("    Round Number:          " + str(int.from_bytes(roundnumber, "little")))
+        if i == req['count']-1:
+            endbyte = b'\x00' #change to x01 if sending more
+        else:
+            endbyte = b'\x01'
+        print("    Data to send:          " + str(i+1) + " of " + str(req['count']) + " <End Byte=0x0" + str(int.from_bytes(endbyte, "little")) + ">")
+        FakeRoundData = b'\x00\x00\x00\x00' + timestamp + b'\x00\x00' + roundnumber + b'\x05\x05\x08\x04\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\x00\x00\x00\x00\x00\x00\x00\x00' + endbyte
+        time.sleep(0.5) ## REPLACE WITH WAIT FOR b'RECV_OK'
