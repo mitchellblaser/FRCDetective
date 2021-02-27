@@ -120,7 +120,7 @@ while True:
 			##print("Connection from " + client_address)
 			Graphics.setStatus(Graphics.status["Connect"])
 			while True:
-				print("update")
+				#print("update")
 				Graphics.updateGraphics()
 
 				data = []
@@ -150,37 +150,38 @@ while True:
 						global PARSEDJSON
 
 						if data[0] == 76:
-							print("Receiving Round List from Client.")
+							#print("Receiving Round List from Client.")
 							connection.sendall(b'RECV_OK')
 							time.sleep(0.5)
-							print("Sending Diff.")
+							#print("Sending Diff.")
 							Database.StoreClientDataList(ParseData.ParseRoundList(data))
 							connection.sendall(ParseData.NeedsToClientBytes(Database.Difference(Database.GetKeyList(), Database.GetClientDataList())))
 						elif data[0] == 82:
-							print(data)
+							#print(data)
 							PARSEDJSON = ParseData.Parse(data)
 							jsonuid = Format.PadNumber(PARSEDJSON["Division"], 1) + "-" + Format.PadNumber(PARSEDJSON["RoundType"], 1) + "-" + Format.PadNumber(PARSEDJSON["RoundNumber"], 3) + "-" + Format.PadNumber(PARSEDJSON["TeamNumber"], 5)
-							print(jsonuid)
+							#print(jsonuid)
 							FileIO.AppendData("Storage.json", jsonuid, PARSEDJSON)
 							connection.sendall(b'RECV_OK')
 						elif data[0] == 83:
-							print("Client Ready to Receive data.")
+							#print("Client Ready to Receive data.")
 							connection.sendall(b'D')
 							clientneeds = Database.Difference(Database.GetKeyList(), Database.GetClientDataList())['ClientNeeds']
 							for i in range (0, len(clientneeds)):
-								print("Sending to Client: " + str(clientneeds[i]))
+								#print("Sending to Client: " + str(clientneeds[i]))
 								endbyte = 1
 								if i == len(clientneeds)-1:
-									print("Sending End Byte with data.")
+									#print("Sending End Byte with data.")
 									endbyte = 0
-								print(endbyte)
+								#print(endbyte)
 								time.sleep(0.1)
 								senddata = ParseData.ReconstructFromJson(clientneeds[i], endbyte)
 								connection.sendall(senddata)
 								try:
 									response = connection.recv(_maxpacket)
 									if response == b'RECV_OK':
-										print("RECV_OK. Continuing...")
+										ok = True
+										#print("RECV_OK. Continuing...")
 									else:
 										#connection.close()
 										break

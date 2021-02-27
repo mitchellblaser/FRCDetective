@@ -19,10 +19,10 @@ def Difference(ServerDataList, ClientDataList):
 		if keys in ServerDataList:
 			##Check if date is newer client-side: recieve if it is.
 			if CheckClientModifiedDate(keys) > CheckServerModifiedDate(keys):
-				print("DB -> Client Key " + keys + " has a newer version.")
+				#print("DB -> Client Key " + keys + " has a newer version.")
 				ServerNeeds.append(keys)
 		else:
-			print("DB -> Client Key " + keys + " does not exist on server.")
+			#print("DB -> Client Key " + keys + " does not exist on server.")
 			ServerNeeds.append(keys)
 
 	##Check if the server has something the client does not
@@ -30,10 +30,10 @@ def Difference(ServerDataList, ClientDataList):
 		if keys in ClientDataList:
 			##Check if date is newer server-side: send if it is.
 			if CheckServerModifiedDate(keys) > CheckClientModifiedDate(keys):
-				print("DB -> Server Key " + keys + " has a newer version.")
+				#print("DB -> Server Key " + keys + " has a newer version.")
 				ClientNeeds.append(keys)
 		else:
-			print("DB -> Server Key " + keys + " does not exist on client.")
+			#print("DB -> Server Key " + keys + " does not exist on client.")
 			ClientNeeds.append(keys)
 
 	return {"ServerNeeds": ServerNeeds, "ClientNeeds": ClientNeeds}

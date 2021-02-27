@@ -29,7 +29,7 @@ def Parse(_data):
 		"Hash" : 0,
 		"End" : 0
 	}
-	print("".join("\\x%02x" % i for i in _data)) #display the hex
+	#print("".join("\\x%02x" % i for i in _data)) #display the hex
 	
 	datalist["UID"] = int.from_bytes([_data[1], _data[2], _data[3], _data[4]], "little")
 	datalist["Timestamp"] = int.from_bytes([_data[5], _data[6], _data[7], _data[8], _data[9], _data[10], _data[11], _data[12]], "little")
@@ -58,8 +58,8 @@ def Parse(_data):
 
 def ParseRoundList(_data):
 	datalist = {}
-	print("".join("\\x%02x" % i for i in _data)) #display the hex
-	print("LENGTH:      " + str(len(_data)) + "b")
+	#print("".join("\\x%02x" % i for i in _data)) #display the hex
+	#print("LENGTH:      " + str(len(_data)) + "b")
 
 	#Length of data (in bytes)
 	MatchLength = 13
@@ -69,18 +69,18 @@ def ParseRoundList(_data):
 	while i < len(_data):
 		key = bytes([ _data[i], _data[i+1], _data[i+2], _data[i+3], _data[i+4], _data[i+5], _data[i+6], _data[i+7], _data[i+8], _data[i+9], _data[i+10], _data[i+11], _data[i+12] ]).decode("utf-8")
 		timestamp = int.from_bytes([_data[i+13], _data[i+14], _data[i+15], _data[i+16], _data[i+17], _data[i+18], _data[i+19], _data[i+20]], "little")
-		print(str(key) + ": " + str(timestamp))
+		#print(str(key) + ": " + str(timestamp))
 		datalist[str(key)] = int(timestamp)
 		i = i + MatchLength + TimestampLength
 
-	print(datalist)
+	#print(datalist)
 	return datalist
 
 
 def NeedsToClientBytes(_data):
 	output = b'N'
 	for i in range(0, len(_data['ServerNeeds'])):
-		print(_data['ServerNeeds'][i])
+		#print(_data['ServerNeeds'][i])
 		output = output + bytes(_data['ServerNeeds'][i], 'utf-8')
 	return output
 
