@@ -23,5 +23,14 @@ namespace FRCDetective
         public bool InitLine { get; set; }
         public int AutoHighGoal { get; set; }
         public int AutoLowGoal { get; set; }
+        public int TeleopHighGoal { get; set; }
+        public int TeleopLowGoal { get; set; }
+        public bool ColourwheelRotation { get; set; }
+        public bool ColourwheelPosition { get; set; }
+        public int Climb { get; set; }
+        public bool Level { get; set; }
+        public int Foul { get; set; }
+        public int TechFoul { get; set; }
+
     }
 }
