@@ -12,11 +12,12 @@ def SaveData(_filepath, _data):
 def ReadData(_filepath):
 	with open(_filepath, "r") as read_file:
 		data = json.load(read_file)
+		return data
 
 def AppendData(_filepath, _key, _data):
-	print(_filepath)
-	print(_key)
-	print(_data)
+	#print(_filepath)
+	#print(_key)
+	#print(_data)
 	with open(_filepath, "r") as read_file:
 		data = json.load(read_file)
 	data[_key] = _data

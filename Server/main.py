@@ -17,11 +17,13 @@ import pprint
 ##Our custom deps
 import ParseArgument
 import Communications
-#import Graphics 		#We need to do this later so that TK doesn't get our IP before we can set it. (ln44)
+#import Graphics 		#We need to do this later so that TK doesn't get our IP before we can set it. (ln46)
 import HashScript
 import FileIO
 import Backup
 import ParseData
+import Database
+import Format
 
 backup = False
 
@@ -61,9 +63,9 @@ _socket.settimeout(1)
 
 
 Sending = False
-def ThreadedSend():
+def ThreadedSend(_data):
 	global Sending
-	connection.sendall(b'RECV_OK')
+	connection.sendall(_data)
 
 _paused = False
 
@@ -73,8 +75,9 @@ while True:
 		try:
 			connection.close()
 			_socket.shutdown(1)
-		finally:
-			Graphics.CloseApplication()
+		except:
+			break
+		Graphics.CloseApplication()
 
 	skip = False
 	try:
@@ -117,7 +120,7 @@ while True:
 			##print("Connection from " + client_address)
 			Graphics.setStatus(Graphics.status["Connect"])
 			while True:
-				print("update")
+				#print("update")
 				Graphics.updateGraphics()
 
 				data = []
@@ -127,28 +130,75 @@ while True:
 					connection.setblocking(0)
 					ready = select.select([connection], [], [], 0.25) #last param is timeout in secs
 					if ready[0]:
-						data = connection.recv(_maxpacket) 
-						Graphics.setStatusString("Recieved Data.", "Recieved Data.")
+						try:
+							data = connection.recv(_maxpacket) 
+						except:
+							break
+							break
+						Graphics.setStatusString("Received Data.", "Received Data.")
 						break
 					Graphics.updateGraphics()
 
 				try:
 					if data:
 						Graphics.updateGraphics()
-						##FileIO.SaveData("Storage.json", ParseData.Parse(data))
+						
+						###	IMPORTANT: Add a check here to see if data is a "keep alive" byte	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+						###			    because we do not want to parse it as json if it is. (so skip over the whole loop)
+
 						global jsonuid
 						global PARSEDJSON
-						PARSEDJSON = ParseData.Parse(data)
-						jsonuid = str(PARSEDJSON["Division"]) + "-" + str(PARSEDJSON["RoundType"]) + "-" + str(PARSEDJSON["RoundNumber"]) + "-" + str(PARSEDJSON["TeamNumber"]) + "-" + str(PARSEDJSON["Timestamp"])
-						FileIO.AppendData("Storage.json", jsonuid, PARSEDJSON)
-						threadedSend = threading.Thread(target=ThreadedSend, args=())
-						threadedSend.start()
+
+						if data[0] == 76:
+							#print("Receiving Round List from Client.")
+							connection.sendall(b'RECV_OK')
+							time.sleep(0.5)
+							#print("Sending Diff.")
+							Database.StoreClientDataList(ParseData.ParseRoundList(data))
+							connection.sendall(ParseData.NeedsToClientBytes(Database.Difference(Database.GetKeyList(), Database.GetClientDataList())))
+						elif data[0] == 82:
+							#print(data)
+							PARSEDJSON = ParseData.Parse(data)
+							jsonuid = Format.PadNumber(PARSEDJSON["Division"], 1) + "-" + Format.PadNumber(PARSEDJSON["RoundType"], 1) + "-" + Format.PadNumber(PARSEDJSON["RoundNumber"], 3) + "-" + Format.PadNumber(PARSEDJSON["TeamNumber"], 5)
+							#print(jsonuid)
+							FileIO.AppendData("Storage.json", jsonuid, PARSEDJSON)
+							connection.sendall(b'RECV_OK')
+						elif data[0] == 83:
+							#print("Client Ready to Receive data.")
+							connection.sendall(b'D')
+							clientneeds = Database.Difference(Database.GetKeyList(), Database.GetClientDataList())['ClientNeeds']
+							for i in range (0, len(clientneeds)):
+								#print("Sending to Client: " + str(clientneeds[i]))
+								endbyte = 1
+								if i == len(clientneeds)-1:
+									#print("Sending End Byte with data.")
+									endbyte = 0
+								#print(endbyte)
+								time.sleep(0.1)
+								senddata = ParseData.ReconstructFromJson(clientneeds[i], endbyte)
+								connection.sendall(senddata)
+								try:
+									response = connection.recv(_maxpacket)
+									if response == b'RECV_OK':
+										ok = True
+										#print("RECV_OK. Continuing...")
+									else:
+										#connection.close()
+										break
+								except:
+									#connection.close()
+									break
+
+						else:
+							print("Unknown Code. (" + str(int(data[0])) + ")")
+							print(data)
+
 					else:
-						print("No data recieved from client. Restarting.")
+						print("No data received from client. Restarting.")
 						connection.close()
 						break
 				except:
-					print("No data recieved from client. Restarting.")
+					print("No data received from client. Restarting.")
 					connection.close()
 					break
 		finally:
