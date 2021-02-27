@@ -116,7 +116,6 @@ if SendRoundList(RoundList) == b'RECV_OK':
         print("Generating data for round " + req['rounds'][i] + "...")
         timestamp = GenerateTimestamp()
         print("    Timestamp (current):   " + str(int.from_bytes(timestamp, "little")))
-        #roundnumber = ConvertIntToByte(int(req['rounds'][i][4:7]))
         roundnumber = int.to_bytes(int(req['rounds'][i][4:7]), 1, "little")
         print("    Round Number:          " + str(int.from_bytes(roundnumber, "little")))
         if i == req['count']-1:
@@ -133,3 +132,20 @@ if SendRoundList(RoundList) == b'RECV_OK':
         except:
             print("ERROR! Recieved no data from client.")
             response = b'NODATA'
+
+    sock.sendall(b'S')
+    try:
+        response = sock.recv(1024)
+        print("Recieved response from server.")
+    except:
+        print("Error! No response from server.")
+        response = b'NODATA'
+
+    time.sleep(0.2)
+    if response[0] == 68:
+        print("Ready to receive data.")
+        try:
+            data = sock.recv(1024)
+            print(data)
+        except:
+            print("Error receiving data.")

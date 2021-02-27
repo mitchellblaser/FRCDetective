@@ -135,7 +135,7 @@ while True:
 						except:
 							break
 							break
-						Graphics.setStatusString("Recieved Data.", "Recieved Data.")
+						Graphics.setStatusString("Received Data.", "Received Data.")
 						break
 					Graphics.updateGraphics()
 
@@ -150,7 +150,7 @@ while True:
 						global PARSEDJSON
 
 						if data[0] == 76:
-							print("Recieving Round List from Client.")
+							print("Receiving Round List from Client.")
 							connection.sendall(b'RECV_OK')
 							time.sleep(0.5)
 							print("Sending Diff.")
@@ -163,16 +163,25 @@ while True:
 							print(jsonuid)
 							FileIO.AppendData("Storage.json", jsonuid, PARSEDJSON)
 							connection.sendall(b'RECV_OK')
+						elif data[0] == 83:
+							print("Client Ready to Receive data.")
+							connection.sendall(b'D')
+							clientneeds = Database.Difference(Database.GetKeyList(), Database.GetClientDataList())['ClientNeeds']
+							for i in range (0, len(clientneeds)):
+								print("Sending to Client: " + str(clientneeds[i]))
+								senddata = ParseData.ReconstructFromJson(clientneeds[i])
+								connection.sendall(senddata)
+
 						else:
 							print("Unknown Code. (" + str(int(data[0])) + ")")
 							print(data)
 
 					else:
-						print("No data recieved from client. Restarting.")
+						print("No data received from client. Restarting.")
 						connection.close()
 						break
 				except:
-					print("No data recieved from client. Restarting.")
+					print("No data received from client. Restarting.")
 					connection.close()
 					break
 		finally:

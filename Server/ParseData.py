@@ -2,6 +2,9 @@
 # ParseData.py
 # Created 7-2-21
 
+import FileIO
+
+
 def Parse(_data):
 	datalist = {
 		"UID" : 0,
@@ -82,3 +85,27 @@ def NeedsToClientBytes(_data):
 	return output
 
 
+def ReconstructFromJson(_key):
+	json = FileIO.ReadData("Storage.json")
+	UID = int.to_bytes(json[_key]["UID"], 4, "little")
+	Timestamp = int.to_bytes(json[_key]["Timestamp"], 8, "little")
+	Division = int.to_bytes(json[_key]["Division"], 1, "little")
+	RoundType = int.to_bytes(json[_key]["RoundType"], 1, "little")
+	RoundNumber = int.to_bytes(json[_key]["RoundNumber"], 1, "little")
+	TeamNumber = int.to_bytes(json[_key]["TeamNumber"], 4, "little")
+	Alliance = int.to_bytes(json[_key]["Alliance"], 1, "little")
+	AutoInitiationLine = bool.to_bytes(json[_key]["Auto-InitiationLine"], 1, "little")
+	AutoTopBalls = int.to_bytes(json[_key]["Auto-TopBalls"], 1, "little")
+	AutoBottomBalls = int.to_bytes(json[_key]["Auto-BottomBalls"], 1, "little")
+	TeleopTopBalls = int.to_bytes(json[_key]["Teleop-TopBalls"], 1, "little")
+	TeleopBottomBalls = int.to_bytes(json[_key]["Teleop-BottomBalls"], 1, "little")
+	TeleopColorWheelRotation = bool.to_bytes(json[_key]["Teleop-ColorWheelRotation"], 1, "little")
+	TeleopColorWheelPosition = bool.to_bytes(json[_key]["Teleop-ColorWheelPosition"], 1, "little")
+	TeleopClimb = int.to_bytes(json[_key]["Teleop-Climb"], 1, "little")
+	TeleopSwitch = bool.to_bytes(json[_key]["Teleop-Switch"], 1, "little")
+	Fouls = int.to_bytes(json[_key]["Fouls"], 1, "little")
+	TechFouls = int.to_bytes(json[_key]["TechFouls"], 1, "little")
+	StartHash = int.to_bytes(json[_key]["StartHash"], 1, "little")
+	Hash = int.to_bytes(json[_key]["Hash"], 1, "little")
+	End	 = int.to_bytes(json[_key]["End"], 1, "little")
+	return bytes(UID + Timestamp + Division + RoundType + RoundNumber + TeamNumber + Alliance + AutoInitiationLine + AutoTopBalls + AutoBottomBalls + TeleopTopBalls + TeleopBottomBalls + TeleopColorWheelRotation + TeleopColorWheelPosition + TeleopClimb + TeleopSwitch + Fouls + TechFouls + StartHash + Hash + End)
