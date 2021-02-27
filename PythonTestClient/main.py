@@ -13,7 +13,8 @@ sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 
 def GenerateTimestamp():
-    return PadEpochTimeBytes(int(time.time()))
+    #return PadEpochTimeBytes(int(time.time()))
+    return int.to_bytes(int(time.time()), 8, "little")
 
 
 def ConvertIntToBytes(input):
@@ -88,6 +89,7 @@ def SendRoundData(data):
     try:
         print("Sending round data.")
         sock.sendall(b'R')
+        sock.sendall(data)
     finally:
         print("Finished Sending.")
 
@@ -114,12 +116,20 @@ if SendRoundList(RoundList) == b'RECV_OK':
         print("Generating data for round " + req['rounds'][i] + "...")
         timestamp = GenerateTimestamp()
         print("    Timestamp (current):   " + str(int.from_bytes(timestamp, "little")))
-        roundnumber = ConvertIntToByte(int(req['rounds'][i][4:7]))
+        #roundnumber = ConvertIntToByte(int(req['rounds'][i][4:7]))
+        roundnumber = int.to_bytes(int(req['rounds'][i][4:7]), 1, "little")
         print("    Round Number:          " + str(int.from_bytes(roundnumber, "little")))
         if i == req['count']-1:
             endbyte = b'\x00' #change to x01 if sending more
         else:
             endbyte = b'\x01'
         print("    Data to send:          " + str(i+1) + " of " + str(req['count']) + " <End Byte=0x0" + str(int.from_bytes(endbyte, "little")) + ">")
-        FakeRoundData = b'\x00\x00\x00\x00' + timestamp + b'\x00\x00' + roundnumber + b'\x05\x05\x08\x04\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\x00\x00\x00\x00\x00\x00\x00\x00' + endbyte
-        time.sleep(0.5) ## REPLACE WITH WAIT FOR b'RECV_OK'
+        FakeRoundData = b'\x00\x11\x22\x33' + timestamp + b'\x00\x00' + roundnumber + int.to_bytes(5584, 4, "little") + b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\x00\x00\x00\x00\x00\x00\x00\x00' + endbyte
+        SendRoundData(FakeRoundData)
+        try:
+            response = sock.recv(1024)
+            if response == b'RECV_OK':
+                print("Recieved Data: " + str(response))
+        except:
+            print("ERROR! Recieved no data from client.")
+            response = b'NODATA'

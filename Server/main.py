@@ -130,7 +130,11 @@ while True:
 					connection.setblocking(0)
 					ready = select.select([connection], [], [], 0.25) #last param is timeout in secs
 					if ready[0]:
-						data = connection.recv(_maxpacket) 
+						try:
+							data = connection.recv(_maxpacket) 
+						except:
+							break
+							break
 						Graphics.setStatusString("Recieved Data.", "Recieved Data.")
 						break
 					Graphics.updateGraphics()
@@ -152,15 +156,16 @@ while True:
 							print("Sending Diff.")
 							Database.StoreClientDataList(ParseData.ParseRoundList(data))
 							connection.sendall(ParseData.NeedsToClientBytes(Database.Difference(Database.GetKeyList(), Database.GetClientDataList())))
-
-
-						#PARSEDJSON = ParseData.Parse(data)
-						#jsonuid = Format.PadNumber(PARSEDJSON["Division"], 1) + "-" + Format.PadNumber(PARSEDJSON["RoundType"], 1) + "-" + Format.PadNumber(PARSEDJSON["RoundNumber"], 3) + "-" + Format.PadNumber(PARSEDJSON["TeamNumber"], 5)
-						#FileIO.AppendData("Storage.json", jsonuid, PARSEDJSON)
-
-						#threadedSend = threading.Thread(target=ThreadedSend, args=(b'RECV_OK'))
-						#threadedSend.start()
-						#connection.sendall(b'RECV_OK')
+						elif data[0] == 82:
+							print(data)
+							PARSEDJSON = ParseData.Parse(data)
+							jsonuid = Format.PadNumber(PARSEDJSON["Division"], 1) + "-" + Format.PadNumber(PARSEDJSON["RoundType"], 1) + "-" + Format.PadNumber(PARSEDJSON["RoundNumber"], 3) + "-" + Format.PadNumber(PARSEDJSON["TeamNumber"], 5)
+							print(jsonuid)
+							FileIO.AppendData("Storage.json", jsonuid, PARSEDJSON)
+							connection.sendall(b'RECV_OK')
+						else:
+							print("Unknown Code. (" + str(int(data[0])) + ")")
+							print(data)
 
 					else:
 						print("No data recieved from client. Restarting.")
