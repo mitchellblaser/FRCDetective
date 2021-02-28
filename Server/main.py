@@ -148,7 +148,7 @@ while True:
 
 						global jsonuid
 						global PARSEDJSON
-
+						print(data)
 						if data[0] == 76:
 							#print("Receiving Round List from Client.")
 							connection.sendall(b'RECV_OK')
