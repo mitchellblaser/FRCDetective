@@ -52,7 +52,7 @@ def Parse(_data):
 	datalist["StartHash"] = _data[32]
 	datalist["Hash"] = int.from_bytes([_data[33], _data[34], _data[35], _data[36], _data[37], _data[38], _data[39], _data[40]], "little")
 	datalist["End"] = int.from_bytes([_data[41]], "little")
-
+	print(datalist)
 	return datalist
 
 
