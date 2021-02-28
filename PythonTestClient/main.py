@@ -150,9 +150,10 @@ if SendRoundList(RoundList) == b'RECV_OK':
             try:
                 data = sock.recv(1024)
                 print(data)
+                sock.sendall(b'RECV_OK')
                 if data[33] == 0:
                     print("End Byte")
                     exit = True
             except:
                 print("Error receiving data.")
-            sock.sendall(b'RECV_OK')
+            

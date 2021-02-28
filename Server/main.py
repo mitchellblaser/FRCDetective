@@ -178,15 +178,18 @@ while True:
 								senddata = ParseData.ReconstructFromJson(clientneeds[i], endbyte)
 								connection.sendall(senddata)
 								try:
+									connection.setblocking(1)
 									response = connection.recv(_maxpacket)
+									##print(response)
 									if response == b'RECV_OK':
 										ok = True
 										#print("RECV_OK. Continuing...")
 									else:
 										#connection.close()
 										break
-								except:
+								except Exception as e:
 									#connection.close()
+									print(e)
 									break
 
 						else:
