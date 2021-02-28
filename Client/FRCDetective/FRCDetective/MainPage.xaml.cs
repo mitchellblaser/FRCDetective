@@ -9,6 +9,9 @@ using System.Net.Sockets;
 using System.Net;
 using System.Threading;
 
+using Newtonsoft.Json;
+using PCLStorage;
+
 namespace FRCDetective
 {
     public partial class MainPage : ContentPage
@@ -128,10 +131,9 @@ namespace FRCDetective
         {
             try
             {
-                //var result = client.BeginConnect(IPAddressEntry.Text, Convert.ToInt32(PortEntry.Text), null, null);
                 client = new TcpClient();
 
-                var result = client.BeginConnect("192.168.0.145", Convert.ToInt32(5584), null, null);
+                var result = client.BeginConnect(IPAddressEntry.Text, Convert.ToInt32(PortEntry.Text), null, null);
 
                 var success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(1));
 
@@ -149,12 +151,12 @@ namespace FRCDetective
                 Console.WriteLine(e.Message);
             }
         }
-        void send(object sender, EventArgs e)
+        void Send(object sender, EventArgs e)
         {
-            send();
+            sendDefault();
         }
 
-        void send()
+        void sendDefault()
         {
             bool replyOK = false;
 
@@ -240,7 +242,7 @@ namespace FRCDetective
             }
             //client.Close();
         }
-        void receive(object sender, EventArgs e)
+        void Receive(object sender, EventArgs e)
         {
             byte[] data = receive();
 
@@ -250,8 +252,58 @@ namespace FRCDetective
             }
             else
             {
-                DisplayAlert("Message", System.Text.Encoding.ASCII.GetString(data, 0, data.Length), "OK");
+                DisplayAlert("Message", System.Text.Encoding.UTF8.GetString(data, 0, data.Length), "OK");
             }
+        }
+        bool send(byte[] data)
+        {
+            bool replyOK = false;
+
+
+            while (!replyOK)
+            {
+                try
+                {
+                    client.SendTimeout = 5000;
+                    NetworkStream stream = client.GetStream();
+                    stream.Write(data, 0, data.Length);
+                }
+                catch (Exception e)
+                {
+                    DisplayError(e.Message);
+                    return false;
+                }
+
+                byte[] ok = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x4f, 0x4b };
+                byte[] no = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x4e, 0x4f };
+                byte[] dc = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x44, 0x43 };
+
+                byte[] reply = receive();
+
+                if (reply == null)
+                {
+                    //DisplayError("Server Sent No Reply. Are you connected to the server?");
+                    return false;
+                }
+
+                if (Enumerable.SequenceEqual(reply, ok))
+                {
+                    //DisplayAlert("Message", "Yay the data is good", ":)");
+                    replyOK = true;
+                }
+                else if (Enumerable.SequenceEqual(reply, no))
+                {
+                    //DisplayError("Blame mitch his server broke");
+                    return false;
+                }
+                else if (Enumerable.SequenceEqual(reply, dc))
+                {
+                    //DisplayAlert("Message", "Yay the data is good. Disconnecting", ":)");
+                    replyOK = true;
+                    client.Close();
+                }
+            }
+            return true;
         }
         byte[] receive()
         {
@@ -259,7 +311,7 @@ namespace FRCDetective
             {
                 client.ReceiveTimeout = 5000;
                 NetworkStream stream = client.GetStream();
-                byte[] data = new byte[256];
+                byte[] data = new byte[1024];
 
                 int bytes = stream.Read(data, 0, data.Length);
 
@@ -274,6 +326,118 @@ namespace FRCDetective
             catch { }
 
             return null;
+        }
+
+        async void Index(object sender, EventArgs e)
+        {
+            IFolder rootFolder = FileSystem.Current.LocalStorage;
+            IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
+
+            List<Byte> dataList = new List<byte>();
+
+            dataList.Add(Encoding.UTF8.GetBytes("L")[0]);
+
+            foreach (IFile file in await folder.GetFilesAsync())
+            {
+                string json = await file.ReadAllTextAsync();
+                RoundData round = JsonConvert.DeserializeObject<RoundData>(json);
+
+                foreach (byte Byte in Encoding.UTF8.GetBytes(round.ID))
+                {
+                    dataList.Add(Byte);
+                }
+                foreach (byte Byte in BitConverter.GetBytes(((DateTimeOffset)round.Timestamp).ToUnixTimeSeconds()))
+                {
+                    dataList.Add(Byte);
+                }
+            }
+
+            try
+            {
+                client.SendTimeout = 5000;
+                NetworkStream stream = client.GetStream();
+                stream.Write(dataList.ToArray(), 0, dataList.Count);
+            }
+            catch (Exception ex)
+            {
+                DisplayError(ex.Message);
+                return;
+            }
+
+            byte[] returnFlag = receive();
+            if (Encoding.UTF8.GetString(returnFlag) != "RECV_OK")
+            {
+                DisplayError("Uh the server didn't like what i sent :(");
+                return;
+            }
+            byte[] returnData = receive();
+
+            if (returnData[0] == Encoding.UTF8.GetBytes("N")[0])
+            {
+                int IDLength = 13;
+                List<string> toSend = new List<string>();
+
+                for (int i = 1; i < returnData.Length; i += IDLength)
+                {
+                    byte[] tempArray = new byte[IDLength];
+                    Array.Copy(returnData, i, tempArray, 0, IDLength);
+                    toSend.Add(Encoding.UTF8.GetString(tempArray));
+                }
+
+                foreach (string item in toSend)
+                {
+                    IFile file = await folder.GetFileAsync(item + ".json");
+                    string json = await file.ReadAllTextAsync();
+                    RoundData round = JsonConvert.DeserializeObject<RoundData>(json);
+
+                    byte[] data = new byte[42];
+
+                    byte[] time = BitConverter.GetBytes(((DateTimeOffset)round.Timestamp).ToUnixTimeSeconds());
+                    byte[] team = BitConverter.GetBytes((Int32)round.Team);
+
+                    data[0] = Encoding.UTF8.GetBytes("R")[0];
+
+                    data[1] = 0x00; data[2] = 0x11; data[3] = 0x22; data[4] = 0x33; // UID
+                    for (int i = 5; i < 13; i++)    // Time
+                    {
+                        data[i] = time[i - 5];
+                    }
+                    data[13] = Convert.ToByte(round.Division);   // Division
+                    data[14] = Convert.ToByte(round.Type);   // Round Type
+                    data[15] = Convert.ToByte(round.Round);   // Round Number
+                    for (int i = 16; i < 20; i++)    // Team
+                    {
+                        data[i] = team[i - 16];
+                    }
+                    data[20] = Convert.ToByte(round.Alliance);   // Alliance
+                    /* Auto */
+                    data[21] = Convert.ToByte(round.InitLine);   // Initiation Line
+                    data[22] = Convert.ToByte(round.AutoHighGoal);   // Top Balls
+                    data[23] = Convert.ToByte(round.AutoLowGoal);   // Bottom Balls
+                    /* Teleop */
+                    data[24] = Convert.ToByte(round.TeleopHighGoal);  // Top Balls
+                    data[25] = Convert.ToByte(round.TeleopLowGoal);   // Bottom Balls
+                    data[26] = Convert.ToByte(round.ColourwheelRotation);   // Rotation Control
+                    data[27] = Convert.ToByte(round.ColourwheelPosition);   // Position Control
+                    data[28] = Convert.ToByte(round.Climb);   // Climb
+                    data[29] = Convert.ToByte(round.Level);   // Level
+                    data[30] = Convert.ToByte(round.Foul); ;  // Foul
+                    data[31] = Convert.ToByte(round.TechFoul);  // Tech Foul
+                    data[32] = 0xFF;// Start Hash
+                    for (int i = 33; i < 41; i++)   // Hash
+                    {
+                        data[i] = 0xFF;
+                    }
+                    data[41] = 0;   // End Byte
+
+                    if (!send(data))
+                    {
+                        DisplayError("Error Sending Data");
+                        return;
+                    }
+                }
+            }
+            await DisplayAlert("Done", "Data Has Been Sent", ":D");
         }
 
         void DisplayError(string message)
