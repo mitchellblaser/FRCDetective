@@ -438,6 +438,19 @@ namespace FRCDetective
                 }
             }
             await DisplayAlert("Done", "Data Has Been Sent", ":D");
+
+            send(Encoding.UTF8.GetBytes("S"));
+
+            if (receive() == Encoding.UTF8.GetBytes("S"))
+            {
+                bool endByte = false;
+                while (!endByte)
+                {
+                    byte[] data = receive();
+                    string json = Encoding.UTF8.GetString(data);
+                    RoundData round = JsonConvert.DeserializeObject<RoundData>(json);
+                }
+            }
         }
 
         void DisplayError(string message)
