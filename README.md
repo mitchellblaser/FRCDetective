@@ -48,5 +48,12 @@ The full list of possible command line arguments are:
 
 - Python 3
 - socket, tkinter, os, datetime (should all come with py3 install)
-- pillow (pip3 install pillow)
+- pip install:
+   flask
+   flask-wtf
+   flask-login
+   flask-sqlalchemy
+   flask-migrate
+   email-validator
+   flask-bootstrap
 

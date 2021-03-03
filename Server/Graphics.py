@@ -50,13 +50,16 @@ def updateGraphics():
 		GFXLowLevel.updateGraphics()
 
 def setStatus(_status):
+	if SelectedMode == mode["web"]:
+		GFXWeb.setStatus(_status)
 	if SelectedMode == mode["lowlevel"]:
 		GFXLowLevel.setStatus(_status)
 	if DoLogOutput == True:
 		LogOutput.OutputCode(_status)
 
 def setStatusString(_statusTitle, _statusMessage):
-	print()
+	if SelectedMode == mode["web"]:
+		GFXWeb.setStatusString(_statusTitle, _statusMessage)
 
 def isPaused():
 	if SelectedMode == mode["lowlevel"]:
@@ -64,3 +67,8 @@ def isPaused():
 
 def CloseApplication():
 	print()
+
+def GetCommand():
+	global SelectedMode
+	if SelectedMode == mode["web"]:
+		return GFXWeb.GetCommand()

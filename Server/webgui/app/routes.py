@@ -48,5 +48,13 @@ def register():
 @app.route("/log")
 @login_required
 def log():
-    logfile = open("logfile.txt", "r")
+    logfile = open("./webgui/logfile.txt", "r")
     return logfile.read()
+
+@app.route("/command/<cmd>")
+@login_required
+def command(cmd):
+    cmdfile = open("./webgui/cmdfile.txt", "w")
+    cmdfile.write(str(cmd))
+    cmdfile.close()
+    return ""

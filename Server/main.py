@@ -86,6 +86,11 @@ while True:
 	except:	##Will fail when the window no longer exists (destroy method called in GFXWindowed.py)
 		exit()
 
+	if Graphics.GetCommand() == "PAUSE":
+		Graphics.setStatus(Graphics.status["Paused"])
+		while Graphics.GetCommand() != "RESUME":
+			time.sleep(0.2)
+
 	if Graphics.isPaused():
 		Graphics.setStatus(Graphics.status["Paused"])
 		_paused = True

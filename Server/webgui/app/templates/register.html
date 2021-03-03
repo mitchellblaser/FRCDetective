@@ -2,10 +2,14 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block content %}
-    <h1>Register</h1>
-    <div class="row justify-content-center">
-        <div class="col-md-4">
-            {{ wtf.quick_form(form) }}
-        </div>
+    <style>
+        input { 
+            text-align: center; 
+        }
+    </style>
+
+    <div class="col-xs-12 text-center">
+        <h1>Register</h1>
+        {{ wtf.quick_form(form) }}
     </div>
 {% endblock %}
