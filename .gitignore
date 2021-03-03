@@ -211,3 +211,4 @@ Client/FRCDetective/FRCDetective.Android/FRCDetective.Android.csproj
 PythonTestClient/.idea/
 
 Server/webgui/logfile.txt
+Server/.docker_temp_*
