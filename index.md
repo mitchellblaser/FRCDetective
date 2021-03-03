@@ -11,6 +11,6 @@ A Decentralized Scouting Solution for the First Robotics Competition.
 
 <a class="btn" href="/download/DetectiveServer-DevRel001.zip"><i class="fa fa-download"></i> Download Server</a>          <a class="btn"><i class="fa fa-download"></i> Download Client</a><br>[Check out our Repository on GitHub.](https://github.com/mitchellblaser/FRCDetective){: .btn .btn-green }
 
-<br><br>
+<br>
 #### Bugs?
 Don't hesitate to send an email to bugs@frcdetective.tech.
