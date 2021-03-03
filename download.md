@@ -11,7 +11,7 @@ The FRC Detective Client is written in C# and Xamarin, and currently needs to be
 
 <a class="btn"><i class="fa fa-download"></i> Download Client (Android)</a>          <a class="btn"><i class="fa fa-download"></i> Download Source (Required for iOS)</a>
 
-
+<br>
 
 #### Server
 
