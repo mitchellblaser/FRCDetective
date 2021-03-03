@@ -1,4 +1,4 @@
-FROM python:3.9.2-buster
+FROM python:3.9.2-alpine3.13
 WORKDIR /app
 ADD . /app
 CMD ["python", "-u", "main.py", "-p", "5584", "-g", "lowlevel"]
