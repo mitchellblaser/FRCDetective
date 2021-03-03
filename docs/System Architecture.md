@@ -5,5 +5,3 @@ parent: Docs
 ---
 
 ## System Architecture
-
-#### Introduction
