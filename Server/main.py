@@ -13,6 +13,7 @@ import sys
 import threading
 import select
 import pprint
+import os
 
 ##Our custom deps
 import ParseArgument
@@ -217,6 +218,10 @@ while True:
 									#connection.close()
 									print(e)
 									break
+
+						elif data[0] == 81:
+							print("Quit")
+							os._exit(1)
 
 						else:
 							print("Unknown Code. (" + str(int(data[0])) + ")")
