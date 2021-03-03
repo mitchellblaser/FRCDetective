@@ -13,6 +13,7 @@ import sys
 import threading
 import select
 import pprint
+import os
 
 ##Our custom deps
 import ParseArgument
@@ -84,6 +85,11 @@ while True:
 		Graphics.updateGraphics()
 	except:	##Will fail when the window no longer exists (destroy method called in GFXWindowed.py)
 		exit()
+
+	if Graphics.GetCommand() == "PAUSE":
+		Graphics.setStatus(Graphics.status["Paused"])
+		while Graphics.GetCommand() != "RESUME":
+			time.sleep(0.2)
 
 	if Graphics.isPaused():
 		Graphics.setStatus(Graphics.status["Paused"])
@@ -217,6 +223,10 @@ while True:
 									#connection.close()
 									print(e)
 									break
+
+						elif data[0] == 81:
+							print("Quit")
+							os._exit(1)
 
 						else:
 							print("Unknown Code. (" + str(int(data[0])) + ")")
