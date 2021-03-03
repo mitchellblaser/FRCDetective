@@ -2,13 +2,13 @@
 # Graphics.py
 # Created 4-2-21
 
-import GFXWindowed
 import GFXLowLevel
 import LogOutput
 
 mode = {
 	"windowed" : 0,
-	"lowlevel" : 1
+	"lowlevel" : 1,
+	"web"	   : 2
 }
 
 status = {
@@ -37,35 +37,25 @@ def initGraphics(_log):
 	else:
 		DoLogOutput = False
 
-	if SelectedMode == mode["windowed"]:
-		GFXWindowed.initGraphics()
 	if SelectedMode == mode["lowlevel"]:
 		GFXLowLevel.initGraphics()
 
 def updateGraphics():
-	if SelectedMode == mode["windowed"]:
-		GFXWindowed.updateGraphics()
 	if SelectedMode == mode["lowlevel"]:
 		GFXLowLevel.updateGraphics()
 
 def setStatus(_status):
-	if SelectedMode == mode["windowed"]:
-		GFXWindowed.setStatus(_status)
 	if SelectedMode == mode["lowlevel"]:
 		GFXLowLevel.setStatus(_status)
 	if DoLogOutput == True:
 		LogOutput.OutputCode(_status)
 
 def setStatusString(_statusTitle, _statusMessage):
-	if SelectedMode == mode["windowed"]:
-		GFXWindowed.setStatusString(_statusTitle, _statusMessage)
+	print()
 
 def isPaused():
-	if SelectedMode == mode["windowed"]:
-		return GFXWindowed.isPaused()
 	if SelectedMode == mode["lowlevel"]:
-		print("Pause operation not supported on non-windowed application.")
+		return False
 
 def CloseApplication():
-	if SelectedMode == mode["windowed"]:
-		GFXWindowed.CloseApplication()
+	print()
