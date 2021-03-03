@@ -1,5 +1,6 @@
 ---
 title: Download
+nav_order: 2
 ---
 
 ## Download
