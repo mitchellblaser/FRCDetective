@@ -9,7 +9,7 @@ nav_order: 2
 
 The FRC Detective Client is written in C# and Xamarin, and currently needs to be built from the source for both iOS and Android. When we have a working and tested build for the app for the 2021 Season, we will publish Android APK builds here, although as we don't have an Apple Developer Account, iOS builds will still need to be done manually from the source.
 
-<a class="btn" href="/download/DetectiveServer-DevRel001.zip"><i class="fa fa-download"></i> Download Client (Android)</a>          <a class="btn"><i class="fa fa-download"></i> Download Source (Required for iOS)</a>
+<a class="btn"><i class="fa fa-download"></i> Download Client (Android)</a>          <a class="btn"><i class="fa fa-download"></i> Download Source (Required for iOS)</a>
 
 
 
