@@ -3,6 +3,7 @@
 # Created 4-2-21
 
 import GFXLowLevel
+import GFXWeb
 import LogOutput
 
 mode = {
@@ -27,6 +28,8 @@ def setGraphics(_mode):
 		SelectedMode = 0
 	if _mode == mode["lowlevel"]:
 		SelectedMode = 1
+	if _mode == mode["web"]:
+		SelectedMode = 2
 
 def initGraphics(_log):
 	global SelectedMode
@@ -39,6 +42,8 @@ def initGraphics(_log):
 
 	if SelectedMode == mode["lowlevel"]:
 		GFXLowLevel.initGraphics()
+	if SelectedMode == mode["web"]:
+		GFXWeb.initGraphics()
 
 def updateGraphics():
 	if SelectedMode == mode["lowlevel"]:

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Hi, {{ current_user.username }}!</h1>
+    <p id="time"></p>
+    <textarea id="status" name="status" rows="4" cols="50"></textarea>
+
+    <script>
+        function setStatus() {
+            document.getElementById("time").innerHTML = "Current Time: " + Date();
+            setTimeout(setStatus, 1000);
+        }
+
+        function getDataFromServer() {
+            fetch('/log')
+                .then(response => response.text())
+                .then(text => d = text)
+                .then(text => document.getElementById("status").innerHTML = d)
+                .catch(err => console.log(err));
+            setTimeout(getDataFromServer, 2000);
+        }
+
+        setStatus();
+        getDataFromServer();
+    </script>
+
+{% endblock %}
