@@ -142,13 +142,14 @@ while True:
 				try:
 					if data:
 						Graphics.updateGraphics()
+						print("".join("\\x%02x" % i for i in data))
 						
 						###	IMPORTANT: Add a check here to see if data is a "keep alive" byte	<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 						###			    because we do not want to parse it as json if it is. (so skip over the whole loop)
 
 						global jsonuid
 						global PARSEDJSON
-						print(data)
+						#print(data)
 						if data[0] == 76:
 							#print("Receiving Round List from Client.")
 							connection.sendall(b'RECV_OK')
@@ -157,16 +158,41 @@ while True:
 							Database.StoreClientDataList(ParseData.ParseRoundList(data))
 							connection.sendall(ParseData.NeedsToClientBytes(Database.Difference(Database.GetKeyList(), Database.GetClientDataList())))
 						elif data[0] == 82:
-							#print(data)
-							PARSEDJSON = ParseData.Parse(data)
-							jsonuid = Format.PadNumber(PARSEDJSON["Division"], 1) + "-" + Format.PadNumber(PARSEDJSON["RoundType"], 1) + "-" + Format.PadNumber(PARSEDJSON["RoundNumber"], 3) + "-" + Format.PadNumber(PARSEDJSON["TeamNumber"], 5)
-							#print(jsonuid)
-							FileIO.AppendData("Storage.json", jsonuid, PARSEDJSON)
+							RecieveRound = True
+							#print("Hello")
 							connection.sendall(b'RECV_OK')
+							while RecieveRound == True:
+								try:
+									connection.setblocking(1)
+									rounddata = connection.recv(_maxpacket)
+									endbyte = rounddata[40]
+									#print(endbyte)
+									print(rounddata)
+									PARSEDJSON = ParseData.Parse(rounddata)
+									#print(PARSEDJSON)
+									jsonuid = Format.PadNumber(PARSEDJSON["Division"], 1) + "-" + Format.PadNumber(PARSEDJSON["RoundType"], 1) + "-" + Format.PadNumber(PARSEDJSON["RoundNumber"], 3) + "-" + Format.PadNumber(PARSEDJSON["TeamNumber"], 5)
+									#print(jsonuid)
+									FileIO.AppendData("Storage.json", jsonuid, PARSEDJSON)
+									connection.sendall(b'RECV_OK')
+									if endbyte == 0: ##41-1 because it's zero-indexed.
+										print("End Byte Zero")
+										RecieveRound = False
+									else:
+										print("End Byte Not Zero")
+								except Exception as e:
+									print(e)
+									break
+
+
+
 						elif data[0] == 83:
 							#print("Client Ready to Receive data.")
-							connection.sendall(b'D')
 							clientneeds = Database.Difference(Database.GetKeyList(), Database.GetClientDataList())['ClientNeeds']
+							#print(clientneeds)
+							if len(clientneeds) != 0:
+								connection.sendall(b'D')
+							else:
+								connection.sendall(b'Z')
 							for i in range (0, len(clientneeds)):
 								#print("Sending to Client: " + str(clientneeds[i]))
 								endbyte = 1
