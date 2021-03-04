@@ -450,7 +450,7 @@ namespace FRCDetective
                 }
             }
             await DisplayAlert("Done", "Data Has Been Sent", ":D");
-            /*
+            
             send(Encoding.UTF8.GetBytes("S"), false);
 
             if (Encoding.UTF8.GetString(receive()) == "D")
@@ -462,7 +462,7 @@ namespace FRCDetective
                     Console.WriteLine("hi");
                 }
             }
-            */
+            
         }
 
         void DisplayError(string message)
