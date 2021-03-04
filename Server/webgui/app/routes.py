@@ -55,6 +55,6 @@ def log():
 @login_required
 def command(cmd):
     cmdfile = open("./webgui/cmdfile.txt", "w")
-    cmdfile.write(str(cmd))
+    cmdfile.write(str(cmd) + "\n" + current_user.username + "\n" + current_user.email)
     cmdfile.close()
     return ""

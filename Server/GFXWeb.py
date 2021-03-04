@@ -6,6 +6,8 @@ import os
 import threading
 import time
 import datetime
+import subprocess
+import sys
 
 sendWaiting = True
 justCleared = False
@@ -75,7 +77,9 @@ def ClearCmdFile():
 
 def GetCommand():
     cmdfile = open("./webgui/cmdfile.txt", "r")
-    contents = cmdfile.read()
+    out = []
+    for line in cmdfile:
+        out.append(line.rstrip())
     cmdfile.close()
     ClearCmdFile()
-    return contents
+    return out

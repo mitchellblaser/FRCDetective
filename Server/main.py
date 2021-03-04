@@ -44,6 +44,12 @@ else:
 if _address != "localhost":
 	Communications.setCustomAddr(_address)
 
+##OS Test
+if os.path.isfile("./webgui/app.db") == False:
+	print("ERROR: Database File does not exist!")
+	print("Did you remember to run ./webgui/generatedatabase.sh before building?")
+	exit()
+
 ##Init the GUI
 import Graphics
 Graphics.setGraphics(Graphics.mode[_gfxMode.lower()])
@@ -86,10 +92,29 @@ while True:
 	except:	##Will fail when the window no longer exists (destroy method called in GFXWindowed.py)
 		exit()
 
-	if Graphics.GetCommand() == "PAUSE":
-		Graphics.setStatus(Graphics.status["Paused"])
-		while Graphics.GetCommand() != "RESUME":
-			time.sleep(0.2)
+
+	#########################################################
+	# PARSE WEB SERVER COMMANDS HERE						#
+	#########################################################
+
+	COMMAND = Graphics.GetCommand() #Returns [cmd, user, email]
+	if COMMAND != []:
+
+		if COMMAND[0] == "PAUSE":
+			Graphics.setStatus(Graphics.status["Paused"])
+
+			while True:
+				subCMD = Graphics.GetCommand()
+				if subCMD != []:
+					if subCMD[0] == "RESUME":
+						break
+				time.sleep(0.2)
+
+		if COMMAND[0] == "STOP":
+			Graphics.setStatusString("QUIT", "Quit Command Received from user " + COMMAND[1])
+			exit()
+
+	#########################################################
 
 	if Graphics.isPaused():
 		Graphics.setStatus(Graphics.status["Paused"])

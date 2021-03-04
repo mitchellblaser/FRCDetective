@@ -21,11 +21,14 @@
         }
     </style>
     <div class="col-xs-12 text-center">
+        <div class="row text-center">
+            <img src="{{url_for('static', filename='logo.png')}}" width="279" height="79" />
+        </div>
         <h1>Hi, {{ current_user.username }}!</h1>
         <p id="time"></p>
 
         <div class="btn-group">
-            <button class="button" onclick="stopServer()">Stop Server</button>
+            <button class="button" onclick="stopServer()" id="stopbutton">Stop Server</button>
             <button class="button" onclick="pauseServer()" id="pausebutton">Pause Execution</button>
         </div>
 
@@ -51,7 +54,9 @@
         }
 
         function stopServer() {
-            fetch('/command/STOP');
+            if (confirm("This will stop remote server execution, and will need to be manually restarted! Are you sure?")) {
+                fetch('/command/STOP');
+            }
         }
 
         function pauseServer() {
