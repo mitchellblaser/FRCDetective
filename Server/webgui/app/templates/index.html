@@ -38,6 +38,9 @@
         <textarea id="status" name="status" rows="10" cols="80"></textarea>
     </div>
     <script>
+
+        var userpriv = "";
+
         function setStatus() {
             document.getElementById("time").innerHTML = "Current Time: " + Date();
             setTimeout(setStatus, 1000);
@@ -53,6 +56,15 @@
             setTimeout(getDataFromServer, 2000);
         }
 
+        function CheckUserPrivilege() {
+            var current_username = "{{ current_user.username }}";
+            fetch('/get/user/priv/' + current_username)
+                .then(response => response.text())
+                .then(text => userpriv = text)
+                .catch(err => console.log(err));
+            setTimeout(CheckUserPrivilege, 20000);
+        }
+
         function stopServer() {
             if (confirm("This will stop remote server execution, and will need to be manually restarted! Are you sure?")) {
                 fetch('/command/STOP');
@@ -63,14 +75,19 @@
             pauseBtn = document.getElementById("pausebutton")
             if (pauseBtn.innerHTML == "Pause Execution") {
                 fetch('/command/PAUSE');
-                pauseBtn.innerHTML = "Resume Execution";
+                if (userpriv == "admin") {
+                    pauseBtn.innerHTML = "Resume Execution";
+                }
             }
             else {
                 fetch('/command/RESUME');
-                pauseBtn.innerHTML = "Pause Execution";
+                if (userpriv == "admin") {
+                    pauseBtn.innerHTML = "Pause Execution";
+                }
             }
         }
 
+        CheckUserPrivilege();
         setStatus();
         getDataFromServer();
     </script>
