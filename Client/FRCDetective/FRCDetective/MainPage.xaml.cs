@@ -255,7 +255,7 @@ namespace FRCDetective
                 DisplayAlert("Message", System.Text.Encoding.UTF8.GetString(data, 0, data.Length), "OK");
             }
         }
-        bool send(byte[] data)
+        bool send(byte[] data, bool autoRetry = true)
         {
             bool replyOK = false;
 
@@ -272,6 +272,11 @@ namespace FRCDetective
                 {
                     DisplayError(e.Message);
                     return false;
+                }
+
+                if (!autoRetry)
+                {
+                    return true;
                 }
 
                 byte[] ok = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x4f, 0x4b };
@@ -370,6 +375,7 @@ namespace FRCDetective
                 DisplayError("Uh the server didn't like what i sent :(");
                 return;
             }
+
             byte[] returnData = receive();
 
             if (returnData[0] == Encoding.UTF8.GetBytes("N")[0])
@@ -384,60 +390,143 @@ namespace FRCDetective
                     toSend.Add(Encoding.UTF8.GetString(tempArray));
                 }
 
-                foreach (string item in toSend)
+                if (toSend.Count > 0)
                 {
-                    IFile file = await folder.GetFileAsync(item + ".json");
-                    string json = await file.ReadAllTextAsync();
-                    RoundData round = JsonConvert.DeserializeObject<RoundData>(json);
+                    send(Encoding.UTF8.GetBytes("R"));
 
-                    byte[] data = new byte[42];
-
-                    byte[] time = BitConverter.GetBytes(((DateTimeOffset)round.Timestamp).ToUnixTimeSeconds());
-                    byte[] team = BitConverter.GetBytes((Int32)round.Team);
-
-                    data[0] = Encoding.UTF8.GetBytes("R")[0];
-
-                    data[1] = 0x00; data[2] = 0x11; data[3] = 0x22; data[4] = 0x33; // UID
-                    for (int i = 5; i < 13; i++)    // Time
+                    for (int j = 0; j < toSend.Count; j++)
                     {
-                        data[i] = time[i - 5];
-                    }
-                    data[13] = Convert.ToByte(round.Division);   // Division
-                    data[14] = Convert.ToByte(round.Type);   // Round Type
-                    data[15] = Convert.ToByte(round.Round);   // Round Number
-                    for (int i = 16; i < 20; i++)    // Team
-                    {
-                        data[i] = team[i - 16];
-                    }
-                    data[20] = Convert.ToByte(round.Alliance);   // Alliance
-                    /* Auto */
-                    data[21] = Convert.ToByte(round.InitLine);   // Initiation Line
-                    data[22] = Convert.ToByte(round.AutoHighGoal);   // Top Balls
-                    data[23] = Convert.ToByte(round.AutoLowGoal);   // Bottom Balls
-                    /* Teleop */
-                    data[24] = Convert.ToByte(round.TeleopHighGoal);  // Top Balls
-                    data[25] = Convert.ToByte(round.TeleopLowGoal);   // Bottom Balls
-                    data[26] = Convert.ToByte(round.ColourwheelRotation);   // Rotation Control
-                    data[27] = Convert.ToByte(round.ColourwheelPosition);   // Position Control
-                    data[28] = Convert.ToByte(round.Climb);   // Climb
-                    data[29] = Convert.ToByte(round.Level);   // Level
-                    data[30] = Convert.ToByte(round.Foul); ;  // Foul
-                    data[31] = Convert.ToByte(round.TechFoul);  // Tech Foul
-                    data[32] = 0xFF;// Start Hash
-                    for (int i = 33; i < 41; i++)   // Hash
-                    {
-                        data[i] = 0xFF;
-                    }
-                    data[41] = 0;   // End Byte
+                        IFile file = await folder.GetFileAsync(toSend[j] + ".json");
+                        string json = await file.ReadAllTextAsync();
+                        RoundData round = JsonConvert.DeserializeObject<RoundData>(json);
 
-                    if (!send(data))
-                    {
-                        DisplayError("Error Sending Data");
-                        return;
+                        byte[] data = new byte[42];
+
+                        byte[] time = BitConverter.GetBytes(((DateTimeOffset)round.Timestamp).ToUnixTimeSeconds());
+                        byte[] team = BitConverter.GetBytes((Int32)round.Team);
+
+                        data[0] = 0x00; data[2] = 0x11; data[3] = 0x22; data[4] = 0x33; // UID
+                        for (int i = 4; i < 12; i++)    // Time
+                        {
+                            data[i] = time[i - 4];
+                        }
+                        data[12] = Convert.ToByte(round.Division);   // Division
+                        data[13] = Convert.ToByte(round.Type);   // Round Type
+                        data[14] = Convert.ToByte(round.Round);   // Round Number
+                        for (int i = 15; i < 19; i++)    // Team
+                        {
+                            data[i] = team[i - 15];
+                        }
+                        data[19] = Convert.ToByte(round.Alliance);   // Alliance
+                        /* Auto */
+                        data[20] = Convert.ToByte(round.InitLine);   // Initiation Line
+                        data[21] = Convert.ToByte(round.AutoHighGoal);   // Top Balls
+                        data[22] = Convert.ToByte(round.AutoLowGoal);   // Bottom Balls
+                        /* Teleop */
+                        data[23] = Convert.ToByte(round.TeleopHighGoal);  // Top Balls
+                        data[24] = Convert.ToByte(round.TeleopLowGoal);   // Bottom Balls
+                        data[25] = Convert.ToByte(round.ColourwheelRotation);   // Rotation Control
+                        data[26] = Convert.ToByte(round.ColourwheelPosition);   // Position Control
+                        data[27] = Convert.ToByte(round.Climb);   // Climb
+                        data[28] = Convert.ToByte(round.Level);   // Level
+                        data[29] = Convert.ToByte(round.Foul); ;  // Foul
+                        data[30] = Convert.ToByte(round.TechFoul);  // Tech Foul
+                        data[31] = 0xFF;// Start Hash
+                        for (int i = 32; i < 40; i++)   // Hash
+                        {
+                            data[i] = 0xFF;
+                        }
+                        if (j == toSend.Count - 1)
+                        {
+                            data[40] = 0;   // End Byte
+                        }
+                        else
+                        {
+                            data[40] = 1;   // End Byte
+                        }
+
+                        if (!send(data))
+                        {
+                            DisplayError("Error Sending Data");
+                            return;
+                        }
                     }
                 }
             }
-            await DisplayAlert("Done", "Data Has Been Sent", ":D");
+            //await DisplayAlert("Done", "Data Has Been Sent", ":D");
+            
+            send(Encoding.UTF8.GetBytes("S"), false);
+            byte[] reply = receive();
+
+            if (Encoding.UTF8.GetString(reply) == "D")
+            {
+                bool endByte = false;
+                while (!endByte)
+                {
+                    byte[] data = receive();
+                    send(Encoding.UTF8.GetBytes("RECV_OK"), false);
+                    
+
+                    if (data[40] == 0)
+                    {
+                        endByte = true;
+                    }
+
+                    RoundData roundData = new RoundData();
+
+                    System.DateTime epochTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);    // Time
+                    roundData.Timestamp = epochTime.AddSeconds(BitConverter.ToInt64(data, 4));
+                    roundData.Division = (sbyte)data[12];                                       // Division
+                    roundData.Type = (sbyte)data[13];                                           // Round Type
+                    roundData.Round = (sbyte)data[14];                                          // Round Number
+                    roundData.Team = BitConverter.ToInt32(data, 15);                            // Team
+                    roundData.Alliance = (sbyte)data[19];                                       // Alliance
+                    roundData.InitLine = BitConverter.ToBoolean(data, 20);                      // Initiation Line
+                    roundData.AutoHighGoal = (sbyte)data[21];                                   // Auto Top Balls
+                    roundData.AutoLowGoal = (sbyte)data[22];                                    // Auto Low Goal
+                    roundData.TeleopHighGoal = (sbyte)data[23];                                 // Top Balls
+                    roundData.TeleopLowGoal = (sbyte)data[24];                                  // Low Balls
+                    roundData.ColourwheelRotation = BitConverter.ToBoolean(data, 25);           // Rotation Control
+                    roundData.ColourwheelPosition = BitConverter.ToBoolean(data, 26);           // Position Control
+                    roundData.Climb = (sbyte)data[27];                                          // Climb
+                    roundData.Level = BitConverter.ToBoolean(data, 28);                         // Level
+                    roundData.Foul = (sbyte)data[29];                                           // Foul
+                    roundData.TechFoul = (sbyte)data[30];                                       // Tech Foul
+
+
+                    string DisplayName = "";
+                    DisplayName += "Round ";
+                    DisplayName += roundData.Round.ToString();
+                    if (roundData.Alliance != 0) { DisplayName += " Red Alliance "; } else { DisplayName += " Blue Alliance "; }
+                    DisplayName += "Team ";
+                    DisplayName += roundData.Team.ToString();
+                    roundData.DisplayName = DisplayName;
+
+
+                    string ID = "";
+                    ID += roundData.Division.ToString();
+                    ID += "-";
+                    ID += roundData.Type;
+                    ID += "-";
+                    ID += roundData.Round.ToString("D3");
+                    ID += "-";
+                    ID += roundData.Team.ToString("D5");
+
+                    roundData.ID = ID;
+
+                    string FileName = ID + ".json";
+                    roundData.Filename = FileName;
+
+                    string json = JsonConvert.SerializeObject(roundData);
+
+                    rootFolder = FileSystem.Current.LocalStorage;
+                    folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
+                    IFile file = await folder.CreateFileAsync(FileName, CreationCollisionOption.ReplaceExisting);
+                    await file.WriteAllTextAsync(json);
+                }
+            }
+            DisplayAlert("Done", "Done", "Done");
+            
         }
 
         void DisplayError(string message)
