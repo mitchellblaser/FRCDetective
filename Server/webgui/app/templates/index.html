@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <style>
+        .btn-group .button {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        float: left;
+        }
+        
+        .btn-group .button:hover {
+        background-color: #3e8e41;
+        }
+    </style>
+    <div class="col-xs-12 text-center">
+        <div class="row text-center">
+            <img src="{{url_for('static', filename='logo.png')}}" width="279" height="79" />
+        </div>
+        <h1>Hi, {{ current_user.username }}!</h1>
+        <p id="time"></p>
+
+        <div class="btn-group">
+            <button class="button" onclick="stopServer()" id="stopbutton">Stop Server</button>
+            <button class="button" onclick="pauseServer()" id="pausebutton">Pause Execution</button>
+        </div>
+
+        <br>
+        <br>
+        <p>Server Log</p>
+        <textarea id="status" name="status" rows="10" cols="80"></textarea>
+    </div>
+    <script>
+        function setStatus() {
+            document.getElementById("time").innerHTML = "Current Time: " + Date();
+            setTimeout(setStatus, 1000);
+        }
+
+        function getDataFromServer() {
+            fetch('/log')
+                .then(response => response.text())
+                .then(text => d = text)
+                .then(text => document.getElementById("status").innerHTML = d)
+                .then(text => document.getElementById("status").scrollTop = document.getElementById("status").scrollHeight)
+                .catch(err => console.log(err));
+            setTimeout(getDataFromServer, 2000);
+        }
+
+        function stopServer() {
+            if (confirm("This will stop remote server execution, and will need to be manually restarted! Are you sure?")) {
+                fetch('/command/STOP');
+            }
+        }
+
+        function pauseServer() {
+            pauseBtn = document.getElementById("pausebutton")
+            if (pauseBtn.innerHTML == "Pause Execution") {
+                fetch('/command/PAUSE');
+                pauseBtn.innerHTML = "Resume Execution";
+            }
+            else {
+                fetch('/command/RESUME');
+                pauseBtn.innerHTML = "Pause Execution";
+            }
+        }
+
+        setStatus();
+        getDataFromServer();
+    </script>
+
+{% endblock %}

@@ -13,6 +13,7 @@ import sys
 import threading
 import select
 import pprint
+import os
 
 ##Our custom deps
 import ParseArgument
@@ -42,6 +43,12 @@ else:
 	exit()
 if _address != "localhost":
 	Communications.setCustomAddr(_address)
+
+##OS Test
+if os.path.isfile("./webgui/app.db") == False:
+	print("ERROR: Database File does not exist!")
+	print("Did you remember to run ./webgui/generatedatabase.sh before building?")
+	exit()
 
 ##Init the GUI
 import Graphics
@@ -84,6 +91,30 @@ while True:
 		Graphics.updateGraphics()
 	except:	##Will fail when the window no longer exists (destroy method called in GFXWindowed.py)
 		exit()
+
+
+	#########################################################
+	# PARSE WEB SERVER COMMANDS HERE						#
+	#########################################################
+
+	COMMAND = Graphics.GetCommand() #Returns [cmd, user, email]
+	if COMMAND != []:
+
+		if COMMAND[0] == "PAUSE":
+			Graphics.setStatus(Graphics.status["Paused"])
+
+			while True:
+				subCMD = Graphics.GetCommand()
+				if subCMD != []:
+					if subCMD[0] == "RESUME":
+						break
+				time.sleep(0.2)
+
+		if COMMAND[0] == "STOP":
+			Graphics.setStatusString("QUIT", "Quit Command Received from user " + COMMAND[1])
+			exit()
+
+	#########################################################
 
 	if Graphics.isPaused():
 		Graphics.setStatus(Graphics.status["Paused"])
@@ -217,6 +248,10 @@ while True:
 									#connection.close()
 									print(e)
 									break
+
+						elif data[0] == 81:
+							print("Quit")
+							os._exit(1)
 
 						else:
 							print("Unknown Code. (" + str(int(data[0])) + ")")
