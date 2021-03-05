@@ -86,7 +86,7 @@ def adminconsole():
         for u in users:
             userlist = userlist + '<option value="' + u.username + '">' + u.username + "</option>"
             usercount = usercount + 1
-        listhtml = '<select style="width: 200px" id="userlist" name="Users" size=' + str(usercount) + '>' + userlist + '</select>'
+        listhtml = '<select style="width: 200px" id="userlist" name="Users" size=' + str(5) + '>' + userlist + '</select>'
         adminlist = ""
         for data in ReadAdminFile():
             if adminlist == "":
