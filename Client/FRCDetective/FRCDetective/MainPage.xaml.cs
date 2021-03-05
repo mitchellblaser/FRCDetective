@@ -37,14 +37,17 @@ namespace FRCDetective
         // When the page appears, start the network connection task
         protected async override void OnAppearing()
         {
-            if (!isLoaded)
+            isLoaded = true;
+            await Task.Run(async () =>
             {
-                await Task.Run(async () =>
-                {
-                    await networkInterface();
-                });
-                isLoaded = true;
-            }
+                await networkInterface();
+            });
+        }
+
+        // When the page disappears, kill the network connection task
+        protected async override void OnDisappearing()
+        {
+                isLoaded = false;
         }
 
         // If the client is not connected to the server, attemt to connect every second. On state change, update the icon
@@ -75,6 +78,14 @@ namespace FRCDetective
                     //send();
                 }
                 _lastNetStatus = _netStatus;
+
+                Console.WriteLine("hello");
+
+                if (!isLoaded)
+                {
+                    return;
+                }
+
                 Thread.Sleep(1000);
             }
         }
