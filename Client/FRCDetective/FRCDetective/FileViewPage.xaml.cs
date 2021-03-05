@@ -44,14 +44,6 @@ namespace FRCDetective
                 RoundList.Add(round);
             }
         }
-        public void OnMore(object sender, EventArgs e)
-        {
-            var mi = ((MenuItem)sender);
-            RoundData round = (RoundData)mi.CommandParameter;
-
-            DisplayAlert("More Context Action", round.DisplayName + " more context action", "OK");
-        }
-
         public async void OnDelete(object sender, EventArgs e)
         {
             var mi = ((MenuItem)sender);

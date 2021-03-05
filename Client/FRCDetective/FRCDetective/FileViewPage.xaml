@@ -16,9 +16,6 @@
                                 <Label Text="{Binding Timestamp}" FontSize="Default" Margin="0,-5,0,0"/>
                             </StackLayout>
                             <ViewCell.ContextActions>
-                                <MenuItem Clicked="OnMore"
-                                          CommandParameter="{Binding .}"
-                                          Text="More" />
                                 <MenuItem Clicked="OnDelete"
                                           CommandParameter="{Binding .}"
                                           Text="Delete" IsDestructive="True" />

@@ -297,6 +297,10 @@ namespace FRCDetective
                 {
                     dataList.Add(Byte);
                 }
+
+                round.Synced = true;
+                json = JsonConvert.SerializeObject(round);
+                await file.WriteAllTextAsync(json);
             }
 
             try
@@ -415,6 +419,7 @@ namespace FRCDetective
                     }
 
                     RoundData roundData = new RoundData();
+                    roundData.Synced = true;
 
                     System.DateTime epochTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);    // Time
                     roundData.Timestamp = epochTime.AddSeconds(BitConverter.ToInt64(data, 4));
