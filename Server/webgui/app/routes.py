@@ -43,6 +43,18 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
+        
+        of = open("./webgui/adminusers.txt", "r")
+        filelines = []
+        for line in of:
+            filelines.append(line.rstrip())
+        
+        if len(filelines) <= 1 and filelines[0] == "":
+            print("Making user admin.")
+            nf = open("./webgui/adminusers.txt", "w")
+            nf.write(str(form.username.data))
+            nf.close()
+
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
@@ -105,6 +117,22 @@ def getudb():
     else:
         return "You do not have the permission for this."
 
+@app.route("/adminconsole/getadmindb")
+@login_required
+def getadb():
+    if current_user.username in ReadAdminFile():
+        return send_file('/app/webgui/adminusers.txt', as_attachment=True, cache_timeout=0)
+    else:
+        return "You do not have the permission for this."
+
+@app.route("/adminconsole/getrounddb")
+@login_required
+def getrdb():
+    if current_user.username in ReadAdminFile():
+        return send_file('/app/Storage.json', as_attachment=True, cache_timeout=0)
+    else:
+        return "You do not have the permission for this."
+
 @app.route("/adminconsole/elevateuser/<userid>")
 @login_required
 def elevateuser(userid):
@@ -136,3 +164,51 @@ def deesculateuser(userid):
             return "Cannot remove user."
     else:
         return "You do not have the permission for this."
+
+@app.route("/adminconsole/up/<filename>")
+@login_required
+def up(filename):
+    if current_user.username in ReadAdminFile():
+        return render_template('uploadfile.html', title='Upload File', uploadtarget="upload", filename=filename)
+    else:
+        return redirect(url_for("index"))
+
+@app.route("/adminconsole/upround/<filename>")
+@login_required
+def upround(filename):
+    if current_user.username in ReadAdminFile():
+        return render_template('uploadfile.html', title='Upload File', uploadtarget="uploadround", filename=filename)
+    else:
+        return redirect(url_for("index"))
+
+@app.route("/adminconsole/upload/<filename>", methods=["GET", "POST"])
+@login_required
+def upload(filename):
+    if current_user.username in ReadAdminFile():
+        if request.method == "POST":
+            f = request.files["file"]
+            f.save("./webgui/" + str(filename))
+            return redirect(url_for("adminconsole"))
+        else:
+            return "Please make a POST request to this address."
+    else:
+        return "Not authenticated."
+
+@app.route("/adminconsole/uploadround/<filename>", methods=["GET", "POST"])
+@login_required
+def uploadround(filename):
+    if current_user.username in ReadAdminFile():
+        if request.method == "POST":
+            f = request.files["file"]
+            f.save("./" + str(filename))
+            return redirect(url_for("adminconsole"))
+        else:
+            return "Please make a POST request to this address."
+    else:
+        return "Not authenticated."
+
+@app.route("/adminconsole/cmd/<command>")
+def cmd(command):
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
+    out = process.communicate()
+    return out
