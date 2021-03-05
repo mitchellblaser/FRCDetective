@@ -109,6 +109,19 @@ def adminconsole():
     else:
         return redirect(url_for("index"))
 
+@app.route("/adminconsole/deleteuser/<username>")
+@login_required
+def deleteuser(username):
+    if current_user.username in ReadAdminFile():
+        for user in User.query.all():
+            if user.username == username:
+                db.session.delete(user)
+        db.session.commit()
+        deesculateuser(username)
+        return "OK"
+    else:
+        return redirect(url_for("index"))
+
 @app.route("/adminconsole/getuserdb")
 @login_required
 def getudb():

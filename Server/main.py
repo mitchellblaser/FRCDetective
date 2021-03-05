@@ -148,9 +148,9 @@ while True:
 		backup = True
 	if (timestamp.second == 30 and backup == True):
 		backup = False
-		Graphics.setStatus(Graphics.status["Backup"])
+		#Graphics.setStatus(Graphics.status["Backup"])
 		Graphics.updateGraphics()
-		Backup.Start()
+		#Backup.Start()
 		if not Sending:
 			Graphics.setStatus(Graphics.status["Idle"])
 			Sending = True

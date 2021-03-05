@@ -11,6 +11,7 @@
             <br>
             <button id="adminbtn" class="btn btn-primary" onclick="makeAdmin()">Make Admin</button>
             <button id="normalbtn" class="btn btn-primary" onclick="removeAdmin()">Remove Admin</button>
+            <button id="deletebtn" class="btn btn-primary" onclick="deleteUser()">Delete User</button>
         </div>
         <br>
         <div>
@@ -44,6 +45,12 @@
         function removeAdmin() {
             targetuser = checkClicked();
             fetch("/adminconsole/deesculateuser/" + targetuser)
+                .then(response => adminPost = 1);
+        }
+
+        function deleteUser() {
+            targetuser = checkClicked();
+            fetch("/adminconsole/deleteuser/" + targetuser)
                 .then(response => adminPost = 1);
         }
 

@@ -26,7 +26,6 @@ if (_password == _password2):
         filelines = []
         for line in of:
             filelines.append(line.rstrip())
-        print(filelines)
         
         if len(filelines) <= 1 and filelines[0] == "":
             nf = open("adminusers.txt", "w")
