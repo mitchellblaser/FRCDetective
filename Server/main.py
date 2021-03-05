@@ -106,6 +106,12 @@ while True:
 	COMMAND = Graphics.GetCommand() #Returns [cmd, user, email]
 	if COMMAND != []:
 
+		##Get list of admin users from webgui directory
+		admins = []
+		adminlist = open("webgui/adminusers.txt", "r")
+		for user in adminlist:
+			admins.append(user.rstrip())
+
 		if COMMAND[1] in admins:
 			if COMMAND[0] == "PAUSE":
 				Graphics.setStatus(Graphics.status["Paused"])
