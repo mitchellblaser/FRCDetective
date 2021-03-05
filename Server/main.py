@@ -44,6 +44,18 @@ else:
 if _address != "localhost":
 	Communications.setCustomAddr(_address)
 
+##OS Test
+if os.path.isfile("./webgui/app.db") == False:
+	print("ERROR: Database File does not exist!")
+	print("Did you remember to run ./webgui/generatedatabase.sh before building?")
+	exit()
+
+##Get list of admin users from webgui directory
+admins = []
+adminlist = open("webgui/adminusers.txt", "r")
+for user in adminlist:
+	admins.append(user.rstrip())
+
 ##Init the GUI
 import Graphics
 Graphics.setGraphics(Graphics.mode[_gfxMode.lower()])
@@ -86,10 +98,32 @@ while True:
 	except:	##Will fail when the window no longer exists (destroy method called in GFXWindowed.py)
 		exit()
 
-	if Graphics.GetCommand() == "PAUSE":
-		Graphics.setStatus(Graphics.status["Paused"])
-		while Graphics.GetCommand() != "RESUME":
-			time.sleep(0.2)
+
+	#########################################################
+	# PARSE WEB SERVER COMMANDS HERE						#
+	#########################################################
+
+	COMMAND = Graphics.GetCommand() #Returns [cmd, user, email]
+	if COMMAND != []:
+
+		if COMMAND[1] in admins:
+			if COMMAND[0] == "PAUSE":
+				Graphics.setStatus(Graphics.status["Paused"])
+
+				while True:
+					subCMD = Graphics.GetCommand()
+					if subCMD != []:
+						if subCMD[0] == "RESUME":
+							break
+					time.sleep(0.2)
+
+			if COMMAND[0] == "STOP":
+				Graphics.setStatusString("QUIT", "Quit Command Received from user " + COMMAND[1])
+				exit()
+		else:
+			Graphics.setStatusString("PERMISSION ERROR", "User <" + str(COMMAND[1]) + "> attempted to run <" + str(COMMAND[0]) + "> \n             without administrator priveliges. Bad <" + str(COMMAND[1]) + ">!")
+
+	#########################################################
 
 	if Graphics.isPaused():
 		Graphics.setStatus(Graphics.status["Paused"])
@@ -192,20 +226,20 @@ while True:
 
 
 						elif data[0] == 83:
-							#print("Client Ready to Receive data.")
+							print("Client Ready to Receive data.")
 							clientneeds = Database.Difference(Database.GetKeyList(), Database.GetClientDataList())['ClientNeeds']
-							#print(clientneeds)
+							print(clientneeds)
 							if len(clientneeds) != 0:
 								connection.sendall(b'D')
 							else:
 								connection.sendall(b'Z')
 							for i in range (0, len(clientneeds)):
-								#print("Sending to Client: " + str(clientneeds[i]))
+								print("Sending to Client: " + str(clientneeds[i]))
 								endbyte = 1
 								if i == len(clientneeds)-1:
-									#print("Sending End Byte with data.")
+									print("Sending End Byte with data.")
 									endbyte = 0
-								#print(endbyte)
+								print(endbyte)
 								time.sleep(0.1)
 								senddata = ParseData.ReconstructFromJson(clientneeds[i], endbyte)
 								connection.sendall(senddata)
@@ -215,7 +249,7 @@ while True:
 									##print(response)
 									if response == b'RECV_OK':
 										ok = True
-										#print("RECV_OK. Continuing...")
+										print("RECV_OK. Continuing...")
 									else:
 										#connection.close()
 										break

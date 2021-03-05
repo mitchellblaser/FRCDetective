@@ -158,8 +158,8 @@ def ParseServerRequirements(data):
     return requirements
 
 
-SetupSocket('10.10.10.161', 5584)
-RoundList = ParseRoundList({'0-0-001-05584': 123456, '0-0-003-05584': 234567})
+SetupSocket(sys.argv[1], 5584)
+RoundList = ParseRoundList({})
 if SendRoundList(RoundList) == b'RECV_OK':
     req = ParseServerRequirements(GetDataToSend())
     if req['count'] != 0:

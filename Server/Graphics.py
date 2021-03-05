@@ -72,3 +72,5 @@ def GetCommand():
 	global SelectedMode
 	if SelectedMode == mode["web"]:
 		return GFXWeb.GetCommand()
+	else:
+		return ""
