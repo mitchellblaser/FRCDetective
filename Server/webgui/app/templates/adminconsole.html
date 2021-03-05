@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="col-xs-12 text-center">
+        <h1>Admin Console</h1><br>
+        <div>
+            <h3>Users List</h3>
+            <p><b>Administrators: </b>{{ adminlist }}</p>
+            {{ userlist | safe }}
+            <br>
+            <button id="adminbtn" class="btn btn-primary" onclick="makeAdmin()">Make Admin</button>
+            <button id="normalbtn" class="btn btn-primary" onclick="removeAdmin()">Remove Admin</button>
+        </div>
+        <br>
+        <div>
+            <h3>Manage Server Data</h3>
+            <p><b>User Database</b><br>/app/webgui/app.db</p>
+            <a href="/adminconsole/getuserdb" class="btn btn-primary">Download</a>  <a class="btn btn-primary">Upload</a>
+        </div>
+
+    </div>
+
+    <script>
+        function checkClicked() {
+            listbox = document.getElementById("userlist");
+            return listbox.options[listbox.selectedIndex].value
+        }
+
+        adminPost = 0
+        function makeAdmin() {
+            targetuser = checkClicked();
+            fetch("/adminconsole/elevateuser/" + targetuser)
+                .then(response => adminPost = 1);
+        }
+
+        function removeAdmin() {
+            targetuser = checkClicked();
+            fetch("/adminconsole/deesculateuser/" + targetuser)
+                .then(response => adminPost = 1);
+        }
+
+        function checkRefresh() {
+            if (adminPost == 1) {
+                adminPost = 0;
+                location.reload();
+            }
+            setTimeout(checkRefresh, 1000);
+        }
+
+        checkRefresh();
+
+    </script>
+
+{% endblock %}
