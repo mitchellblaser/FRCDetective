@@ -20,14 +20,17 @@ namespace FRCDetective
     }
     public partial class FileViewPage : ContentPage
     {
-        ObservableCollection<RoundData> roundList = new ObservableCollection<RoundData>();
-        public ObservableCollection<RoundData> RoundList { get { return roundList; } }
+        public ObservableCollection<RoundData> RoundList = new ObservableCollection<RoundData>();
+
 
         public FileViewPage()
         {
             InitializeComponent();
-            lstFiles.ItemsSource = roundList;
+            lstFiles.ItemsSource = RoundList;
+        }
 
+        protected override void OnAppearing()
+        {
             Refresh();
         }
 
@@ -43,15 +46,14 @@ namespace FRCDetective
                 RoundData round = JsonConvert.DeserializeObject<RoundData>(json);
                 RoundList.Add(round);
             }
-        }
-        public void OnMore(object sender, EventArgs e)
-        {
-            var mi = ((MenuItem)sender);
-            RoundData round = (RoundData)mi.CommandParameter;
+            List<RoundData> sortedList =  RoundList.OrderBy(o => o.Round).ToList();
 
-            DisplayAlert("More Context Action", round.DisplayName + " more context action", "OK");
-        }
+            RoundList.Clear();
 
+            foreach (var item in sortedList)
+                RoundList.Add(item);
+
+        }
         public async void OnDelete(object sender, EventArgs e)
         {
             var mi = ((MenuItem)sender);

@@ -27,25 +27,30 @@ namespace FRCDetective
         private Socket socket;
         private bool isLoaded;
 
-
+        // Initialise the page and set the connection icon to not connected
         public MainPage()
         {
             InitializeComponent();
             NetworkStatus.Source = ImageSource.FromFile("baseline_sensors_off_black_18dp.png");
         }
 
+        // When the page appears, start the network connection task
         protected async override void OnAppearing()
         {
-            if (!isLoaded)
+            isLoaded = true;
+            await Task.Run(async () =>
             {
-                await Task.Run(async () =>
-                {
-                    await networkInterface();
-                });
-                isLoaded = true;
-            }
+                await networkInterface();
+            });
         }
 
+        // When the page disappears, kill the network connection task
+        protected async override void OnDisappearing()
+        {
+                isLoaded = false;
+        }
+
+        // If the client is not connected to the server, attemt to connect every second. On state change, update the icon
         async Task networkInterface()
         {
             while (true)
@@ -73,10 +78,19 @@ namespace FRCDetective
                     //send();
                 }
                 _lastNetStatus = _netStatus;
+
+                Console.WriteLine("hello");
+
+                if (!isLoaded)
+                {
+                    return;
+                }
+
                 Thread.Sleep(1000);
             }
         }
 
+        // A function to determine if the client is connected to the server
         public bool IsConnected
         {
             get
@@ -122,11 +136,13 @@ namespace FRCDetective
             }
         }
 
+        // Transition to the GameEntryPage
         async void entryPage(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new GameEntryPage());
         }
 
+        // Attempt a connection to the client
         void connect()
         {
             try
@@ -151,110 +167,16 @@ namespace FRCDetective
                 Console.WriteLine(e.Message);
             }
         }
-        void Send(object sender, EventArgs e)
-        {
-            sendDefault();
-        }
 
-        void sendDefault()
-        {
-            bool replyOK = false;
-
-            byte[] time = BitConverter.GetBytes((ulong)DateTimeOffset.Now.ToUnixTimeSeconds());
-            byte[] team = BitConverter.GetBytes((Int32)5584);
-
-            byte[] data = new byte[41];
-
-            data[0] = 0x00; data[1] = 0x11; data[2] = 0x22; data[3] = 0x33; // UID
-            for (int i = 4; i < 12; i++)    // Time
-            {
-                data[i] = time[i - 4];
-            }
-            data[12] = 0;   // Division
-            data[13] = 0;   // Round Type
-            data[14] = Convert.ToByte(Convert.ToInt32(RoundEntry.Text));   // Round Number
-            for (int i = 15; i < 19; i++)    // Team
-            {
-                data[i] = team[i - 15];
-            }
-            data[19] = 0;   // Alliance
-            /* Auto */
-            data[20] = 1;   // Initiation Line
-            data[21] = 6;   // Top Balls
-            data[22] = 0;   // Bottom Balls
-            /* Teleop */
-            data[23] = 50;  // Top Balls
-            data[24] = 0;   // Bottom Balls
-            data[25] = 1;   // Rotation Control
-            data[26] = 1;   // Position Control
-            data[27] = 2;   // Climb
-            data[28] = 1;   // Level
-            data[29] = 40;  // Foul
-            data[30] = 40;  // Tech Foul
-            data[31] = 0xFF;// Start Hash
-            for (int i = 32; i < 40; i++)   // Hash
-            {
-                data[i] = 0xFF;
-            }
-            data[40] = 0;   // End Byte
-
-            while (!replyOK)
-            {
-                try
-                {
-                    client.SendTimeout = 5000;
-                    NetworkStream stream = client.GetStream();
-                    stream.Write(data, 0, data.Length);
-                }
-                catch (Exception e)
-                {
-                    DisplayError(e.Message);
-                    return;
-                }
-
-                byte[] ok = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x4f, 0x4b };
-                byte[] no = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x4e, 0x4f };
-                byte[] dc = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x44, 0x43 };
-
-                byte[] reply = receive();
-
-                if (reply == null)
-                {
-                    DisplayError("Server Sent No Reply. Are you connected to the server?");
-                    return;
-                }
-
-                if (Enumerable.SequenceEqual(reply, ok))
-                {
-                    DisplayAlert("Message", "Yay the data is good", ":)");
-                    replyOK = true;
-                }
-                else if (Enumerable.SequenceEqual(reply, no))
-                {
-                    //DisplayError("Blame mitch his server broke");
-                }
-                else if (Enumerable.SequenceEqual(reply, dc))
-                {
-                    DisplayAlert("Message", "Yay the data is good. Disconnecting", ":)");
-                    replyOK = true;
-                    client.Close();
-                }
-            }
-            //client.Close();
-        }
-        void Receive(object sender, EventArgs e)
-        {
-            byte[] data = receive();
-
-            if (data == null)
-            {
-                DisplayError("IDK whats wrong but i needed to show an error.\nMaybe go talk to Dhiluka or something\n\nor maybe fix it yourself");
-            }
-            else
-            {
-                DisplayAlert("Message", System.Text.Encoding.UTF8.GetString(data, 0, data.Length), "OK");
-            }
-        }
+        /* Main function for sending data
+         * 
+         * Inputs:
+         *     - Byte Array data: data to send over the TCP socket
+         *     - Bool autoRetry: whether to keep resending data until a RECV_OK message is received
+         * Outputs:
+         *     - True: Data was sent successfully
+         *     - False: Data was not sent successfully
+         */
         bool send(byte[] data, bool autoRetry = true)
         {
             bool replyOK = false;
@@ -310,6 +232,13 @@ namespace FRCDetective
             }
             return true;
         }
+
+        /* Main Function for Receiving Data
+         * 
+         * Outputs:
+         *     - Byte Array: Data received from the socket
+         *     - Byte Array: Null if receive failed
+         */
         byte[] receive()
         {
             try
@@ -333,6 +262,19 @@ namespace FRCDetective
             return null;
         }
 
+        /* Function for syncing data between client and server
+         * 
+         * Protocol:
+         *     - Client initialises list with b'L' as first value
+         *     - Client reads files and adds unique ID from each file to list in byte form
+         *     - Client sends list to server
+         *     
+         *     - Server replys with unique ID of rounds it wants
+         *     - Server requests data from client
+         *     - If client has data to send the server, client sends b'R' followed by full round data
+         *     - Client sends b'S' to request data from server
+         *     - If server replys b'D' client reads data from socket and saves to file
+         */
         async void Index(object sender, EventArgs e)
         {
             IFolder rootFolder = FileSystem.Current.LocalStorage;
@@ -355,6 +297,10 @@ namespace FRCDetective
                 {
                     dataList.Add(Byte);
                 }
+
+                round.Synced = true;
+                json = JsonConvert.SerializeObject(round);
+                await file.WriteAllTextAsync(json);
             }
 
             try
@@ -473,6 +419,7 @@ namespace FRCDetective
                     }
 
                     RoundData roundData = new RoundData();
+                    roundData.Synced = true;
 
                     System.DateTime epochTime = new System.DateTime(1970, 1, 1, 0, 0, 0, 0);    // Time
                     roundData.Timestamp = epochTime.AddSeconds(BitConverter.ToInt64(data, 4));
