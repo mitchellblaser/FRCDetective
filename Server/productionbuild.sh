@@ -4,7 +4,7 @@ echo "FRC DETECTIVE PRODUCTION-READY BUILD SCRIPT"
 echo "==========================================="
 
 echo "Removing Round Data"
-rm ./Storage.json
+sudo rm ./Storage.json
 echo "Creating Blank Round Data"
 echo "{}" >> ./Storage.json
 echo "Moving to ./webgui"
@@ -14,7 +14,7 @@ echo "Generating Database File"
 echo "Moving to .."
 cd ..
 echo "Attempting to remove existing directory"
-rm -rf ../../DetectiveServer-Release
+sudo rm -rf ../../DetectiveServer-Release
 echo "Making Directory ../../DetectiveServer-Release"
 mkdir ../../DetectiveServer-Release
 echo "Building Docker Image"
