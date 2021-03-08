@@ -7,6 +7,7 @@ import socket
 import select
 import time
 import sys
+import threading
 
 import Graphics
 import Format
@@ -60,6 +61,7 @@ def ProcessCommands():
 
 def ClientHandler(connection, address, timeoutSecs, maxPacket):
 	Graphics.setStatusString("NET", "Connection from " + str(address) + ".")
+	lock = threading.Lock()
 	_connected = True
 	_clientDataList = []
 	while _connected:
@@ -91,7 +93,9 @@ def ClientHandler(connection, address, timeoutSecs, maxPacket):
 				connection.sendall(b'RECV_OK')
 				#time.sleep(0.5)
 				_clientDataList = ParseData.ParseRoundList(data)
+				lock.acquire()
 				connection.sendall(ParseData.NeedsToClientBytes(Database.Difference(Database.GetKeyList(), _clientDataList)))
+				lock.release()
 
 			# ENTER ROUND LOOP #
 			elif data[0] == 82:
@@ -101,7 +105,9 @@ def ClientHandler(connection, address, timeoutSecs, maxPacket):
 					_round = connection.recv(maxPacket)
 					_parsedRound = ParseData.Parse(_round)
 					_jsonuid = Format.PadNumber(_parsedRound["Division"], 1) + "-" + Format.PadNumber(_parsedRound["RoundType"], 1) + "-" + Format.PadNumber(_parsedRound["RoundNumber"], 3) + "-" + Format.PadNumber(_parsedRound["TeamNumber"], 5)
+					lock.acquire()
 					FileIO.AppendData("Storage.json", _jsonuid, _parsedRound)
+					lock.release()
 					connection.sendall(b'RECV_OK')
 					if _round[40] == 0:
 						_receiveRound = False
@@ -109,7 +115,9 @@ def ClientHandler(connection, address, timeoutSecs, maxPacket):
 			# CLIENT READY TO RECEIVE #
 			elif data[0] == 83:				
 				# Generate Diff
+				lock.acquire()
 				_clientneeds = Database.Difference(Database.GetKeyList(), _clientDataList)['ClientNeeds']
+				lock.release()
 
 				# Only send the [D]ata if we do not have [Z]ero data to send.
 				if len(_clientneeds) == 0:
@@ -122,7 +130,9 @@ def ClientHandler(connection, address, timeoutSecs, maxPacket):
 				for i in range(0, len(_clientneeds)):
 					if i == len(_clientneeds)-1:
 						_end = 0
+					lock.acquire()
 					connection.sendall(ParseData.ReconstructFromJson(_clientneeds[i], _end))
+					lock.release()
 					_resp = connection.recv(maxPacket)
 					if _resp != b'RECV_OK':
 						Graphics.setStatusString("ERR", "Client did not reply. Killing Thread.")
