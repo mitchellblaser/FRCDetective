@@ -29,3 +29,6 @@ def setStatus(_status):
 	else:
 		printStatus = True
 		print(str(status[_status]))
+
+def setStatusString(_title, _msg):
+	print(str(_title) + ": " + str(_msg))

@@ -22,7 +22,7 @@ def parseArgs():
 	_a = "localhost"
 	_p = 5584
 	_d = False
-	_g = "windowed"
+	_g = "web"
 
 	for i in range (0, _len):
 		if sys.argv[i]=="-a" or sys.argv[i]=="--address":
