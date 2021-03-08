@@ -6,6 +6,7 @@ import os
 import socket
 import select
 import time
+import sys
 
 import Graphics
 import Format
@@ -36,23 +37,26 @@ def ShouldSocketClose():
 	global SocketShouldClose
 	return SocketShouldClose
 
+#########[ Load list of Admin Users from ./webgui/adminusers.txt ]#########
+def GetAdmins(): #Define this as a function - we use it again later.
+	global admins
+	admins = []
+	adminlist = open("webgui/adminusers.txt", "r")
+	for user in adminlist:
+		admins.append(user.rstrip())
+
 def ProcessCommands():
-	#################[ Validate Web Server Commands ]#####################
-	_COMMAND = Graphics.GetCommand() #Will return [command, userid, email]
-	GetAdmins()
-	if Graphics.ValidateCommand(_COMMAND, admins):
-		##############[ Process Web Server Commands ]#####################
-		if _COMMAND[0] == "STOP":
-			Communications.scheduleSocketClose(True) #Safely close sockets and quit server
-			Graphics.setStatusString("CMD", "User " + _COMMAND[1] + "has stopped the server.")
-		elif _COMMAND[0] == "PAUSE":
-			while True: #Hold here until command is "RESUME"
-				time.sleep(0.2) #Save processing time and file IO
-				_SUBCOMMAND = Graphics.GetCommand()
-				GetAdmins()
-				if Graphics.ValidateCommand(_SUBCOMMAND, admins):
-					if _COMMAND[0] == "RESUME":
-						break #out of loop, which halts execution.
+	while True:
+		#################[ Validate Web Server Commands ]##################
+		_COMMAND = Graphics.GetCommand() #Will return [command, userid, email]
+		GetAdmins()
+		if Graphics.ValidateCommand(_COMMAND, admins):
+			##############[ Process Web Server Commands ]#####################
+			if _COMMAND[0] == "STOP":
+				scheduleSocketClose(True) #Safely close sockets and quit server
+				Graphics.setStatusString("CMD", "User " + _COMMAND[1] + " has stopped the server.")
+				os._exit(1)
+
 
 def ClientHandler(connection, address, timeoutSecs, maxPacket):
 	Graphics.setStatusString("NET", "Connection from " + str(address) + ".")

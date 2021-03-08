@@ -66,7 +66,11 @@ def GetCommand():
 		return ""
 
 def ValidateCommand(_COMMAND, _ADMINS):
-	if _COMMAND != []:
-		if _COMMAND[1] in _ADMINS:
-			return True
+	try:
+		if _COMMAND != []:
+			if _COMMAND[0] != "":
+				if _COMMAND[1] in _ADMINS:
+					return True
+	except:
+		return False
 	return False

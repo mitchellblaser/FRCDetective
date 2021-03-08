@@ -45,15 +45,7 @@ if ParseArgument.isEmpty() == False:
 		_address = _args[0]
 else:
 	ParseArgument.printHelp()
-
-#########[ Load list of Admin Users from ./webgui/adminusers.txt ]#########
-def GetAdmins(): #Define this as a function - we use it again later.
-	global admins
-	admins = []
-	adminlist = open("webgui/adminusers.txt", "r")
-	for user in adminlist:
-		admins.append(user.rstrip())
-GetAdmins() #Call the function.
+	exit()
 
 
 ##########################[ Initialize Graphics ]##########################
@@ -71,27 +63,13 @@ _socket.bind(_server_addr)
 _socket.listen(1)
 
 
+#######################[ Start Command Processor ]########################
+CommandProcessor = threading.Thread(target=Communications.ProcessCommands, args=())
+CommandProcessor.start()
+
+
 ###########################[ Main Server Loop ]###########################
 while Communications.ShouldSocketClose() == False:
-
-	# note: might need to thread this? only runs every time a client disconnects.
-	#################[ Validate Web Server Commands ]#####################
-	_COMMAND = Graphics.GetCommand() #Will return [command, userid, email]
-	GetAdmins()
-	if Graphics.ValidateCommand(_COMMAND, admins):
-		##############[ Process Web Server Commands ]#####################
-		if _COMMAND[0] == "STOP":
-			Communications.scheduleSocketClose(True) #Safely close sockets and quit server
-			Graphics.setStatusString("CMD", "User " + _COMMAND[1] + "has stopped the server.")
-		elif _COMMAND[0] == "PAUSE":
-			while True: #Hold here until command is "RESUME"
-				time.sleep(0.2) #Save processing time and file IO
-				_SUBCOMMAND = Graphics.GetCommand()
-				GetAdmins()
-				if Graphics.ValidateCommand(_SUBCOMMAND, admins):
-					if _COMMAND[0] == "RESUME":
-						break #out of loop, which halts execution.
-
 
 	######################[ Accept Connections ]##########################
 	connection, address = _socket.accept()
@@ -102,4 +80,4 @@ while Communications.ShouldSocketClose() == False:
 try:
 	_socket.shutdown(1)
 finally:
-	exit()
+	sys.exit()
