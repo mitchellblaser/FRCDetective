@@ -1,5 +1,3 @@
-#!/bin/bash
-
 rm -rf migrations
 rm app.db
 rm adminusers.txt

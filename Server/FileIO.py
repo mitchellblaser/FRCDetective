@@ -4,6 +4,8 @@
 
 import json
 
+JsonLocked = False
+
 def SaveData(_filepath, _data):
 	with open(_filepath, "w") as write_file:
 		json.dump(_data, write_file)
@@ -24,3 +26,11 @@ def AppendData(_filepath, _key, _data):
 	with open(_filepath, "w") as write_file:
 		json.dump(data, write_file)
 		write_file.close()
+
+def LockJson(locked):
+	global JsonLocked
+	JsonLocked = locked
+
+def IsJsonLocked():
+	global JsonLocked
+	return JsonLocked

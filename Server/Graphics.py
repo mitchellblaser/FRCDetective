@@ -4,7 +4,6 @@
 
 import GFXLowLevel
 import GFXWeb
-import LogOutput
 
 mode = {
 	"windowed" : 0,
@@ -31,14 +30,8 @@ def setGraphics(_mode):
 	if _mode == mode["web"]:
 		SelectedMode = 2
 
-def initGraphics(_log):
+def initGraphics():
 	global SelectedMode
-	global DoLogOutput
-
-	if _log:
-		DoLogOutput = True
-	else:
-		DoLogOutput = False
 
 	if SelectedMode == mode["lowlevel"]:
 		GFXLowLevel.initGraphics()
@@ -54,19 +47,16 @@ def setStatus(_status):
 		GFXWeb.setStatus(_status)
 	if SelectedMode == mode["lowlevel"]:
 		GFXLowLevel.setStatus(_status)
-	if DoLogOutput == True:
-		LogOutput.OutputCode(_status)
 
 def setStatusString(_statusTitle, _statusMessage):
 	if SelectedMode == mode["web"]:
 		GFXWeb.setStatusString(_statusTitle, _statusMessage)
+	if SelectedMode == mode["lowlevel"]:
+		GFXLowLevel.setStatusString(_statusTitle, _statusMessage)
 
 def isPaused():
 	if SelectedMode == mode["lowlevel"]:
 		return False
-
-def CloseApplication():
-	print()
 
 def GetCommand():
 	global SelectedMode
@@ -74,3 +64,13 @@ def GetCommand():
 		return GFXWeb.GetCommand()
 	else:
 		return ""
+
+def ValidateCommand(_COMMAND, _ADMINS):
+	try:
+		if _COMMAND != []:
+			if _COMMAND[0] != "":
+				if _COMMAND[1] in _ADMINS:
+					return True
+	except:
+		return False
+	return False
