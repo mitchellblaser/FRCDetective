@@ -10,6 +10,5 @@ Command Line Arguments:
 	--debug (-d) [True/False]
 		Show debug messages
 
-	--graphics (-g) [windowed/lowlevel/web]
+	--graphics (-g) [web/lowlevel]
 		Set the graphics mode
-		(lowlevel for led output on raspberry pi)

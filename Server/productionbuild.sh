@@ -30,5 +30,9 @@ cp ./webgui/app.db ../../DetectiveServer-Release/.installdata/app.db
 
 echo "Copying Install Script to ../../DetectiveServer-Release"
 cp ./install-linux.sh ../../DetectiveServer-Release/install-linux.sh
+echo "Packaging script into ../../DetectiveServer.zip"
+sudo chmod 666 ../../DetectiveServer-Release/detectiveserver-latest.tar
+zip -r ../../DetectiveServer.zip ../../DetectiveServer-Release
+sudo rm -rf ../../DetectiveServer-Release
 echo ""
 echo " >>>> DONE! <<<<"
