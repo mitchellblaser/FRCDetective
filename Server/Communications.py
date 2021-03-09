@@ -91,7 +91,7 @@ def ClientHandler(connection, address, timeoutSecs, maxPacket):
 			# RECIEVE ROUND LIST #
 			if data[0] == 76:
 				connection.sendall(b'RECV_OK')
-				#time.sleep(0.5)
+				time.sleep(0.1)
 				_clientDataList = ParseData.ParseRoundList(data)
 				lock.acquire()
 				connection.sendall(ParseData.NeedsToClientBytes(Database.Difference(Database.GetKeyList(), _clientDataList)))
