@@ -4,6 +4,27 @@
 
 import FileIO
 
+DATALIST = ["UID",
+			"Timestamp",
+			"Division",
+			"RoundType",
+			"RoundNumber",
+			"TeamNumber",
+			"Alliance",
+			"Auto-InitiationLine",
+			"Auto-TopBalls",
+			"Auto-BottomBalls",
+			"Teleop-TopBalls",
+			"Teleop-BottomBalls",
+			"Teleop-ColorWheelRotation",
+			"Teleop-ColorWheelPosition",
+			"Teleop-Climb",
+			"Teleop-Switch",
+			"Fouls",
+			"TechFouls",
+			"StartHash",
+			"Hash",
+			"End"]
 
 def Parse(_data):
 	datalist = {
@@ -14,7 +35,7 @@ def Parse(_data):
 		"RoundNumber" : 0,
 		"TeamNumber" : 0,
 		"Alliance" : 0,
-		"Auto-InitiationLine" :0,
+		"Auto-InitiationLine" : 0,
 		"Auto-TopBalls" : 0,
 		"Auto-BottomBalls" : 0,
 		"Teleop-TopBalls" : 0,

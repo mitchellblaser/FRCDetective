@@ -14,6 +14,7 @@ import Format
 import Database
 import ParseData
 import FileIO
+import HashScript
 
 CustomAddress = "NULL"
 SocketShouldClose = False
@@ -108,7 +109,10 @@ def ClientHandler(connection, address, timeoutSecs, maxPacket):
 					lock.acquire()
 					FileIO.AppendData("Storage.json", _jsonuid, _parsedRound)
 					lock.release()
-					connection.sendall(b'RECV_OK')
+					if HashScript.ProcessRound(_parsedRound) == _parsedRound["Hash"]:
+						connection.sendall(b'RECV_OK')
+					else:
+						connection.sendall(b'RECV_ER')
 					if _round[40] == 0:
 						_receiveRound = False
 

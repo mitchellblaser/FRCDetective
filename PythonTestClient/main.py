@@ -167,23 +167,28 @@ if SendRoundList(RoundList) == b'RECV_OK':
         response = sock.recv(1024)
         if response == b'RECV_OK':
             print("RECV_OK")
+    BASE_HASH = 857876176 # This plus Round Number will match hash from server
     for i in range(0, req['count']):
         print("Generating data for round " + req['rounds'][i] + "...")
         timestamp = GenerateTimestamp()
         print("    Timestamp (current):   " + str(int.from_bytes(timestamp, "little")))
         roundnumber = int.to_bytes(int(req['rounds'][i][4:7]), 1, "little")
         print("    Round Number:          " + str(int.from_bytes(roundnumber, "little")))
+        current_hash = BASE_HASH + int.from_bytes(roundnumber, "little") + int.from_bytes(timestamp, "little")
+        print("    Generated Hash:        " + str(current_hash))
         if i == req['count']-1:
             endbyte = b'\x00' #change to x01 if sending more
         else:
             endbyte = b'\x01'
         print("    Data to send:          " + str(i+1) + " of " + str(req['count']) + " <End Byte=0x0" + str(int.from_bytes(endbyte, "little")) + ">")
-        FakeRoundData = b'\x00\x11\x22\x33' + timestamp + b'\x00\x00' + roundnumber + int.to_bytes(5584, 4, "little") + b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff\x00\x00\x00\x00\x00\x00\x00\x00' + endbyte
+        FakeRoundData = b'\x00\x11\x22\x33' + timestamp + b'\x00\x00' + roundnumber + int.to_bytes(5584, 4, "little") + b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xff' + int.to_bytes(current_hash, 8, "little") + endbyte
         SendRoundData(FakeRoundData)
         try:
             response = sock.recv(1024)
             if response == b'RECV_OK':
-                print("Recieved Data: " + str(response))
+                print("Recieved OK: " + str(response))
+            else:
+                print("Recieved ERROR: " + str(response))
         except:
             print("ERROR! Recieved no data from client.")
             response = b'NODATA'
