@@ -1,7 +1,7 @@
 FROM python:3.9.2-alpine3.13
 WORKDIR /app
 ADD . /app
-RUN pip install --trusted-host pypi.python.org flask flask-wtf flask-login flask-sqlalchemy flask-migrate email-validator flask-bootstrap
+RUN pip install --trusted-host pypi.python.org flask flask-wtf flask-login flask-sqlalchemy flask-migrate email-validator flask-bootstrap waitress
 EXPOSE 8080
 EXPOSE 5584
 CMD ["python", "-u", "main.py", "-p", "5584", "-g", "web"]
