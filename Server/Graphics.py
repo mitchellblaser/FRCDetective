@@ -2,13 +2,13 @@
 # Graphics.py
 # Created 4-2-21
 
-import GFXWindowed
 import GFXLowLevel
-import LogOutput
+import GFXWeb
 
 mode = {
 	"windowed" : 0,
-	"lowlevel" : 1
+	"lowlevel" : 1,
+	"web"	   : 2
 }
 
 status = {
@@ -27,45 +27,50 @@ def setGraphics(_mode):
 		SelectedMode = 0
 	if _mode == mode["lowlevel"]:
 		SelectedMode = 1
+	if _mode == mode["web"]:
+		SelectedMode = 2
 
-def initGraphics(_log):
+def initGraphics():
 	global SelectedMode
-	global DoLogOutput
 
-	if _log:
-		DoLogOutput = True
-	else:
-		DoLogOutput = False
-
-	if SelectedMode == mode["windowed"]:
-		GFXWindowed.initGraphics()
 	if SelectedMode == mode["lowlevel"]:
 		GFXLowLevel.initGraphics()
+	if SelectedMode == mode["web"]:
+		GFXWeb.initGraphics()
 
 def updateGraphics():
-	if SelectedMode == mode["windowed"]:
-		GFXWindowed.updateGraphics()
 	if SelectedMode == mode["lowlevel"]:
 		GFXLowLevel.updateGraphics()
 
 def setStatus(_status):
-	if SelectedMode == mode["windowed"]:
-		GFXWindowed.setStatus(_status)
+	if SelectedMode == mode["web"]:
+		GFXWeb.setStatus(_status)
 	if SelectedMode == mode["lowlevel"]:
 		GFXLowLevel.setStatus(_status)
-	if DoLogOutput == True:
-		LogOutput.OutputCode(_status)
 
 def setStatusString(_statusTitle, _statusMessage):
-	if SelectedMode == mode["windowed"]:
-		GFXWindowed.setStatusString(_statusTitle, _statusMessage)
+	if SelectedMode == mode["web"]:
+		GFXWeb.setStatusString(_statusTitle, _statusMessage)
+	if SelectedMode == mode["lowlevel"]:
+		GFXLowLevel.setStatusString(_statusTitle, _statusMessage)
 
 def isPaused():
-	if SelectedMode == mode["windowed"]:
-		return GFXWindowed.isPaused()
 	if SelectedMode == mode["lowlevel"]:
-		print("Pause operation not supported on non-windowed application.")
+		return False
 
-def CloseApplication():
-	if SelectedMode == mode["windowed"]:
-		GFXWindowed.CloseApplication()
+def GetCommand():
+	global SelectedMode
+	if SelectedMode == mode["web"]:
+		return GFXWeb.GetCommand()
+	else:
+		return ""
+
+def ValidateCommand(_COMMAND, _ADMINS):
+	try:
+		if _COMMAND != []:
+			if _COMMAND[0] != "":
+				if _COMMAND[1] in _ADMINS:
+					return True
+	except:
+		return False
+	return False

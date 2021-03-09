@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="col-xs-12 text-center">
+        <form action = "/adminconsole/{{ uploadtarget }}/{{ filename }}" method = "POST" 
+        enctype = "multipart/form-data">
+            <input type = "file" name = "file" />
+            <input type = "submit"/>
+        </form>  
+    </div>
+{% endblock %}

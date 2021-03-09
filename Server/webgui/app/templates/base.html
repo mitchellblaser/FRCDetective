@@ -1,0 +1,38 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block title %}
+    {% if title %}{{ title }} - FRC Detective{% else %}FRC Detective{% endif %}
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <ul class="nav navbar-nav">
+                <li><a href="{{ url_for('index') }}">FRC Detective</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user.is_anonymous %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                {% else %}
+                <li><a href="{{ url_for('adminconsole') }}">Admin Console</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout {{ current_user.username }}</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        {# application content needs to be provided in the app_content block #}
+        {% block app_content %}{% endblock %}
+    </div>
+{% endblock %}
