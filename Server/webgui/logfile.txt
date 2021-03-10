@@ -1,3 +1,0 @@
-11:03:11: Starting Server on 127.0.0.1:5584.
-11:03:18: Connection from ('127.0.0.1', 45206).
-11:03:19: Closing Connection from ('127.0.0.1', 45206).
