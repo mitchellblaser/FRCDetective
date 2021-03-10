@@ -19,5 +19,5 @@ The Server is written in Python 3, and has been tested in versions 3.8+. It supp
 
 On Unix systems, you can start the detective with `./detective -p [port]`. On systems where that doesn't work (Windows, etc..), you can start it with `python3 ./main.py -p [port]`.
 
-<a class="btn" href="/download/DetectiveServer-DevRel001.zip"><i class="fa fa-download"></i> Download Server</a>         
+<a class="btn" href="/download/DetectiveServer-Release.zip"><i class="fa fa-download"></i> Download Server</a>         
 
