@@ -14,7 +14,7 @@ For the Server to work, you'll need to have the Docker engine installed on your 
 Once Docker's installed, grab a copy of the latest Server Release from our <a href="/download">Download Page</a>.
 
 <br>
-##### Linux Instructions:
+##### Linux and macOS Instructions:
 Move to your Downloads directory and run `unzip ./DetectiveServer-Release.zip && cd DetectiveServer-Release`. If you don't have the unzip binary installed, use your package manager to  get it. Now that you're in the directory, run `./install-linux.sh` (**not** as root, but as your default user.) If prompted, enter your user password for the sudo command.
 
 Inside the Installation Script, we'll load the docker image in, copy the required files to /etc/detective on your disk, and install a `frcdetective` binary that you can launch from the command line once finished.
