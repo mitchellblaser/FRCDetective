@@ -90,7 +90,7 @@ def ClientHandler(connection, address, timeoutSecs, maxPacket):
 		if data:
 			Format.PrintHex(data)
 			# RECIEVE ROUND LIST #
-			if data[0] == 0x4c:
+			if data[0] == 76:
 				connection.sendall(b'RECV_OK')
 				time.sleep(0.1)
 				_clientDataList = ParseData.ParseRoundList(data)
@@ -99,7 +99,7 @@ def ClientHandler(connection, address, timeoutSecs, maxPacket):
 				lock.release()
 
 			# ENTER ROUND LOOP #
-			elif data[0] == 0x52:
+			elif data[0] == 82:
 				_receiveRound = True
 				connection.sendall(b'RECV_OK')
 				while _receiveRound == True:
@@ -117,7 +117,7 @@ def ClientHandler(connection, address, timeoutSecs, maxPacket):
 						_receiveRound = False
 
 			# CLIENT READY TO RECEIVE #
-			elif data[0] == 0x53:				
+			elif data[0] == 83:				
 				# Generate Diff
 				lock.acquire()
 				_clientneeds = Database.Difference(Database.GetKeyList(), _clientDataList)['ClientNeeds']

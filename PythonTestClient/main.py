@@ -103,8 +103,7 @@ def SendRoundList(data):
     global sock
     try:
         print("Sending round list with data: b'L' + " + str(data))
-        sock.sendall(b'L')
-        sock.sendall(data)
+        sock.sendall(b'L' + data)
     finally:
         print("Finished Sending.")
     try:
@@ -159,7 +158,7 @@ def ParseServerRequirements(data):
 
 
 SetupSocket(sys.argv[1], 5584)
-RoundList = ParseRoundList({'0-0-001-05584': 123456, '0-0-002-05584': 234567})
+RoundList = ParseRoundList({'0-0-001-05584': 123456, '0-0-009-05584': 234567})
 if SendRoundList(RoundList) == b'RECV_OK':
     req = ParseServerRequirements(GetDataToSend())
     if req['count'] != 0:
