@@ -14,6 +14,7 @@ import Format
 import Database
 import ParseData
 import FileIO
+import HashScript
 
 CustomAddress = "NULL"
 SocketShouldClose = False
@@ -74,7 +75,7 @@ def ClientHandler(connection, address, timeoutSecs, maxPacket):
 					data = connection.recv(maxPacket)
 					break
 				except Exception as e:
-					print(e)
+					#print(e)
 					_connected = False
 					break
 		### Make sure we've got actual data before using it
@@ -108,7 +109,10 @@ def ClientHandler(connection, address, timeoutSecs, maxPacket):
 					lock.acquire()
 					FileIO.AppendData("Storage.json", _jsonuid, _parsedRound)
 					lock.release()
-					connection.sendall(b'RECV_OK')
+					if HashScript.ProcessRound(_parsedRound) == _parsedRound["Hash"]:
+						connection.sendall(b'RECV_OK')
+					else:
+						connection.sendall(b'RECV_ER')
 					if _round[40] == 0:
 						_receiveRound = False
 
@@ -138,9 +142,35 @@ def ClientHandler(connection, address, timeoutSecs, maxPacket):
 						Graphics.setStatusString("ERR", "Client did not reply. Killing Thread.")
 						_connected = False
 						break
+			
+			# RECEIVE PICK LIST FROM CLIENT #
+			elif data[0] == 0x50:
+				lock.acquire()
+				_picklist = FileIO.ReadData('Picklist.json')
+				lock.release()
+				connection.sendall(b'RECV_OK')
+				_list = connection.recv(maxPacket)
+				i = 0
+				while i < len(_list):
+					_currentTeam = [_list[i], _list[i+1], _list[i+2], _list[i+3], _list[i+4]]
+					_currentTeamString = ""
+					for x in range(0, len(_currentTeam)):
+						_currentTeamString = _currentTeamString + str(_currentTeam[x])
+					_picklist[int(i/5)] = _currentTeamString
+					i = i + 5
+				lock.acquire()
+				FileIO.SaveData('Picklist.json', _picklist)
+				lock.release()
+
+			# SEND PICK LIST TO CLIENT #
+			elif data[0] == 0x70:
+				lock.acquire()
+				_picklist = FileIO.ReadData('Picklist.json')
+				lock.release()
 
 			# UNKNOWN #
 			else:
 				Graphics.setStatusString("ERR", "Received Unknown Command from Client " + str(address) + ".")
+				print(Format.PrintHex(data))
 	Graphics.setStatusString("NET", "Closing Connection from " + str(address) + ".")
 	connection.close()

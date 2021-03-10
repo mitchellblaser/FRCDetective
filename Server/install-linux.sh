@@ -20,5 +20,16 @@ read USER_WEBPORT
 echo ""
 echo "Thanks! Creating your script."
 
-echo docker run --rm --mount type=bind,source=/etc/detective/Storage.json,target=/app/Storage.json --mount type=bind,source=/etc/detective/app.db,target=/app/webgui/app.db --mount type=bind,source=/etc/detective/adminusers.txt,target=/app/webgui/adminusers.txt -e TZ=$USER_TIMEZONE -p 5584:5584 -p $USER_WEBPORT:8080 --name detective-server detective-server > ./start-linux.sh
-sudo chmod +x ./start-linux.sh
+echo 'if [ $(id -u) -ne 0 ]' >> ./frcdetective
+echo '    then echo "Please Run as Root."' >> ./frcdetective
+echo '    exit' >> ./frcdetective
+echo 'fi' >> ./frcdetective
+echo docker run --rm --mount type=bind,source=/etc/detective/Storage.json,target=/app/Storage.json --mount type=bind,source=/etc/detective/app.db,target=/app/webgui/app.db --mount type=bind,source=/etc/detective/adminusers.txt,target=/app/webgui/adminusers.txt -e TZ=$USER_TIMEZONE -p 5584:5584 -p $USER_WEBPORT:8080 --name detective-server detective-server >> ./frcdetective
+sudo chmod +x ./frcdetective
+sudo cp ./frcdetective /usr/local/bin/frcdetective
+sudo rm ./frcdetective
+
+echo ""
+echo "========================================"
+echo "Run 'sudo frcdetective' to start server."
+echo "========================================"
