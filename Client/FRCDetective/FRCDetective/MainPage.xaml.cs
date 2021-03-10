@@ -202,7 +202,7 @@ namespace FRCDetective
                 }
 
                 byte[] ok = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x4f, 0x4b };
-                byte[] no = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x4e, 0x4f };
+                byte[] no = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x45, 0x52 };
                 byte[] dc = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x44, 0x43 };
 
                 byte[] reply = receive();
@@ -346,12 +346,12 @@ namespace FRCDetective
                         string json = await file.ReadAllTextAsync();
                         RoundData round = JsonConvert.DeserializeObject<RoundData>(json);
 
-                        byte[] data = new byte[42];
+                        byte[] data = new byte[41];
 
                         byte[] time = BitConverter.GetBytes(((DateTimeOffset)round.Timestamp).ToUnixTimeSeconds());
                         byte[] team = BitConverter.GetBytes((Int32)round.Team);
 
-                        data[0] = 0x00; data[2] = 0x11; data[3] = 0x22; data[4] = 0x33; // UID
+                        data[0] = 0x00; data[1] = 0x11; data[2] = 0x22; data[3] = 0x33; // UID
                         for (int i = 4; i < 12; i++)    // Time
                         {
                             data[i] = time[i - 4];
