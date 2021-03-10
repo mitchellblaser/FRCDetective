@@ -2,7 +2,7 @@
 sudo apt install python3-pip
 sudo apt install python-is-python3
 
-pip3 install flask flask-wtf flask-login flask-sqlalchemy flask-migrate email-validator flask-bootstrap
+pip3 install flask flask-wtf flask-login flask-sqlalchemy flask-migrate email-validator flask-bootstrap waitress
 
 sudo apt-get install \
     apt-transport-https \
