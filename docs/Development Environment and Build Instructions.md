@@ -11,7 +11,7 @@ For users who do not want or need to modify the source code, we recommend using 
 
 Building the Server from Source is relatively easy, as we've made a script that does it all for you. If you're using Linux, macOS or the Windows Subsystem for Linux, the build script should just work.
 
---
+---
 >**For development systems running macOS or Linux, follow the instructions below. For Windows users, you will need to install the Windows Subsystem for Linux, and make sure you have python3, python3-pip, unzip and zip installed. If you are using WSL, don't install the Docker Engine through the package manager, but rather install the Windows version of Docker Desktop. It can be used through the command line the same way, and will produce less errors when you're trying to build.**
 
 To build the source, you'll need to grab a few packages from python's `pip` package manager, and ensure you have either Docker Desktop (for macOS) or the Docker Engine (for Linux) installed.
