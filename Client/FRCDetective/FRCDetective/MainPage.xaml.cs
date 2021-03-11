@@ -142,6 +142,11 @@ namespace FRCDetective
             await Navigation.PushAsync(new GameEntryPage());
         }
 
+        async void SettingsPage(object sender, EventArgs e)
+        {
+            await DisplayAlert("Settings", "The app will now delete itself", "OK");
+        }
+
         // Attempt a connection to the client
         void connect()
         {
