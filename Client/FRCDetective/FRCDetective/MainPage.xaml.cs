@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -27,6 +27,9 @@ namespace FRCDetective
         private Socket socket;
         private bool isLoaded;
 
+
+        private Settings settings = new Settings();
+
         // Initialise the page and set the connection icon to not connected
         public MainPage()
         {
@@ -37,6 +40,12 @@ namespace FRCDetective
         // When the page appears, start the network connection task
         protected async override void OnAppearing()
         {
+            IFolder rootFolder = FileSystem.Current.LocalStorage;
+            IFolder folder = await rootFolder.CreateFolderAsync("Config", CreationCollisionOption.OpenIfExists);
+            IFile file = await folder.CreateFileAsync("settings", CreationCollisionOption.OpenIfExists);
+
+            settings = JsonConvert.DeserializeObject<Settings>(await file.ReadAllTextAsync());
+
             isLoaded = true;
             await Task.Run(async () =>
             {
@@ -78,8 +87,6 @@ namespace FRCDetective
                     //send();
                 }
                 _lastNetStatus = _netStatus;
-
-                Console.WriteLine("hello");
 
                 if (!isLoaded)
                 {
@@ -142,6 +149,11 @@ namespace FRCDetective
             await Navigation.PushAsync(new GameEntryPage());
         }
 
+        async void SettingsPage(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new SettingsPage());
+        }
+
         // Attempt a connection to the client
         void connect()
         {
@@ -149,7 +161,7 @@ namespace FRCDetective
             {
                 client = new TcpClient();
 
-                var result = client.BeginConnect(IPAddressEntry.Text, Convert.ToInt32(PortEntry.Text), null, null);
+                var result = client.BeginConnect(settings.IP, settings.Port, null, null);
 
                 var success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(1));
 
@@ -350,8 +362,13 @@ namespace FRCDetective
 
                         byte[] time = BitConverter.GetBytes(((DateTimeOffset)round.Timestamp).ToUnixTimeSeconds());
                         byte[] team = BitConverter.GetBytes((Int32)round.Team);
+                        byte[] hash = BitConverter.GetBytes(CreateHash(round));
+                        byte[] UID = BitConverter.GetBytes((Int32)settings.UID);
 
-                        data[0] = 0x00; data[1] = 0x11; data[2] = 0x22; data[3] = 0x33; // UID
+                        for (int i = 0; i < 4; i++)    // UID
+                        {
+                            data[i] = UID[i];
+                        }
                         for (int i = 4; i < 12; i++)    // Time
                         {
                             data[i] = time[i - 4];
@@ -375,12 +392,12 @@ namespace FRCDetective
                         data[26] = Convert.ToByte(round.ColourwheelPosition);   // Position Control
                         data[27] = Convert.ToByte(round.Climb);   // Climb
                         data[28] = Convert.ToByte(round.Level);   // Level
-                        data[29] = Convert.ToByte(round.Foul); ;  // Foul
+                        data[29] = Convert.ToByte(round.Foul);    // Foul
                         data[30] = Convert.ToByte(round.TechFoul);  // Tech Foul
                         data[31] = 0xFF;// Start Hash
                         for (int i = 32; i < 40; i++)   // Hash
                         {
-                            data[i] = 0xFF;
+                            data[i] = hash[i-32];
                         }
                         if (j == toSend.Count - 1)
                         {
@@ -474,6 +491,34 @@ namespace FRCDetective
             }
             DisplayAlert("Done", "Done", "Done");
             
+        }
+
+        long CreateHash(RoundData round)
+        {
+            long hash = 0;
+
+            byte[] data = new byte[41];
+
+            hash += ((DateTimeOffset)round.Timestamp).ToUnixTimeSeconds();
+            hash += round.Team;
+            hash += settings.UID;
+            hash += round.Division;
+            hash += round.Type;
+            hash += round.Round;
+            hash += round.Alliance;
+            hash += Convert.ToInt32(round.InitLine);
+            hash += round.AutoHighGoal;
+            hash += round.AutoLowGoal;
+            hash += round.TeleopHighGoal;
+            hash += round.TeleopLowGoal;
+            hash += Convert.ToInt32(round.ColourwheelRotation);
+            hash += Convert.ToInt32(round.ColourwheelPosition);
+            hash += round.Climb;
+            hash += Convert.ToInt32(round.Level);
+            hash += round.Foul;
+            hash += round.TechFoul;
+
+            return hash;
         }
 
         void DisplayError(string message)
