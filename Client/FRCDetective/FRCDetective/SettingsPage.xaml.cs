@@ -31,6 +31,7 @@ namespace FRCDetective
                 IPEntry.Text = settings.IP;
                 PortEntry.Text = settings.Port.ToString();
                 UIDEntry.Text = settings.UID.ToString();
+                TeamEntry.Text = settings.Team.ToString();
             }
             catch { }
         }
@@ -46,7 +47,8 @@ namespace FRCDetective
 
                 settings.IP = IPEntry.Text;
                 settings.Port = Convert.ToInt32(PortEntry.Text);
-                settings.UID = Convert.ToInt64(UIDEntry.Text);
+                settings.UID = Convert.ToInt32(UIDEntry.Text);
+                settings.Team = Convert.ToInt32(TeamEntry.Text);
 
                 string json = JsonConvert.SerializeObject(settings);
                 await file.WriteAllTextAsync(json);

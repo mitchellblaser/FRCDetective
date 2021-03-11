@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -26,6 +26,7 @@ namespace FRCDetective
         private TcpClient client;
         private Socket socket;
         private bool isLoaded;
+
 
         private Settings settings = new Settings();
 
@@ -362,8 +363,12 @@ namespace FRCDetective
                         byte[] time = BitConverter.GetBytes(((DateTimeOffset)round.Timestamp).ToUnixTimeSeconds());
                         byte[] team = BitConverter.GetBytes((Int32)round.Team);
                         byte[] hash = BitConverter.GetBytes(CreateHash(round));
+                        byte[] UID = BitConverter.GetBytes((Int32)settings.UID);
 
-                        data[0] = 0x00; data[1] = 0x11; data[2] = 0x22; data[3] = 0x33; // UID
+                        for (int i = 0; i < 4; i++)    // UID
+                        {
+                            data[i] = UID[i];
+                        }
                         for (int i = 4; i < 12; i++)    // Time
                         {
                             data[i] = time[i - 4];
@@ -496,7 +501,7 @@ namespace FRCDetective
 
             hash += ((DateTimeOffset)round.Timestamp).ToUnixTimeSeconds();
             hash += round.Team;
-            hash += BitConverter.ToInt32(new byte[] { 0x00, 0x11, 0x22, 0x33 }, 0);
+            hash += settings.UID;
             hash += round.Division;
             hash += round.Type;
             hash += round.Round;

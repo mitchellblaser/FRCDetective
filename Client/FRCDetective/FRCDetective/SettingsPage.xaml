@@ -25,6 +25,11 @@
                 </StackLayout>
 
                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="0,-20,0,0">
+                    <Label Text="Team: " TextColor="Black" FontSize="Medium" FontFamily="Helvetica" Margin="20,10,-5,0"/>
+                    <Entry Placeholder="5584" x:Name="TeamEntry" FontSize="Default" Keyboard="Numeric"/>
+                </StackLayout>
+                
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="0,-20,0,0">
                     <Label Text="UID: " TextColor="Black" FontSize="Medium" FontFamily="Helvetica" Margin="20,10,-5,0"/>
                     <Entry Placeholder="857870592" x:Name="UIDEntry" FontSize="Default" Keyboard="Numeric"/>
                 </StackLayout>

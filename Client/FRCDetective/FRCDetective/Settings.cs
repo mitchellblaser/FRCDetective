@@ -8,6 +8,7 @@ namespace FRCDetective
     {
         public string IP { get; set; }
         public int Port { get; set; }
-        public Int64 UID { get; set; }
+        public int UID { get; set; }
+        public int Team { get; set; }
     }
 }
