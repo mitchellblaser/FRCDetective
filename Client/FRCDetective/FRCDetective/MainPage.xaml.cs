@@ -27,6 +27,8 @@ namespace FRCDetective
         private Socket socket;
         private bool isLoaded;
 
+        private Settings settings = new Settings();
+
         // Initialise the page and set the connection icon to not connected
         public MainPage()
         {
@@ -37,6 +39,12 @@ namespace FRCDetective
         // When the page appears, start the network connection task
         protected async override void OnAppearing()
         {
+            IFolder rootFolder = FileSystem.Current.LocalStorage;
+            IFolder folder = await rootFolder.CreateFolderAsync("Config", CreationCollisionOption.OpenIfExists);
+            IFile file = await folder.CreateFileAsync("settings", CreationCollisionOption.OpenIfExists);
+
+            settings = JsonConvert.DeserializeObject<Settings>(await file.ReadAllTextAsync());
+
             isLoaded = true;
             await Task.Run(async () =>
             {
@@ -78,8 +86,6 @@ namespace FRCDetective
                     //send();
                 }
                 _lastNetStatus = _netStatus;
-
-                Console.WriteLine("hello");
 
                 if (!isLoaded)
                 {
@@ -154,7 +160,7 @@ namespace FRCDetective
             {
                 client = new TcpClient();
 
-                var result = client.BeginConnect(IPAddressEntry.Text, Convert.ToInt32(PortEntry.Text), null, null);
+                var result = client.BeginConnect(settings.IP, settings.Port, null, null);
 
                 var success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(1));
 
