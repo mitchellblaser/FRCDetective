@@ -350,6 +350,7 @@ namespace FRCDetective
 
                         byte[] time = BitConverter.GetBytes(((DateTimeOffset)round.Timestamp).ToUnixTimeSeconds());
                         byte[] team = BitConverter.GetBytes((Int32)round.Team);
+                        byte[] hash = BitConverter.GetBytes(CreateHash(round));
 
                         data[0] = 0x00; data[1] = 0x11; data[2] = 0x22; data[3] = 0x33; // UID
                         for (int i = 4; i < 12; i++)    // Time
@@ -375,12 +376,12 @@ namespace FRCDetective
                         data[26] = Convert.ToByte(round.ColourwheelPosition);   // Position Control
                         data[27] = Convert.ToByte(round.Climb);   // Climb
                         data[28] = Convert.ToByte(round.Level);   // Level
-                        data[29] = Convert.ToByte(round.Foul); ;  // Foul
+                        data[29] = Convert.ToByte(round.Foul);    // Foul
                         data[30] = Convert.ToByte(round.TechFoul);  // Tech Foul
                         data[31] = 0xFF;// Start Hash
                         for (int i = 32; i < 40; i++)   // Hash
                         {
-                            data[i] = 0xFF;
+                            data[i] = hash[i-32];
                         }
                         if (j == toSend.Count - 1)
                         {
@@ -474,6 +475,34 @@ namespace FRCDetective
             }
             DisplayAlert("Done", "Done", "Done");
             
+        }
+
+        long CreateHash(RoundData round)
+        {
+            long hash = 0;
+
+            byte[] data = new byte[41];
+
+            hash += ((DateTimeOffset)round.Timestamp).ToUnixTimeSeconds();
+            hash += round.Team;
+            hash += BitConverter.ToInt32(new byte[] { 0x00, 0x11, 0x22, 0x33 }, 0);
+            hash += round.Division;
+            hash += round.Type;
+            hash += round.Round;
+            hash += round.Alliance;
+            hash += Convert.ToInt32(round.InitLine);
+            hash += round.AutoHighGoal;
+            hash += round.AutoLowGoal;
+            hash += round.TeleopHighGoal;
+            hash += round.TeleopLowGoal;
+            hash += Convert.ToInt32(round.ColourwheelRotation);
+            hash += Convert.ToInt32(round.ColourwheelPosition);
+            hash += round.Climb;
+            hash += Convert.ToInt32(round.Level);
+            hash += round.Foul;
+            hash += round.TechFoul;
+
+            return hash;
         }
 
         void DisplayError(string message)
