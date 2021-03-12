@@ -154,6 +154,11 @@ namespace FRCDetective
             await Navigation.PushAsync(new SettingsPage());
         }
 
+        async void FileViewPage(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new FileViewPage());
+        }
+
         // Attempt a connection to the client
         void connect()
         {

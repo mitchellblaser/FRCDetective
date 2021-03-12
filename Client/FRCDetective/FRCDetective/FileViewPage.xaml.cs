@@ -71,11 +71,13 @@ namespace FRCDetective
             RoundData round = (RoundData)lstFiles.SelectedItem;
             if (!round.Synced)
             {
-                await Navigation.PushAsync(new GameEntryPage(round));
+                await Navigation.PushAsync(new NewGameEntryPage(round));
             }
             else
             {
-                await DisplayAlert("Edit Error", "This entry has already been synced with the server. Please connect to the server to edit.", "OK");
+                await Navigation.PushAsync(new NewGameEntryPage(round));   // TEMPORARY REMOVE AFTER TESTING
+
+                //await DisplayAlert("Edit Error", "This entry has already been synced with the server. Please connect to the server to edit.", "OK");
             }
         }
     }

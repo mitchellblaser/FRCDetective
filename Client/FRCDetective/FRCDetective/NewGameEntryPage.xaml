@@ -29,7 +29,7 @@
                         <Frame BackgroundColor="White" CornerRadius="25" HasShadow="True" WidthRequest="220" Padding="20,20,20,-6">
                             <StackLayout Margin="0,0,0,20">
                                 <Label Text="Team Information" FontFamily="Helvetica" FontAttributes="Bold" TextColor="Black" Margin="0,-4,0,0" />
-                                <Entry Placeholder="Team Number" Keyboard="Numeric" TextColor="Black" PlaceholderColor="DarkGray" WidthRequest="80" HorizontalTextAlignment="Center"/>
+                                <Entry x:Name="TeamEntry" Placeholder="Team Number" Keyboard="Numeric" TextColor="Black" PlaceholderColor="DarkGray" WidthRequest="80" HorizontalTextAlignment="Center"/>
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,0,0,2">
                                     <Button x:Name="BtnToggleRedAlliance" Clicked="ToggleRedAlliance" WidthRequest="100" HeightRequest="40" Text="Red" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" />
                                     <Button x:Name="BtnToggleBlueAlliance" Clicked="ToggleBlueAlliance" WidthRequest="100" HeightRequest="40" Text="Blue" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" />
@@ -41,7 +41,7 @@
                             <StackLayout>
                                 <Label Text="Autonomous" FontFamily="Helvetica" FontAttributes="Bold" TextColor="Black" Margin="0,-4,0,0"/>
                                 <Grid HorizontalOptions="FillAndExpand">
-                                    <CheckBox Color="DarkSlateBlue" />
+                                    <CheckBox x:Name="ChkInitLine" Color="DarkSlateBlue" />
                                     <Label Text="Crossed Initiation Line" FontFamily="Helvetica" TextColor="Black" Grid.Column="1" Margin="-75,6,2,0"/>
                                 </Grid>
                                 
@@ -118,7 +118,7 @@
                             </StackLayout>
                         </Frame>
                         <Label/>
-                        <Button x:Name="BtnSaveRound" WidthRequest="3" HeightRequest="40" Text="Save Round" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" Margin="12,0,12,22" />
+                        <Button x:Name="BtnSaveRound" Clicked="Save" WidthRequest="3" HeightRequest="40" Text="Save Round" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" Margin="12,0,12,22" />
                         <Label Margin="0,0,0,-15"/>
                     </StackLayout>
                 </ScrollView>
