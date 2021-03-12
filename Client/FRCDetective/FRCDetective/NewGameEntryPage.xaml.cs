@@ -31,7 +31,13 @@ namespace FRCDetective
         }
         void ToggleButtons(Button btn1, Button btn2)
         {
-            if (btn1.BackgroundColor != Color.DarkSlateBlue)
+
+            if (btn1.BackgroundColor == Color.DarkSlateBlue)
+            {
+                btn1.BackgroundColor = Color.Transparent;
+                btn1.TextColor = Color.Black;
+            }
+            else if (btn1.BackgroundColor != Color.DarkSlateBlue)
             {
                 btn1.BackgroundColor = Color.DarkSlateBlue;
                 btn1.TextColor = Color.White;
@@ -74,8 +80,8 @@ namespace FRCDetective
         void TeleHighGoalDecrement(object sender, EventArgs e) { StepperControl(LabelTeleHighGoal, false, 1, false); }
         void TeleLowGoalIncrement(object sender, EventArgs e) { StepperControl(LabelTeleLowGoal, true, 1, false); }
         void TeleLowGoalDecrement(object sender, EventArgs e) { StepperControl(LabelTeleLowGoal, false, 1, false); }
-        void TeleColorWheelPos(object sender, EventArgs e) { ToggleButtons(BtnTeleColorWheelPosition, BtnTeleColorWheelRotation); }
-        void TeleColorWheelRot(object sender, EventArgs e) { ToggleButtons(BtnTeleColorWheelRotation, BtnTeleColorWheelPosition); }
+        void TeleColorWheelPos(object sender, EventArgs e) { ToggleButton(BtnTeleColorWheelPosition); }
+        void TeleColorWheelRot(object sender, EventArgs e) { ToggleButton(BtnTeleColorWheelRotation); }
         void TeleClimbPark(object sender, EventArgs e) { ToggleButtons(TelePark, TeleClimb); }
         void TeleClimbClimb(object sender, EventArgs e) { ToggleButtons(TeleClimb, TelePark); }
         void TeleClimbSwitch(object sender, EventArgs e) { ToggleButton(TeleSwitchLevel); }
