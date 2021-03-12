@@ -146,7 +146,7 @@ namespace FRCDetective
         // Transition to the GameEntryPage
         async void entryPage(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new GameEntryPage());
+            await Navigation.PushAsync(new NewGameEntryPage());
         }
 
         async void SettingsPage(object sender, EventArgs e)
