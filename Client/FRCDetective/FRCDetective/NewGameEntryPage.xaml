@@ -31,8 +31,8 @@
                                 <Label Text="Team Information" FontFamily="Helvetica" FontAttributes="Bold" TextColor="Black" Margin="0,-4,0,0" />
                                 <Entry Placeholder="Team Number" Keyboard="Numeric" TextColor="Black" PlaceholderColor="DarkGray" WidthRequest="80" HorizontalTextAlignment="Center"/>
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,0,0,2">
-                                    <Button WidthRequest="100" HeightRequest="40" Text="Red" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" />
-                                    <Button WidthRequest="100" HeightRequest="40" Text="Blue" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" />
+                                    <Button x:Name="BtnToggleRedAlliance" Clicked="ToggleRedAlliance" WidthRequest="100" HeightRequest="40" Text="Red" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" />
+                                    <Button x:Name="BtnToggleBlueAlliance" Clicked="ToggleBlueAlliance" WidthRequest="100" HeightRequest="40" Text="Blue" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" />
                                 </StackLayout>
                             </StackLayout>
                         </Frame>
@@ -49,14 +49,14 @@
                                     <Label Text="High Goal" FontFamily="Helvetica" TextColor="Black" Grid.Column="0" Grid.Row="0" HorizontalTextAlignment="Center"/>
                                     <Label Text="Low Goal" FontFamily="Helvetica" TextColor="Black" Grid.Column="1" Grid.Row="0" HorizontalTextAlignment="Center"/>
                                     <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="1" Margin="0,-22,0,20">
-                                        <Button WidthRequest="38" HeightRequest="40" Text="-" Margin="0,0,-10,0" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
-                                        <Label Text="00" TextColor="Black" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" Margin="0,0,-10,0" VerticalTextAlignment="Center"/>
-                                        <Button WidthRequest="38" HeightRequest="40" Text="+" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
+                                        <Button Clicked="AutoHighGoalDecrement" WidthRequest="38" HeightRequest="40" Text="-" Margin="0,0,-10,0" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
+                                        <Label x:Name="LabelAutoHighGoal" Text="0" TextColor="Black" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" Margin="0,0,-10,0" VerticalTextAlignment="Center"/>
+                                        <Button Clicked="AutoHighGoalIncrement" WidthRequest="38" HeightRequest="40" Text="+" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
                                     </StackLayout>
                                     <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Margin="0,-22,0,20">
-                                        <Button WidthRequest="38" HeightRequest="40" Text="-" Margin="0,0,-10,0" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
-                                        <Label Text="00" TextColor="Black" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" Margin="0,0,-10,0" VerticalTextAlignment="Center"/>
-                                        <Button WidthRequest="38" HeightRequest="40" Text="+" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
+                                        <Button Clicked="AutoLowGoalDecrement" WidthRequest="38" HeightRequest="40" Text="-" Margin="0,0,-10,0" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
+                                        <Label x:Name="LabelAutoLowGoal" Text="0" TextColor="Black" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" Margin="0,0,-10,0" VerticalTextAlignment="Center"/>
+                                        <Button Clicked="AutoLowGoalIncrement" WidthRequest="38" HeightRequest="40" Text="+" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
                                     </StackLayout>
                                 </Grid>
                             </StackLayout>
@@ -69,29 +69,29 @@
                                     <Label Text="High Goal" FontFamily="Helvetica" TextColor="Black" Grid.Column="0" Grid.Row="0" HorizontalTextAlignment="Center"/>
                                     <Label Text="Low Goal" FontFamily="Helvetica" TextColor="Black" Grid.Column="1" Grid.Row="0" HorizontalTextAlignment="Center"/>
                                     <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="1" Margin="0,-22,0,20">
-                                        <Button WidthRequest="38" HeightRequest="40" Text="-" Margin="0,0,-10,0" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
-                                        <Label Text="00" TextColor="Black" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" Margin="0,0,-10,0" VerticalTextAlignment="Center"/>
-                                        <Button WidthRequest="38" HeightRequest="40" Text="+" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
+                                        <Button Clicked="TeleHighGoalDecrement" WidthRequest="38" HeightRequest="40" Text="-" Margin="0,0,-10,0" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
+                                        <Label x:Name="LabelTeleHighGoal" Text="0" TextColor="Black" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" Margin="0,0,-10,0" VerticalTextAlignment="Center"/>
+                                        <Button Clicked="TeleHighGoalIncrement" WidthRequest="38" HeightRequest="40" Text="+" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
                                     </StackLayout>
                                     <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Margin="0,-22,0,20">
-                                        <Button WidthRequest="38" HeightRequest="40" Text="-" Margin="0,0,-10,0" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
-                                        <Label Text="00" TextColor="Black" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" Margin="0,0,-10,0" VerticalTextAlignment="Center"/>
-                                        <Button WidthRequest="38" HeightRequest="40" Text="+" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
+                                        <Button Clicked="TeleLowGoalDecrement" WidthRequest="38" HeightRequest="40" Text="-" Margin="0,0,-10,0" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
+                                        <Label x:Name="LabelTeleLowGoal" Text="0" TextColor="Black" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" Margin="0,0,-10,0" VerticalTextAlignment="Center"/>
+                                        <Button Clicked="TeleLowGoalIncrement" WidthRequest="38" HeightRequest="40" Text="+" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
                                     </StackLayout>
                                 </Grid>
 
                                 <Label Text="Color Wheel: " Margin="0,-10,0,0" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                                    <Button WidthRequest="100" HeightRequest="40" Text="Position" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" />
-                                    <Button WidthRequest="100" HeightRequest="40" Text="Rotation" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" />
+                                    <Button x:Name="BtnTeleColorWheelPosition" Clicked="TeleColorWheelPos" WidthRequest="100" HeightRequest="40" Text="Position" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" />
+                                    <Button x:Name="BtnTeleColorWheelRotation" Clicked="TeleColorWheelRot" WidthRequest="100" HeightRequest="40" Text="Rotation" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" />
                                 </StackLayout>
 
                                 <Label Text="Climb: " Margin="0,10,0,0" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                                    <Button WidthRequest="100" HeightRequest="40" Text="Park" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" />
-                                    <Button WidthRequest="100" HeightRequest="40" Text="Climb" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" />
+                                    <Button x:Name="TelePark" Clicked="TeleClimbPark" WidthRequest="100" HeightRequest="40" Text="Park" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" />
+                                    <Button x:Name="TeleClimb" Clicked="TeleClimbClimb" WidthRequest="100" HeightRequest="40" Text="Climb" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" />
                                 </StackLayout>
-                                <Button WidthRequest="3" HeightRequest="40" Text="Switch Level" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" Margin="12,0,12,22" />
+                                <Button x:Name="TeleSwitchLevel" Clicked="TeleClimbSwitch" WidthRequest="3" HeightRequest="40" Text="Switch Level" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" Margin="12,0,12,22" />
                             </StackLayout>
                         </Frame>
                         <Label/>
@@ -104,21 +104,21 @@
                                         <Label Text="Fouls" FontFamily="Helvetica" TextColor="Black" Grid.Column="0" Grid.Row="0" HorizontalTextAlignment="Center"/>
                                         <Label Text="Tech Fouls" FontFamily="Helvetica" TextColor="Black" Grid.Column="1" Grid.Row="0" HorizontalTextAlignment="Center"/>
                                         <StackLayout Orientation="Horizontal" Grid.Column="0" Grid.Row="1" Margin="0,-22,0,20">
-                                            <Button WidthRequest="38" HeightRequest="40" Text="-" Margin="0,0,-10,0" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
-                                            <Label Text="00" TextColor="Black" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" Margin="0,0,-10,0" VerticalTextAlignment="Center"/>
-                                            <Button WidthRequest="38" HeightRequest="40" Text="+" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
+                                            <Button x:Name="BtnFoulsDecrement" Clicked="FoulsDecrement" WidthRequest="38" HeightRequest="40" Text="-" Margin="0,0,-10,0" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
+                                            <Label x:Name="LabelFouls" Text="00" TextColor="Black" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" Margin="0,0,-10,0" VerticalTextAlignment="Center"/>
+                                            <Button x:Name="BtnFoulsIncrement" Clicked="FoulsIncrement" WidthRequest="38" HeightRequest="40" Text="+" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
                                         </StackLayout>
                                         <StackLayout Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Margin="0,-22,0,20">
-                                            <Button WidthRequest="38" HeightRequest="40" Text="-" Margin="0,0,-10,0" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
-                                            <Label Text="00" TextColor="Black" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" Margin="0,0,-10,0" VerticalTextAlignment="Center"/>
-                                            <Button WidthRequest="38" HeightRequest="40" Text="+" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
+                                            <Button x:Name="BtnTechFoulsDecrement" Clicked="TechFoulsDecrement" WidthRequest="38" HeightRequest="40" Text="-" Margin="0,0,-10,0" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
+                                            <Label x:Name="LabelTechFouls" Text="00" TextColor="Black" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Center" Margin="0,0,-10,0" VerticalTextAlignment="Center"/>
+                                            <Button x:Name="BtnTechFoulsIncrement" Clicked="TechFoulsIncrement" WidthRequest="38" HeightRequest="40" Text="+" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
                                         </StackLayout>
                                     </Grid>
                                 <Button WidthRequest="3" HeightRequest="40" Text="Add Notes" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" Margin="12,-8,12,22" />
                             </StackLayout>
                         </Frame>
                         <Label/>
-                        <Button WidthRequest="3" HeightRequest="40" Text="Save Round" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" Margin="12,0,12,22" />
+                        <Button x:Name="BtnSaveRound" WidthRequest="3" HeightRequest="40" Text="Save Round" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" Margin="12,0,12,22" />
                         <Label Margin="0,0,0,-15"/>
                     </StackLayout>
                 </ScrollView>
