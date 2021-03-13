@@ -40,6 +40,7 @@ namespace FRCDetective
         // When the page appears, start the network connection task
         protected async override void OnAppearing()
         {
+            NetworkStatus.Source = ImageSource.FromFile("baseline_sensors_off_black_18dp.png");
             IFolder rootFolder = FileSystem.Current.LocalStorage;
             IFolder folder = await rootFolder.CreateFolderAsync("Config", CreationCollisionOption.OpenIfExists);
             IFile file = await folder.CreateFileAsync("settings", CreationCollisionOption.OpenIfExists);
@@ -47,16 +48,36 @@ namespace FRCDetective
             settings = JsonConvert.DeserializeObject<Settings>(await file.ReadAllTextAsync());
 
             isLoaded = true;
-            await Task.Run(async () =>
+            Task.Run(async () =>
             {
                 await networkInterface();
             });
+
+            UpdateToSync();
         }
 
         // When the page disappears, kill the network connection task
         protected async override void OnDisappearing()
         {
                 isLoaded = false;
+        }
+
+        // Update the number of rounds left to sync
+        async void UpdateToSync()
+        {
+            int toSync = 0;
+            IFolder rootFolder = FileSystem.Current.LocalStorage;
+            IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
+
+            foreach (IFile file in await folder.GetFilesAsync())
+            {
+                RoundData round = JsonConvert.DeserializeObject<RoundData>(await file.ReadAllTextAsync());
+                if (!round.Synced)
+                {
+                    toSync += 1;
+                }
+            }
+            LabelToSync.Text = toSync.ToString();
         }
 
         // If the client is not connected to the server, attemt to connect every second. On state change, update the icon
@@ -146,12 +167,17 @@ namespace FRCDetective
         // Transition to the GameEntryPage
         async void entryPage(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new GameEntryPage());
+            await Navigation.PushAsync(new NewGameEntryPage());
         }
 
         async void SettingsPage(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new SettingsPage());
+        }
+
+        async void FileViewPage(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new FileViewPage());
         }
 
         // Attempt a connection to the client
@@ -489,8 +515,8 @@ namespace FRCDetective
                     await file.WriteAllTextAsync(json);
                 }
             }
+            UpdateToSync();
             DisplayAlert("Done", "Done", "Done");
-            
         }
 
         long CreateHash(RoundData round)

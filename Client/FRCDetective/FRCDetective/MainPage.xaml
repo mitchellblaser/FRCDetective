@@ -16,22 +16,22 @@
         <Label x:Name="lblStatusMessage" Text="Welcome!" FontFamily="Helvetica" TextColor="White"
                FontSize="Large" Margin="0,60,0,0" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"/>
 
-        <Frame BackgroundColor="White" HeightRequest="25" WidthRequest="140" CornerRadius="35" HasShadow="True" Margin="0,40,0,0"
+        <Frame BackgroundColor="White" HeightRequest="25" WidthRequest="160" CornerRadius="35" HasShadow="True" Margin="0,40,0,0"
                HorizontalOptions="Center">
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                <Image Source="baseline_add_task_black_18dp.png" />
+                <Image Source="baseline_add_task_black_18dp.png" Margin="0,0,0,0"/>
                 <Label Text="6" TextColor="Black" FontFamily="Helvetica"
                        FontSize="Medium"/>
 
                 <Label Text="  " FontSize="Micro"/>
 
-                <Image x:Name="NetworkStatus" />
+                <Image x:Name="NetworkStatus" Margin="0,0,0,0"/>
 
                 <Label Text="  " FontSize="Micro"/>
 
-                <Label Text="3" TextColor="Black" FontFamily="Helvetica"
+                <Label x:Name="LabelToSync" Text="0" TextColor="Black" FontFamily="Helvetica"
                        FontSize="Medium"/>
-                <Image Source="baseline_cached_black_18dp.png" />
+                <Image Source="baseline_cached_black_18dp.png" Margin="0,0,0,0"/>
             </StackLayout>
         </Frame>
 
@@ -44,6 +44,7 @@
 
         <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="0,10,0,0">
             <Button x:Name="btnIndex" Clicked="Index" Text="Index" CornerRadius="35" TextColor="Black" BackgroundColor="White" Margin="75,10,0,0" HeightRequest="40"/>
+            <Button x:Name="btnLoad" Clicked="FileViewPage" Text="Load" CornerRadius="35" TextColor="Black" BackgroundColor="White" Margin="10,10,0,0" HeightRequest="40"/>
         </StackLayout>
         
 
