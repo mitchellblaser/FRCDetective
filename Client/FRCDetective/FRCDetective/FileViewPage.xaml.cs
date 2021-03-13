@@ -36,6 +36,7 @@ namespace FRCDetective
 
         async void Refresh()
         {
+            RoundList.Clear();
             IFolder rootFolder = FileSystem.Current.LocalStorage;
             IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
 

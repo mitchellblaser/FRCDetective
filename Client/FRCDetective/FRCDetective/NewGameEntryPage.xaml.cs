@@ -15,78 +15,80 @@ namespace FRCDetective
         {
             InitializeComponent();
             // TODO: ADD DIVISION LOADING/SAVING(SETTINGS)
-
-            // Init Data
-            TeamEntry.Text = round.Team.ToString();
-            RoundSelect.Text = "Editing Round Q" + round.Round.ToString();
-            if (round.Alliance == 1)
+            if (round != null)
             {
-                BtnToggleRedAlliance.BackgroundColor = Color.DarkSlateBlue;
-                BtnToggleRedAlliance.TextColor = Color.White;
+                // Init Data
+                TeamEntry.Text = round.Team.ToString();
+                RoundSelect.Text = "Editing Round Q" + round.Round.ToString();
+                if (round.Alliance == 1)
+                {
+                    BtnToggleRedAlliance.BackgroundColor = Color.DarkSlateBlue;
+                    BtnToggleRedAlliance.TextColor = Color.White;
 
-                BtnToggleBlueAlliance.BackgroundColor = Color.Transparent;
-                BtnToggleBlueAlliance.TextColor = Color.Black;
-            }
-            else
-            {
-                BtnToggleBlueAlliance.BackgroundColor = Color.DarkSlateBlue;
-                BtnToggleBlueAlliance.TextColor = Color.White;
+                    BtnToggleBlueAlliance.BackgroundColor = Color.Transparent;
+                    BtnToggleBlueAlliance.TextColor = Color.Black;
+                }
+                else
+                {
+                    BtnToggleBlueAlliance.BackgroundColor = Color.DarkSlateBlue;
+                    BtnToggleBlueAlliance.TextColor = Color.White;
 
-                BtnToggleRedAlliance.BackgroundColor = Color.Transparent;
-                BtnToggleRedAlliance.TextColor = Color.Black;
-            }
+                    BtnToggleRedAlliance.BackgroundColor = Color.Transparent;
+                    BtnToggleRedAlliance.TextColor = Color.Black;
+                }
 
-            // Auto Data
-            ChkInitLine.IsChecked = round.InitLine;
-            LabelAutoHighGoal.Text = round.AutoHighGoal.ToString();
-            LabelAutoLowGoal.Text = round.AutoLowGoal.ToString();
+                // Auto Data
+                ChkInitLine.IsChecked = round.InitLine;
+                LabelAutoHighGoal.Text = round.AutoHighGoal.ToString();
+                LabelAutoLowGoal.Text = round.AutoLowGoal.ToString();
 
-            // Teleop Data
-            LabelTeleHighGoal.Text = round.TeleopHighGoal.ToString();
-            LabelTeleLowGoal.Text = round.TeleopLowGoal.ToString();
-            if (round.ColourwheelRotation)
-            {
-                BtnTeleColorWheelRotation.BackgroundColor = Color.DarkSlateBlue;
-                BtnTeleColorWheelRotation.TextColor = Color.White;
-            }
-            if (round.ColourwheelPosition)
-            {
-                BtnTeleColorWheelPosition.BackgroundColor = Color.DarkSlateBlue;
-                BtnTeleColorWheelPosition.TextColor = Color.White;
-            }
-            if (round.Climb == 0)
-            {
-                TelePark.BackgroundColor = Color.Transparent;
-                TelePark.TextColor = Color.Black;
+                // Teleop Data
+                LabelTeleHighGoal.Text = round.TeleopHighGoal.ToString();
+                LabelTeleLowGoal.Text = round.TeleopLowGoal.ToString();
+                if (round.ColourwheelRotation)
+                {
+                    BtnTeleColorWheelRotation.BackgroundColor = Color.DarkSlateBlue;
+                    BtnTeleColorWheelRotation.TextColor = Color.White;
+                }
+                if (round.ColourwheelPosition)
+                {
+                    BtnTeleColorWheelPosition.BackgroundColor = Color.DarkSlateBlue;
+                    BtnTeleColorWheelPosition.TextColor = Color.White;
+                }
+                if (round.Climb == 0)
+                {
+                    TelePark.BackgroundColor = Color.Transparent;
+                    TelePark.TextColor = Color.Black;
 
-                TeleClimb.BackgroundColor = Color.Transparent;
-                TeleClimb.TextColor = Color.Black;
-            }
-            else if (round.Climb == 1)
-            {
-                TelePark.BackgroundColor = Color.DarkSlateBlue;
-                TelePark.TextColor = Color.White;
+                    TeleClimb.BackgroundColor = Color.Transparent;
+                    TeleClimb.TextColor = Color.Black;
+                }
+                else if (round.Climb == 1)
+                {
+                    TelePark.BackgroundColor = Color.DarkSlateBlue;
+                    TelePark.TextColor = Color.White;
 
-                TeleClimb.BackgroundColor = Color.Transparent;
-                TeleClimb.TextColor = Color.Black;
-            }
-            else if (round.Climb == 2)
-            {
-                TelePark.BackgroundColor = Color.Transparent;
-                TelePark.TextColor = Color.Black;
+                    TeleClimb.BackgroundColor = Color.Transparent;
+                    TeleClimb.TextColor = Color.Black;
+                }
+                else if (round.Climb == 2)
+                {
+                    TelePark.BackgroundColor = Color.Transparent;
+                    TelePark.TextColor = Color.Black;
 
-                TeleClimb.BackgroundColor = Color.DarkSlateBlue;
-                TeleClimb.TextColor = Color.White;
-            }
-            if (round.Level)
-            {
-                TeleSwitchLevel.BackgroundColor = Color.DarkSlateBlue;
-                TeleSwitchLevel.TextColor = Color.White;
-            }
+                    TeleClimb.BackgroundColor = Color.DarkSlateBlue;
+                    TeleClimb.TextColor = Color.White;
+                }
+                if (round.Level)
+                {
+                    TeleSwitchLevel.BackgroundColor = Color.DarkSlateBlue;
+                    TeleSwitchLevel.TextColor = Color.White;
+                }
 
-            // Fouls
-            LabelFouls.Text = round.Foul.ToString();
-            LabelTechFouls.Text = round.TechFoul.ToString();
+                // Fouls
+                LabelFouls.Text = round.Foul.ToString();
+                LabelTechFouls.Text = round.TechFoul.ToString();
+            }
 
         }
 
