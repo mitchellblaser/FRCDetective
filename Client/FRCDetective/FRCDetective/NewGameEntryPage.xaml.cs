@@ -101,7 +101,7 @@ namespace FRCDetective
          async void SetRoundNumber()
         {
             bool valid = false;
-            string result = await DisplayPromptAsync("Round Entry", "Current Round Number");
+            string result = await DisplayPromptAsync("Round Entry", "Current Round Number", keyboard: Keyboard.Numeric);
             if (result == null)
             {
                 await Navigation.PopAsync();
@@ -114,7 +114,7 @@ namespace FRCDetective
             }
             while (!valid)
             {
-                result = await DisplayPromptAsync("Round Entry", "Invalid Round Number");
+                result = await DisplayPromptAsync("Round Entry", "Invalid Round Number", keyboard: Keyboard.Numeric);
                 if (result == null)
                 {
                     await Navigation.PopAsync();
