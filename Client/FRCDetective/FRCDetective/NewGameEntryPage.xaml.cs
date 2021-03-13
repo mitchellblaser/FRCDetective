@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 using Xamarin.Forms;
 
@@ -89,7 +91,31 @@ namespace FRCDetective
                 LabelFouls.Text = round.Foul.ToString();
                 LabelTechFouls.Text = round.TechFoul.ToString();
             }
+            else
+            {
+                SetRoundNumber();
+            }
 
+        }
+
+         async void SetRoundNumber()
+        {
+            bool valid = false;
+            string result = await DisplayPromptAsync("Round Entry", "Current Round Number");
+            if (IsNumeric(result, true))
+            {
+                valid = true;
+            }
+            while (!valid)
+            {
+                result = await DisplayPromptAsync("Round Entry", "Invalid Round Number");
+                if (IsNumeric(result, true))
+                {
+                    valid = true;
+                }
+            }
+
+            RoundSelect.Text = "Editing Round Q" + result;
         }
 
         /* Define Custom UI Functions */
@@ -168,10 +194,23 @@ namespace FRCDetective
         void TechFoulsDecrement(object sender, EventArgs e) { StepperControl(LabelTechFouls, false, 1, false); }
 
         /* Saving */
-        public bool IsNumeric(string input)
+        public bool IsNumeric(string input, bool positive = false)
         {
             int test;
-            return int.TryParse(input, out test);
+
+            if (int.TryParse(input, out test))
+            {
+                if (positive)
+                {
+                    if (test >= 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+                return true;
+            }
+            return false;
         }
         async void Save(object sender, EventArgs e)
         {
