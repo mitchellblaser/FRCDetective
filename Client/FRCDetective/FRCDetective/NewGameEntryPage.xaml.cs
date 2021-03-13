@@ -102,6 +102,12 @@ namespace FRCDetective
         {
             bool valid = false;
             string result = await DisplayPromptAsync("Round Entry", "Current Round Number");
+            if (result == null)
+            {
+                await Navigation.PopAsync();
+                return;
+            }
+
             if (IsNumeric(result, true))
             {
                 valid = true;
@@ -109,6 +115,11 @@ namespace FRCDetective
             while (!valid)
             {
                 result = await DisplayPromptAsync("Round Entry", "Invalid Round Number");
+                if (result == null)
+                {
+                    await Navigation.PopAsync();
+                    return;
+                }
                 if (IsNumeric(result, true))
                 {
                     valid = true;

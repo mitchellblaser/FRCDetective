@@ -76,9 +76,7 @@ namespace FRCDetective
             }
             else
             {
-                await Navigation.PushAsync(new NewGameEntryPage(round));   // TEMPORARY REMOVE AFTER TESTING
-
-                //await DisplayAlert("Edit Error", "This entry has already been synced with the server. Please connect to the server to edit.", "OK");
+                await DisplayAlert("Edit Error", "This entry has already been synced with the server. Please connect to the server to edit.", "OK");
             }
         }
     }
