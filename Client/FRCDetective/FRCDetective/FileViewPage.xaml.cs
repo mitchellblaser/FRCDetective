@@ -36,6 +36,7 @@ namespace FRCDetective
 
         async void Refresh()
         {
+            RoundList.Clear();
             IFolder rootFolder = FileSystem.Current.LocalStorage;
             IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
 
@@ -71,7 +72,7 @@ namespace FRCDetective
             RoundData round = (RoundData)lstFiles.SelectedItem;
             if (!round.Synced)
             {
-                await Navigation.PushAsync(new GameEntryPage(round));
+                await Navigation.PushAsync(new NewGameEntryPage(round));
             }
             else
             {
