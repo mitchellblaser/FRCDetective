@@ -319,6 +319,7 @@ namespace FRCDetective
                 await file.WriteAllTextAsync(json);
 
                 await DisplayAlert("Message", "Done", "OK");
+                await Navigation.PopAsync();
             }
         }
     }
