@@ -36,6 +36,7 @@ namespace FRCDetective
 
         async void Refresh()
         {
+            RoundList.Clear();
             IFolder rootFolder = FileSystem.Current.LocalStorage;
             IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
 
@@ -75,9 +76,7 @@ namespace FRCDetective
             }
             else
             {
-                await Navigation.PushAsync(new NewGameEntryPage(round));   // TEMPORARY REMOVE AFTER TESTING
-
-                //await DisplayAlert("Edit Error", "This entry has already been synced with the server. Please connect to the server to edit.", "OK");
+                await DisplayAlert("Edit Error", "This entry has already been synced with the server. Please connect to the server to edit.", "OK");
             }
         }
     }
