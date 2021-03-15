@@ -151,7 +151,7 @@ namespace FRCDetective
 
         async void SettingsPage(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new SettingsPage());
+            await Navigation.PushAsync(new AnalysisPage());
         }
 
         async void FileViewPage(object sender, EventArgs e)
