@@ -172,6 +172,11 @@ namespace FRCDetective
 
         async void SettingsPage(object sender, EventArgs e)
         {
+            await Navigation.PushAsync(new SettingsPage());
+        }
+
+        async void AnalysisPage(object sender, EventArgs e)
+        {
             await Navigation.PushAsync(new AnalysisPage());
         }
 
