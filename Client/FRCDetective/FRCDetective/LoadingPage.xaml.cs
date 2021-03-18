@@ -25,7 +25,7 @@ namespace FRCDetective
         {
             if (isLoaded)
             {
-                Navigation.PopAsync();
+                await Navigation.PopAsync();
             }
             else
             {

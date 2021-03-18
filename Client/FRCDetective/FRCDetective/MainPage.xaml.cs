@@ -19,9 +19,6 @@ namespace FRCDetective
         bool _netStatus = false;
         bool _lastNetStatus = false;
 
-
-        private static string ip = "192.168.1.68";
-        private static string port = "5584";
         private static Connection _instance;
         private TcpClient client;
         private Socket socket;
