@@ -335,10 +335,6 @@ namespace FRCDetective
                 {
                     dataList.Add(Byte);
                 }
-
-                round.Synced = true;
-                json = JsonConvert.SerializeObject(round);
-                await file.WriteAllTextAsync(json);
             }
 
             try
@@ -438,6 +434,12 @@ namespace FRCDetective
                         {
                             DisplayError("Error Sending Data");
                             return;
+                        }
+                        else
+                        {
+                            round.Synced = true;
+                            json = JsonConvert.SerializeObject(round);
+                            await file.WriteAllTextAsync(json);
                         }
                     }
                 }
