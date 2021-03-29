@@ -54,7 +54,7 @@ namespace FRCDetective
                 await file.WriteAllTextAsync(json);
             }
             catch (Exception e) {
-                DisplayAlert("Error", e.Message, ":(");
+                await DisplayAlert("Error", e.Message, ":(");
             }
         }
 

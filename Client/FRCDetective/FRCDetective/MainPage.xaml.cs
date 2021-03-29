@@ -19,9 +19,6 @@ namespace FRCDetective
         bool _netStatus = false;
         bool _lastNetStatus = false;
 
-
-        private static string ip = "192.168.1.68";
-        private static string port = "5584";
         private static Connection _instance;
         private TcpClient client;
         private Socket socket;
@@ -167,12 +164,17 @@ namespace FRCDetective
         // Transition to the GameEntryPage
         async void entryPage(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new NewGameEntryPage());
+            await Navigation.PushAsync(new LoadingPage(new NewGameEntryPage(), "Game Entry Page"));
         }
 
         async void SettingsPage(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new AnalysisPage());
+            await Navigation.PushAsync(new SettingsPage());
+        }
+
+        async void AnalysisPage(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new LoadingPage(new AnalysisPage(), "Analysis Page"));
         }
 
         async void FileViewPage(object sender, EventArgs e)
@@ -339,10 +341,6 @@ namespace FRCDetective
                 {
                     dataList.Add(Byte);
                 }
-
-                round.Synced = true;
-                json = JsonConvert.SerializeObject(round);
-                await file.WriteAllTextAsync(json);
             }
 
             try
@@ -442,6 +440,12 @@ namespace FRCDetective
                         {
                             DisplayError("Error Sending Data");
                             return;
+                        }
+                        else
+                        {
+                            round.Synced = true;
+                            json = JsonConvert.SerializeObject(round);
+                            await file.WriteAllTextAsync(json);
                         }
                     }
                 }
