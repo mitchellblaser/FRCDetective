@@ -2,11 +2,22 @@
 
 echo "FRC DETECTIVE - INSTALLER"
 echo "========================="
+echo "Note: use --persist next time to keep the data files"
+
+PERSIST_DATA=false
+
+for var in "@$"; do
+    if [ $var = "--persist" ]; then
+        PERSIST_DATA=true
+    fi
+done
 
 echo " > Creating /etc/detective"
 sudo mkdir /etc/detective
-echo " > Copying Persistent files to directory."
-sudo cp ./.installdata/* /etc/detective
+if [ $PERSIST_DATA = false ]; then
+    echo " > Copying Persistent files to directory."
+    sudo cp ./.installdata/* /etc/detective
+fi
 echo " > Loading docker image from tar file."
 sudo docker load -i ./detectiveserver-latest.tar
 echo ""

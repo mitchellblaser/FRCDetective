@@ -12,3 +12,4 @@ Command Line Arguments:
 
 	--graphics (-g) [web/lowlevel]
 		Set the graphics mode
+		lowlevel option is not currently supported.

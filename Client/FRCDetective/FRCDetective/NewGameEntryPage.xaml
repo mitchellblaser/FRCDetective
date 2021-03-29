@@ -9,7 +9,7 @@
  
         <StackLayout>
             <AbsoluteLayout Grid.Column="0" Grid.Row="0" HeightRequest="150" Padding="0,0,-100,0">
-                <Image Source="blurry.jpeg" Margin="0,-100,0,0" />
+                <Image Source="blurry.jpg" Margin="0,-100,0,0" />
                 <Frame x:Name="TitleBar" BackgroundColor="White" HeightRequest="40" CornerRadius="0" HasShadow="False" AbsoluteLayout.LayoutBounds="0,-20" WidthRequest="1000">
                     <Label Text="FRC Detective" FontSize="Title" TextColor="Black" FontFamily="Helvetica" VerticalOptions="CenterAndExpand" Margin="0,0,0,0"/>
                 </Frame>
