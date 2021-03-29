@@ -85,15 +85,8 @@ namespace FRCDetective
 
         async void ItemSelected(object sender, EventArgs e)
         {
-            RoundData round = (RoundData)lstFiles.SelectedItem;
-            if (!round.Synced)
-            {
-                await Navigation.PushAsync(new NewGameEntryPage(round));
-            }
-            else
-            {
-                await DisplayAlert("Edit Error", "This entry has already been synced with the server. Please connect to the server to edit.", "OK");
-            }
+            GameData game = (GameData)lstFiles.SelectedItem;
+            await Navigation.PushAsync(new RoundViewPage(game));
         }
     }
 }
