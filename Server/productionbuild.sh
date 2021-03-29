@@ -12,6 +12,7 @@ echo "{}" >> ./Picklist.json
 echo "Moving to ./webgui"
 cd webgui
 echo "Generating Database File"
+sudo rm -rf migrations
 ./generatedatabase.sh
 echo "Moving to .."
 cd ..

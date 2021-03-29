@@ -4,7 +4,7 @@
 
 ########################[ Paremeters - Leave as is. ]######################
 _maxpacket = 1024
-_timeoutSecs = 10
+_timeoutSecs = 1000
 
 
 ###########################[ External Libraries ]##########################

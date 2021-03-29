@@ -13,6 +13,15 @@ import subprocess
 def index():
     return render_template("index.html", title="Home")
 
+@app.route("/robots.txt")
+def robots():
+    return '''User-agent: *\n
+Disallow: /'''
+
+@app.route("/google4a71b0310f4679e9.html")
+def google_verification():
+    return render_template("googleverification.html")
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
