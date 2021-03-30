@@ -35,25 +35,7 @@ namespace FRCDetective
         }
 
         async void Refresh()
-        {/*
-            TeamList.Clear();
-            IFolder rootFolder = FileSystem.Current.LocalStorage;
-            IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
-
-            foreach (IFile file in await folder.GetFilesAsync())
-            {
-                string json = await file.ReadAllTextAsync();
-
-                RoundData round = JsonConvert.DeserializeObject<RoundData>(json);
-                TeamList.Add(round);
-            }
-            List<RoundData> sortedList = TeamList.OrderBy(o => o.Round).ToList();
-
-            TeamList.Clear();
-
-            foreach (var item in sortedList)
-                TeamList.Add(item);*/
-
+        {
             GameList.Clear();
             IFolder rootFolder = FileSystem.Current.LocalStorage;
             IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
