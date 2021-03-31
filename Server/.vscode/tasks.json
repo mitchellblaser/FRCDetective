@@ -12,6 +12,17 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+
+        {
+            "label": "Run Locally",
+            "type": "shell",
+            "command": "python3 ./main.py -p 5584",
+            "problemMatcher": [],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
         }
     ]
 }
