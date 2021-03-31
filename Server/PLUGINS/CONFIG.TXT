@@ -1,0 +1,10 @@
+FRC DETECTIVE CONFIGURATION FILE
+
+INSTALLED_PLUGINS {
+    ExamplePlugin
+}
+
+Plugin ExamplePlugin {
+    Enabled = False
+    RunInterval = 600
+}
