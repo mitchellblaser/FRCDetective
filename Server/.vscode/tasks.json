@@ -6,7 +6,7 @@
         {
             "label": "Production Build",
             "type": "shell",
-            "command": "./productionbuild.sh",
+            "command": "time ./productionbuild.sh",
             "problemMatcher": [],
             "group": {
                 "kind": "build",
