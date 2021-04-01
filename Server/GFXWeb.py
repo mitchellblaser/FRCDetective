@@ -24,10 +24,10 @@ def initGraphics():
         otherWebThread.start()
 
 def StartNT():
-    os.system("python ./webgui/webgui.py > nul 2>&1 &")
+    os.system(sys.executable + " ./webgui/webgui.py > nul 2>&1 &")
 
 def StartOther():
-    os.system("python ./webgui/webgui.py > /dev/null 2>&1 &")
+    os.system(sys.executable + " ./webgui/webgui.py > /dev/null 2>&1 &")
 
 def ClearLog():
     global justCleared

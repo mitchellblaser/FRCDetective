@@ -6,6 +6,8 @@
 _maxpacket = 1024
 _timeoutSecs = 1000
 
+#TODO: SET VERSION IN PluginHelper.py AFTER MAJOR RELEASE UPDATE!
+
 
 ###########################[ External Libraries ]##########################
 from socket import *
@@ -18,6 +20,7 @@ import select
 import pprint
 import os
 
+
 #############################[ Internal Files ]############################
 import ParseArgument
 import Communications
@@ -28,6 +31,7 @@ import Backup
 import ParseData
 import Database
 import Format
+import PluginHelper
 
 
 ###################[ Parse Arguments from Command Line ]###################
@@ -52,6 +56,11 @@ else:
 Graphics.setGraphics(Graphics.mode[_gfxMode.lower()]) #Pass value from command if there is one (defaults to web)
 Graphics.initGraphics()
 
+
+###########################[ Initialize Plugins ]##########################
+PluginHelper._Init()
+pluginHelper = threading.Thread(target=PluginHelper._EventLoop, args=())
+pluginHelper.start()
 
 ##########################[ Setup TCP/IP Socket ]##########################
 _socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM) #Make our instance
