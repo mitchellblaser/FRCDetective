@@ -31,6 +31,7 @@ namespace FRCDetective
         public bool Level { get; set; }
         public int Foul { get; set; }
         public int TechFoul { get; set; }
+        public string Notes { get; set; }
 
         public int GetScore(bool subtractFouls = false)
         {

@@ -13,6 +13,7 @@ namespace FRCDetective
 {
     public partial class NewGameEntryPage : ContentPage
     {
+        string notes = "";
         public NewGameEntryPage(RoundData round = null)
         {
             InitializeComponent();
@@ -38,6 +39,7 @@ namespace FRCDetective
                     BtnToggleRedAlliance.BackgroundColor = Color.Transparent;
                     BtnToggleRedAlliance.TextColor = Color.Black;
                 }
+                notes = round.Notes;
 
                 // Auto Data
                 ChkInitLine.IsChecked = round.InitLine;
@@ -203,6 +205,10 @@ namespace FRCDetective
         void FoulsDecrement(object sender, EventArgs e) { StepperControl(LabelFouls, false, 1, false); }
         void TechFoulsIncrement(object sender, EventArgs e) { StepperControl(LabelTechFouls, true, 1, false); }
         void TechFoulsDecrement(object sender, EventArgs e) { StepperControl(LabelTechFouls, false, 1, false); }
+        async void NotesEntry(object sender, EventArgs e)
+        {
+            notes = await DisplayPromptAsync("Notes", "Short notes on current team", initialValue: notes);
+        }
 
         /* Saving */
         public bool IsNumeric(string input, bool positive = false)
@@ -285,13 +291,15 @@ namespace FRCDetective
                 round.Foul = Convert.ToInt32(LabelFouls.Text);
                 round.TechFoul = Convert.ToInt32(LabelTechFouls.Text);
 
+                round.Notes = notes;
+
 
 
 
                 string DisplayName = "";
-                DisplayName += "Round ";
-                DisplayName += round.Round.ToString();
-                if (round.Alliance == 1) { DisplayName += " Red Alliance "; } else { DisplayName += " Blue Alliance "; }
+                //DisplayName += "Round ";
+                //DisplayName += round.Round.ToString();
+                if (round.Alliance == 1) { DisplayName += "Red Alliance "; } else { DisplayName += "Blue Alliance "; }
                 DisplayName += "Team ";
                 DisplayName += round.Team.ToString();
                 round.DisplayName = DisplayName;

@@ -114,7 +114,7 @@
                                             <Button x:Name="BtnTechFoulsIncrement" Clicked="TechFoulsIncrement" WidthRequest="38" HeightRequest="40" Text="+" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10"/>
                                         </StackLayout>
                                     </Grid>
-                                <Button WidthRequest="3" HeightRequest="40" Text="Add Notes" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" Margin="12,-8,12,22" />
+                                <Button WidthRequest="3" HeightRequest="40" Text="Add Notes" Clicked="NotesEntry" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" Margin="12,-8,12,22" />
                             </StackLayout>
                         </Frame>
                         <Label/>
