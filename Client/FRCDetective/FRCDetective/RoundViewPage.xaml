@@ -29,16 +29,16 @@
                                 <Label Text="Teams" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="Black" Margin="0,-4,0,0" HorizontalOptions="CenterAndExpand"/>
 
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="0,0,0,0">
-                                    <Label Text="{Binding red1}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-                                    <Label Text="{Binding blue1}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+                                    <Label x:Name="lblRed1" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+                                    <Label x:Name="lblBlue1" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
                                 </StackLayout>
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="0,0,0,0">
-                                    <Label Text="{Binding red2}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-                                    <Label Text="{Binding blue2}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+                                    <Label x:Name="lblRed2" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+                                    <Label x:Name="lblBlue2" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
                                 </StackLayout>
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="0,0,0,0">
-                                    <Label Text="{Binding red3}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-                                    <Label Text="{Binding blue3}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+                                    <Label x:Name="lblRed3" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+                                    <Label x:Name="lblBlue3" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
                                 </StackLayout>
 
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,0,0,2">
@@ -65,20 +65,20 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Label Grid.Column="0" Grid.Row="0" Text="{Binding red1}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+                                    <Label Grid.Column="0" Grid.Row="0" x:Name="lblRed1point" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
                                     <Label Grid.Column="1" Grid.Row="0" x:Name="red1points" Text="36" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
                                     <Label Grid.Column="2" Grid.Row="0" x:Name="blue1points" Text="57" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-                                    <Label Grid.Column="3" Grid.Row="0" Text="{Binding blue1}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+                                    <Label Grid.Column="3" Grid.Row="0" x:Name="lblBlue1point" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
 
-                                    <Label Grid.Column="0" Grid.Row="1" Text="{Binding red2}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+                                    <Label Grid.Column="0" Grid.Row="1" x:Name="lblRed2point" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
                                     <Label Grid.Column="1" Grid.Row="1" x:Name="red2points" Text="36" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
                                     <Label Grid.Column="2" Grid.Row="1" x:Name="blue2points" Text="57" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-                                    <Label Grid.Column="3" Grid.Row="1" Text="{Binding blue2}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+                                    <Label Grid.Column="3" Grid.Row="1" x:Name="lblBlue2point" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
 
-                                    <Label Grid.Column="0" Grid.Row="2" Text="{Binding red3}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+                                    <Label Grid.Column="0" Grid.Row="2" x:Name="lblRed3point" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
                                     <Label Grid.Column="1" Grid.Row="2" x:Name="red3points" Text="36" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
                                     <Label Grid.Column="2" Grid.Row="2" x:Name="blue3points" Text="57" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
-                                    <Label Grid.Column="3" Grid.Row="2" Text="{Binding blue3}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+                                    <Label Grid.Column="3" Grid.Row="2" x:Name="lblBlue3point" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
                                 </Grid>
 
                             </StackLayout>
