@@ -37,6 +37,16 @@ namespace FRCDetective
             blue1 = game.Blue[0] != null ? game.Blue[0].Team.ToString() : "####";
             blue2 = game.Blue[1] != null ? game.Blue[1].Team.ToString() : "####";
             blue3 = game.Blue[2] != null ? game.Blue[2].Team.ToString() : "####";
+
+            red1points.Text = game.Red[0].GetScore(true).ToString();
+            red2points.Text = game.Red[1].GetScore(true).ToString();
+            red3points.Text = game.Red[2].GetScore(true).ToString();
+
+            blue1points.Text = game.Blue[0].GetScore(true).ToString();
+            blue2points.Text = game.Blue[1].GetScore(true).ToString();
+            blue3points.Text = game.Blue[2].GetScore(true).ToString();
+
+
         }
         protected override void OnAppearing()
         {
@@ -72,6 +82,8 @@ namespace FRCDetective
                 }
             }
             string result = await DisplayActionSheet("Team", "cancel", null, options.ToArray());
+
+            if (!await DisplayAlert("Delete", "Are you sure you want to delete team " + result + "?", "Yes", "No")) { return; }
             
             red1 = red1 == result ? "####" : red1;
             red2 = red2 == result ? "####" : red2;
