@@ -3,6 +3,9 @@
 echo "FRC DETECTIVE PRODUCTION-READY BUILD SCRIPT"
 echo "==========================================="
 
+echo "Enter Sudo Password... "
+sudo echo "Okay."
+
 echo "Removing Round Data"
 sudo rm ./Storage.json
 sudo rm ./Picklist.json
@@ -40,7 +43,7 @@ cp ./install-linux.sh ../../DetectiveServer-Release/install-linux.sh
 echo "Packaging script into ../../DetectiveServer.zip"
 sudo chmod 666 ../../DetectiveServer-Release/detectiveserver-latest.tar
 cd ../../
-zip -r DetectiveServer-Release.zip DetectiveServer-Release
+zip -r DetectiveServer-$(date +"%Y-%m-%d-%H-%M-%S").zip DetectiveServer-Release
 sudo rm -rf ./DetectiveServer-Release
 echo ""
 echo " >>>> DONE! <<<<"
