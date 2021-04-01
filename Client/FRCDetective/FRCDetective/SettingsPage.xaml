@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FRCDetective.SettingsPage"
+             BackgroundColor="White"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Settings" FontFamily="Helvetica" FontSize="Title" TextColor="Black" Margin="22,-8,0,6"/>
+
+            <Grid>
+                <Image Source="blurry_strip.jpg"/>
+                <Label Text="TEAM 5584." FontFamily="Helvetica" FontSize="Small" TextColor="White"
+                       VerticalOptions="CenterAndExpand" Margin="26,0,0,0"/>
+            </Grid>
+            <StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="0,0,0,0">
+                    <Label Text="Server IP: " TextColor="Black" FontSize="Medium" FontFamily="Helvetica" Margin="20,10,-5,0"/>
+                    <Entry Placeholder="192.168.55.84" x:Name="IPEntry" FontSize="Default" Keyboard="Url"/>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="0,-20,0,0">
+                    <Label Text="Server Port: " TextColor="Black" FontSize="Medium" FontFamily="Helvetica" Margin="20,10,-5,0"/>
+                    <Entry Placeholder="5584" x:Name="PortEntry" FontSize="Default" Keyboard="Numeric"/>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="0,-20,0,0">
+                    <Label Text="Team: " TextColor="Black" FontSize="Medium" FontFamily="Helvetica" Margin="20,10,-5,0"/>
+                    <Entry Placeholder="5584" x:Name="TeamEntry" FontSize="Default" Keyboard="Numeric"/>
+                </StackLayout>
+                
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="0,-20,0,0">
+                    <Label Text="UID: " TextColor="Black" FontSize="Medium" FontFamily="Helvetica" Margin="20,10,-5,0"/>
+                    <Entry Placeholder="857870592" x:Name="UIDEntry" FontSize="Default" Keyboard="Numeric"/>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="0,-20,0,0">
+                    <Label Text="Darcy Mode: " TextColor="Black" FontSize="Medium" FontFamily="Helvetica" Margin="20,10,-5,0"/>
+                    <Switch x:Name="DarcyMode"/>
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

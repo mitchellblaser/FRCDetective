@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -19,13 +19,13 @@ namespace FRCDetective
         bool _netStatus = false;
         bool _lastNetStatus = false;
 
-
-        private static string ip = "192.168.1.68";
-        private static string port = "5584";
         private static Connection _instance;
         private TcpClient client;
         private Socket socket;
         private bool isLoaded;
+
+
+        private Settings settings = new Settings();
 
         // Initialise the page and set the connection icon to not connected
         public MainPage()
@@ -37,17 +37,44 @@ namespace FRCDetective
         // When the page appears, start the network connection task
         protected async override void OnAppearing()
         {
+            NetworkStatus.Source = ImageSource.FromFile("baseline_sensors_off_black_18dp.png");
+            IFolder rootFolder = FileSystem.Current.LocalStorage;
+            IFolder folder = await rootFolder.CreateFolderAsync("Config", CreationCollisionOption.OpenIfExists);
+            IFile file = await folder.CreateFileAsync("settings", CreationCollisionOption.OpenIfExists);
+
+            settings = JsonConvert.DeserializeObject<Settings>(await file.ReadAllTextAsync());
+
             isLoaded = true;
-            await Task.Run(async () =>
+            Task.Run(async () =>
             {
                 await networkInterface();
             });
+
+            UpdateToSync();
         }
 
         // When the page disappears, kill the network connection task
         protected async override void OnDisappearing()
         {
                 isLoaded = false;
+        }
+
+        // Update the number of rounds left to sync
+        async void UpdateToSync()
+        {
+            int toSync = 0;
+            IFolder rootFolder = FileSystem.Current.LocalStorage;
+            IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
+
+            foreach (IFile file in await folder.GetFilesAsync())
+            {
+                RoundData round = JsonConvert.DeserializeObject<RoundData>(await file.ReadAllTextAsync());
+                if (!round.Synced)
+                {
+                    toSync += 1;
+                }
+            }
+            LabelToSync.Text = toSync.ToString();
         }
 
         // If the client is not connected to the server, attemt to connect every second. On state change, update the icon
@@ -78,8 +105,6 @@ namespace FRCDetective
                     //send();
                 }
                 _lastNetStatus = _netStatus;
-
-                Console.WriteLine("hello");
 
                 if (!isLoaded)
                 {
@@ -139,7 +164,26 @@ namespace FRCDetective
         // Transition to the GameEntryPage
         async void entryPage(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new GameEntryPage());
+            await Navigation.PushAsync(new LoadingPage(new NewGameEntryPage(), "Game Entry Page"));
+        }
+
+        async void SettingsPage(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new SettingsPage());
+        }
+
+        async void AnalysisPage(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new LoadingPage(new AnalysisPage(), "Analysis Page"));
+        }
+
+        async void FileViewPage(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new FileViewPage());
+        }
+        async void SettingsPg(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new SettingsPage());
         }
 
         // Attempt a connection to the client
@@ -149,7 +193,7 @@ namespace FRCDetective
             {
                 client = new TcpClient();
 
-                var result = client.BeginConnect(IPAddressEntry.Text, Convert.ToInt32(PortEntry.Text), null, null);
+                var result = client.BeginConnect(settings.IP, settings.Port, null, null);
 
                 var success = result.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(1));
 
@@ -202,7 +246,7 @@ namespace FRCDetective
                 }
 
                 byte[] ok = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x4f, 0x4b };
-                byte[] no = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x4e, 0x4f };
+                byte[] no = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x45, 0x52 };
                 byte[] dc = { 0x52, 0x45, 0x43, 0x56, 0x5f, 0x44, 0x43 };
 
                 byte[] reply = receive();
@@ -297,10 +341,6 @@ namespace FRCDetective
                 {
                     dataList.Add(Byte);
                 }
-
-                round.Synced = true;
-                json = JsonConvert.SerializeObject(round);
-                await file.WriteAllTextAsync(json);
             }
 
             try
@@ -346,12 +386,17 @@ namespace FRCDetective
                         string json = await file.ReadAllTextAsync();
                         RoundData round = JsonConvert.DeserializeObject<RoundData>(json);
 
-                        byte[] data = new byte[42];
+                        byte[] data = new byte[41];
 
                         byte[] time = BitConverter.GetBytes(((DateTimeOffset)round.Timestamp).ToUnixTimeSeconds());
                         byte[] team = BitConverter.GetBytes((Int32)round.Team);
+                        byte[] hash = BitConverter.GetBytes(CreateHash(round));
+                        byte[] UID = BitConverter.GetBytes((Int32)settings.UID);
 
-                        data[0] = 0x00; data[2] = 0x11; data[3] = 0x22; data[4] = 0x33; // UID
+                        for (int i = 0; i < 4; i++)    // UID
+                        {
+                            data[i] = UID[i];
+                        }
                         for (int i = 4; i < 12; i++)    // Time
                         {
                             data[i] = time[i - 4];
@@ -375,12 +420,12 @@ namespace FRCDetective
                         data[26] = Convert.ToByte(round.ColourwheelPosition);   // Position Control
                         data[27] = Convert.ToByte(round.Climb);   // Climb
                         data[28] = Convert.ToByte(round.Level);   // Level
-                        data[29] = Convert.ToByte(round.Foul); ;  // Foul
+                        data[29] = Convert.ToByte(round.Foul);    // Foul
                         data[30] = Convert.ToByte(round.TechFoul);  // Tech Foul
                         data[31] = 0xFF;// Start Hash
                         for (int i = 32; i < 40; i++)   // Hash
                         {
-                            data[i] = 0xFF;
+                            data[i] = hash[i-32];
                         }
                         if (j == toSend.Count - 1)
                         {
@@ -395,6 +440,12 @@ namespace FRCDetective
                         {
                             DisplayError("Error Sending Data");
                             return;
+                        }
+                        else
+                        {
+                            round.Synced = true;
+                            json = JsonConvert.SerializeObject(round);
+                            await file.WriteAllTextAsync(json);
                         }
                     }
                 }
@@ -472,8 +523,36 @@ namespace FRCDetective
                     await file.WriteAllTextAsync(json);
                 }
             }
+            UpdateToSync();
             DisplayAlert("Done", "Done", "Done");
-            
+        }
+
+        long CreateHash(RoundData round)
+        {
+            long hash = 0;
+
+            byte[] data = new byte[41];
+
+            hash += ((DateTimeOffset)round.Timestamp).ToUnixTimeSeconds();
+            hash += round.Team;
+            hash += settings.UID;
+            hash += round.Division;
+            hash += round.Type;
+            hash += round.Round;
+            hash += round.Alliance;
+            hash += Convert.ToInt32(round.InitLine);
+            hash += round.AutoHighGoal;
+            hash += round.AutoLowGoal;
+            hash += round.TeleopHighGoal;
+            hash += round.TeleopLowGoal;
+            hash += Convert.ToInt32(round.ColourwheelRotation);
+            hash += Convert.ToInt32(round.ColourwheelPosition);
+            hash += round.Climb;
+            hash += Convert.ToInt32(round.Level);
+            hash += round.Foul;
+            hash += round.TechFoul;
+
+            return hash;
         }
 
         void DisplayError(string message)

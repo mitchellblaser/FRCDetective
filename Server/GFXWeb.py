@@ -40,7 +40,7 @@ def WriteLog(_status):
     global justCleared
     print("Log: " + _status)
     statusfile = open("./webgui/logfile.txt", "a")
-    timestamp = datetime.datetime.now().strftime("%H:%M:%S")
+    timestamp = datetime.datetime.now().strftime("[%m/%d/%Y] %H:%M:%S")
     if justCleared == True:
         justCleared = False
         statusfile.write(str(timestamp) + ": " + str(_status))

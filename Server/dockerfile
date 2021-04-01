@@ -1,6 +1,11 @@
-FROM python:3.9.2-alpine3.13
+FROM python:3.9.2-slim-buster
+ENV DEBIAN_FRONTEND noninteractive
+
 WORKDIR /app
 ADD . /app
+RUN apt-get update && \
+    apt-get -y install gcc && \
+    rm -rf /var/lib/apt/lists/*
 RUN pip install --trusted-host pypi.python.org flask flask-wtf flask-login flask-sqlalchemy flask-migrate email-validator flask-bootstrap waitress
 EXPOSE 8080
 EXPOSE 5584

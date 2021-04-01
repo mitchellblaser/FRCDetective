@@ -20,13 +20,13 @@ namespace FRCDetective
     }
     public partial class FileViewPage : ContentPage
     {
-        public ObservableCollection<RoundData> RoundList = new ObservableCollection<RoundData>();
+        public ObservableCollection<GameData> GameList = new ObservableCollection<GameData>();
 
 
         public FileViewPage()
         {
             InitializeComponent();
-            lstFiles.ItemsSource = RoundList;
+            lstFiles.ItemsSource = GameList;
         }
 
         protected override void OnAppearing()
@@ -35,7 +35,8 @@ namespace FRCDetective
         }
 
         async void Refresh()
-        {
+        {/*
+            TeamList.Clear();
             IFolder rootFolder = FileSystem.Current.LocalStorage;
             IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
 
@@ -44,39 +45,48 @@ namespace FRCDetective
                 string json = await file.ReadAllTextAsync();
 
                 RoundData round = JsonConvert.DeserializeObject<RoundData>(json);
-                RoundList.Add(round);
+                TeamList.Add(round);
             }
-            List<RoundData> sortedList =  RoundList.OrderBy(o => o.Round).ToList();
+            List<RoundData> sortedList = TeamList.OrderBy(o => o.Round).ToList();
 
-            RoundList.Clear();
+            TeamList.Clear();
 
             foreach (var item in sortedList)
-                RoundList.Add(item);
+                TeamList.Add(item);*/
 
-        }
-        public async void OnDelete(object sender, EventArgs e)
-        {
-            var mi = ((MenuItem)sender);
-            RoundData round = (RoundData)mi.CommandParameter;
-
-            RoundList.Remove(round);
+            GameList.Clear();
             IFolder rootFolder = FileSystem.Current.LocalStorage;
             IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
-            IFile file = await folder.CreateFileAsync(round.Filename, CreationCollisionOption.ReplaceExisting);
-            await file.DeleteAsync();
+            List<RoundData> roundList = new List<RoundData>();
+            List<GameData> tempGameList = new List<GameData>();
+
+            foreach (IFile file in await folder.GetFilesAsync())
+            {
+                string json = await file.ReadAllTextAsync();
+
+                RoundData round = JsonConvert.DeserializeObject<RoundData>(json);
+                roundList.Add(round);
+            }
+            List<RoundData> sortedList = roundList.OrderBy(o => o.Round).ToList();
+            int currentRound = -1;
+            foreach (RoundData item in sortedList)
+            {
+                if (item.Round > currentRound)
+                {
+                    currentRound = item.Round;
+                    tempGameList.Add(new GameData(currentRound));
+                }
+                tempGameList[tempGameList.Count() - 1].AddTeam(item);
+            }
+
+            foreach (var item in tempGameList)
+                GameList.Add(item);
         }
 
         async void ItemSelected(object sender, EventArgs e)
         {
-            RoundData round = (RoundData)lstFiles.SelectedItem;
-            if (!round.Synced)
-            {
-                await Navigation.PushAsync(new GameEntryPage(round));
-            }
-            else
-            {
-                await DisplayAlert("Edit Error", "This entry has already been synced with the server. Please connect to the server to edit.", "OK");
-            }
+            GameData game = (GameData)lstFiles.SelectedItem;
+            await Navigation.PushAsync(new RoundViewPage(game));
         }
     }
 }

@@ -1,23 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FRCDetective.FileViewPage"
+             x:Class="FRCDetective.RoundViewPage"
              BackgroundColor="White"
              NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Round List" FontSize="Title" FontFamily="Helvetica" TextColor="Black" Margin="15,0,0,0"/>
-            <ListView x:Name="lstFiles" ItemSelected="ItemSelected">
+            <Label x:Name="lblTitle"  Text="Round" FontSize="Title" FontFamily="Helvetica" TextColor="Black" Margin="15,0,0,0"/>
+            <ListView x:Name="lstRounds" ItemSelected="ItemSelected">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Padding="15,0">
                                 <Label Text="{Binding DisplayName}" FontSize="Medium" />
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="{Binding RedString}" FontSize="Default" Margin="0,-5,0,0" TextColor="DarkRed"/>
-                                    <Label Text="{Binding BlueString}" FontSize="Default" Margin="-5,-5,0,0" TextColor="DarkSlateBlue"/>
-                                </StackLayout>
+                                <Label Text="{Binding Timestamp}" FontSize="Default" Margin="0,-5,0,0"/>
                             </StackLayout>
+                            <ViewCell.ContextActions>
+                                <MenuItem Clicked="OnDelete"
+                                          CommandParameter="{Binding .}"
+                                          Text="Delete" IsDestructive="True" />
+                            </ViewCell.ContextActions>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

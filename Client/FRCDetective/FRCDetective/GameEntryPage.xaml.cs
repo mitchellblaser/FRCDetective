@@ -236,8 +236,8 @@ namespace FRCDetective
 
 
                 string DisplayName = "";
-                DisplayName += "Round ";
-                DisplayName += RoundEntry.Text;
+                //DisplayName += "Round ";
+                //DisplayName += RoundEntry.Text;
                 if (chkRed.IsChecked) { DisplayName += " Red Alliance "; } else { DisplayName += " Blue Alliance "; }
                 DisplayName += "Team ";
                 DisplayName += TeamEntry.Text;

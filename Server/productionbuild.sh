@@ -12,6 +12,7 @@ echo "{}" >> ./Picklist.json
 echo "Moving to ./webgui"
 cd webgui
 echo "Generating Database File"
+sudo rm -rf migrations
 ./generatedatabase.sh
 echo "Moving to .."
 cd ..
@@ -31,6 +32,8 @@ cp ./Storage.json ../../DetectiveServer-Release/.installdata/Storage.json
 cp ./Picklist.json ../../DetectiveServer-Release/.installdata/Picklist.json
 cp ./webgui/adminusers.txt ../../DetectiveServer-Release/.installdata/adminusers.txt
 cp ./webgui/app.db ../../DetectiveServer-Release/.installdata/app.db
+echo "Copying Plugin Files."
+cp -r ./PLUGINS ../../DetectiveServer-Release/.installdata/
 
 echo "Copying Install Script to ../../DetectiveServer-Release"
 cp ./install-linux.sh ../../DetectiveServer-Release/install-linux.sh
