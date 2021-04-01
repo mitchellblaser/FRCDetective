@@ -6,6 +6,9 @@ from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 
 import subprocess
+import os
+
+_DETECTIVE_DIRECTORY_ = os.getcwd()
 
 @app.route("/")
 @app.route("/index")
@@ -17,10 +20,6 @@ def index():
 def robots():
     return '''User-agent: *\n
 Disallow: /'''
-
-@app.route("/google4a71b0310f4679e9.html")
-def google_verification():
-    return render_template("googleverification.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -53,14 +52,14 @@ def register():
         db.session.add(user)
         db.session.commit()
         
-        of = open("./webgui/adminusers.txt", "r")
+        of = open(_DETECTIVE_DIRECTORY_ + "/webgui/adminusers.txt", "r")
         filelines = []
         for line in of:
             filelines.append(line.rstrip())
         
         if len(filelines) <= 1 and filelines[0] == "":
             print("Making user admin.")
-            nf = open("./webgui/adminusers.txt", "w")
+            nf = open(_DETECTIVE_DIRECTORY_ + "/webgui/adminusers.txt", "w")
             nf.write(str(form.username.data))
             nf.close()
 
@@ -71,20 +70,20 @@ def register():
 @app.route("/log")
 @login_required
 def log():
-    logfile = open("./webgui/logfile.txt", "r")
+    logfile = open(_DETECTIVE_DIRECTORY_ + "/webgui/logfile.txt", "r")
     return logfile.read()
 
 @app.route("/command/<cmd>")
 @login_required
 def command(cmd):
-    cmdfile = open("./webgui/cmdfile.txt", "w")
+    cmdfile = open(_DETECTIVE_DIRECTORY_ + "/webgui/cmdfile.txt", "w")
     cmdfile.write(str(cmd) + "\n" + current_user.username + "\n" + current_user.email)
     cmdfile.close()
     return ""
 
 def ReadAdminFile():
     out = []
-    adminfile = open("./webgui/adminusers.txt", "r")
+    adminfile = open(_DETECTIVE_DIRECTORY_ + "/webgui/adminusers.txt", "r")
     for line in adminfile:
         out.append(line.rstrip())
     return out
@@ -135,7 +134,7 @@ def deleteuser(username):
 @login_required
 def getudb():
     if current_user.username in ReadAdminFile():
-        return send_file('/app/webgui/app.db', as_attachment=True, cache_timeout=0)
+        return send_file(_DETECTIVE_DIRECTORY_ + '/webgui/app.db', as_attachment=True, cache_timeout=0)
     else:
         return "You do not have the permission for this."
 
@@ -143,7 +142,7 @@ def getudb():
 @login_required
 def getadb():
     if current_user.username in ReadAdminFile():
-        return send_file('/app/webgui/adminusers.txt', as_attachment=True, cache_timeout=0)
+        return send_file(_DETECTIVE_DIRECTORY_ + '/webgui/adminusers.txt', as_attachment=True, cache_timeout=0)
     else:
         return "You do not have the permission for this."
 
@@ -151,7 +150,7 @@ def getadb():
 @login_required
 def getrdb():
     if current_user.username in ReadAdminFile():
-        return send_file('/app/Storage.json', as_attachment=True, cache_timeout=0)
+        return send_file(_DETECTIVE_DIRECTORY_ + '/Storage.json', as_attachment=True, cache_timeout=0)
     else:
         return "You do not have the permission for this."
 
@@ -159,7 +158,7 @@ def getrdb():
 @login_required
 def getpdb():
     if current_user.username in ReadAdminFile():
-        return send_file('/app/Picklist.json', as_attachment=True, cache_timeout=0)
+        return send_file(_DETECTIVE_DIRECTORY_ + '/Picklist.json', as_attachment=True, cache_timeout=0)
     else:
         return "You do not have the permission for this."
 
@@ -167,7 +166,7 @@ def getpdb():
 @login_required
 def elevateuser(userid):
     if current_user.username in ReadAdminFile():
-        adminfile = open("./webgui/adminusers.txt", "a")
+        adminfile = open(_DETECTIVE_DIRECTORY_ + "/webgui/adminusers.txt", "a")
         adminfile.write("\n" + str(userid))
         adminfile.close()
         return str(userid)
@@ -180,12 +179,12 @@ def deesculateuser(userid):
     if current_user.username in ReadAdminFile():
         if len(ReadAdminFile()) > 1:
             out = []
-            adminfile = open("./webgui/adminusers.txt", "r")
+            adminfile = open(_DETECTIVE_DIRECTORY_ + "/webgui/adminusers.txt", "r")
             for line in adminfile:
                 if line.rstrip() != userid:
                     out.append(line.rstrip())
             adminfile.close()
-            newadminfile = open("./webgui/adminusers.txt", "w")
+            newadminfile = open(_DETECTIVE_DIRECTORY_ + "/webgui/adminusers.txt", "w")
             for line in out:
                 newadminfile.write(line)
             newadminfile.close()
@@ -217,7 +216,7 @@ def upload(filename):
     if current_user.username in ReadAdminFile():
         if request.method == "POST":
             f = request.files["file"]
-            f.save("./webgui/" + str(filename))
+            f.save(_DETECTIVE_DIRECTORY_ + "/webgui/" + str(filename))
             return redirect(url_for("adminconsole"))
         else:
             return "Please make a POST request to this address."
@@ -230,7 +229,7 @@ def uploadround(filename):
     if current_user.username in ReadAdminFile():
         if request.method == "POST":
             f = request.files["file"]
-            f.save("./" + str(filename))
+            f.save(_DETECTIVE_DIRECTORY_ + "/" + str(filename))
             return redirect(url_for("adminconsole"))
         else:
             return "Please make a POST request to this address."
