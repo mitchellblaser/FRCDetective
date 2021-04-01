@@ -155,6 +155,14 @@ def getrdb():
     else:
         return "You do not have the permission for this."
 
+@app.route("/adminconsole/getpickdb")
+@login_required
+def getpdb():
+    if current_user.username in ReadAdminFile():
+        return send_file('/app/Picklist.json', as_attachment=True, cache_timeout=0)
+    else:
+        return "You do not have the permission for this."
+
 @app.route("/adminconsole/elevateuser/<userid>")
 @login_required
 def elevateuser(userid):
