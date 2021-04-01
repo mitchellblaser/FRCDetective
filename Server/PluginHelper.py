@@ -6,6 +6,7 @@ import textwrap
 import time
 import os
 import threading
+import sys
 
 import FileIO
 
@@ -54,11 +55,10 @@ def startThread(path):
         otherThread.start()
 
 def StartNT(path):
-    os.system("python " + str(path) + " > nul 2>&1 &")
+    os.system(sys.executable + " " + str(path) + " > nul 2>&1 &")
 
 def StartOther(path):
-    #os.system("python " + str(path) + " > /dev/null 2>&1 &")
-    os.system("python " + str(path))
+    os.system(sys.executable + " " + str(path) + " > /dev/null 2>&1 &")
 
 def CheckVersion():
     return _DETECTIVE_VERSION_
