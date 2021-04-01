@@ -77,25 +77,27 @@ namespace FRCDetective
 
         public async void OnEdit(object sender, EventArgs e)
         {
+            RoundData[] teams = Game.Red.Concat(Game.Blue).ToArray();
             List<string> options = new List<string>();
-            foreach (RoundData item in Game.Red)
+            foreach (RoundData team in teams)
             {
-                if (item != null)
+                if (team != null)
                 {
-                    options.Add(item.Team.ToString());
-                }
-            }
-            foreach (RoundData item in Game.Blue)
-            {
-                if (item != null)
-                {
-                    options.Add(item.Team.ToString());
+                    options.Add(team.Team.ToString());
                 }
             }
             string result = await DisplayActionSheet("Team", "cancel", null, options.ToArray());
 
-            /*
-            RoundData round = (RoundData)lstRounds.SelectedItem;
+
+            RoundData round = null;
+            foreach (RoundData team in teams)
+            {
+                if (team != null && team.Team.ToString() == result)
+                {
+                    round = team;
+                }
+            }
+
             if (!round.Synced)
             {
                 await Navigation.PushAsync(new NewGameEntryPage(round));
@@ -103,7 +105,7 @@ namespace FRCDetective
             else
             {
                 await DisplayAlert("Edit Error", "This entry has already been synced with the server. Please connect to the server to edit.", "OK");
-            }*/
+            }
         }
 
         async void ItemSelected(object sender, EventArgs e)
