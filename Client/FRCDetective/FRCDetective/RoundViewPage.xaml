@@ -6,24 +6,87 @@
              NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
         <StackLayout>
-            <Label x:Name="lblTitle"  Text="Round" FontSize="Title" FontFamily="Helvetica" TextColor="Black" Margin="15,0,0,0"/>
-            <ListView x:Name="lstRounds" ItemSelected="ItemSelected">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Padding="15,0">
-                                <Label Text="{Binding DisplayName}" FontSize="Medium" />
-                                <Label Text="{Binding Timestamp}" FontSize="Default" Margin="0,-5,0,0"/>
+            <AbsoluteLayout Grid.Column="0" Grid.Row="0" HeightRequest="150" Padding="0,0,-100,0">
+                <Image Source="blurry.jpg" Margin="0,-100,0,0" />
+                <Frame x:Name="TitleBar" BackgroundColor="White" HeightRequest="40" CornerRadius="0" HasShadow="False" AbsoluteLayout.LayoutBounds="0,-20" WidthRequest="1000">
+                    <Label Text="FRC Detective" FontSize="Title" TextColor="Black" FontFamily="Helvetica" VerticalOptions="CenterAndExpand" Margin="0,0,0,0"/>
+                </Frame>
+            </AbsoluteLayout>
+
+            <StackLayout Margin="0,-60,0,0">
+                <Button x:Name="RoundSelect" Text="Round 0" Font="Helvetica" CornerRadius="26" TextColor="White" BorderColor="White" BorderWidth="1" BackgroundColor="Transparent" Margin="0,-15,0,0" HorizontalOptions="Center" Padding="20,0,20,0"/>
+                <Label Margin="0,-10,0,0"/>
+
+            </StackLayout>
+
+            <Frame Grid.Column="0" Grid.Row="1" BackgroundColor="WhiteSmoke" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0,0,0,0">
+
+                <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" VerticalScrollBarVisibility="Never">
+                    <StackLayout Padding="45,0,45,0">
+                        <Label/>
+                        <Frame BackgroundColor="White" CornerRadius="25" HasShadow="True" WidthRequest="220" Padding="20,20,20,-6">
+                            <StackLayout Margin="0,0,0,20">
+                                <Label Text="Teams" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="Black" Margin="0,-4,0,0" HorizontalOptions="CenterAndExpand"/>
+
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="0,0,0,0">
+                                    <Label Text="{Binding red1}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+                                    <Label Text="{Binding blue1}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="0,0,0,0">
+                                    <Label Text="{Binding red2}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+                                    <Label Text="{Binding blue2}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+                                </StackLayout>
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Margin="0,0,0,0">
+                                    <Label Text="{Binding red3}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+                                    <Label Text="{Binding blue3}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+                                </StackLayout>
+
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,0,0,2">
+                                    <Button x:Name="BtnEdit" Clicked="OnEdit" WidthRequest="80" HeightRequest="40" Text="Edit" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" HorizontalOptions="Start"/>
+                                    <Button x:Name="BtnDelete" Clicked="OnDelete" WidthRequest="80" HeightRequest="40" Text="Delete" BackgroundColor="Transparent" TextColor="Black" BorderColor="DarkSlateBlue" BorderWidth="1" CornerRadius="10" FontFamily="Helvetica" HorizontalOptions="End"/>
+                                </StackLayout>
                             </StackLayout>
-                            <ViewCell.ContextActions>
-                                <MenuItem Clicked="OnDelete"
-                                          CommandParameter="{Binding .}"
-                                          Text="Delete" IsDestructive="True" />
-                            </ViewCell.ContextActions>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                        </Frame>
+
+                        <Label/>
+                        <Frame BackgroundColor="White" CornerRadius="25" HasShadow="True" WidthRequest="220" Padding="20,20,20,-6">
+                            <StackLayout Margin="0,0,0,20">
+                                <Label Text="Points By Team" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="Black" Margin="0,-4,0,0" HorizontalOptions="CenterAndExpand"/>
+
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Grid.Column="0" Grid.Row="0" Text="{Binding red1}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+                                    <Label Grid.Column="1" Grid.Row="0" x:Name="red1points" Text="36" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+                                    <Label Grid.Column="2" Grid.Row="0" x:Name="blue1points" Text="57" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+                                    <Label Grid.Column="3" Grid.Row="0" Text="{Binding blue1}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+
+                                    <Label Grid.Column="0" Grid.Row="1" Text="{Binding red2}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+                                    <Label Grid.Column="1" Grid.Row="1" x:Name="red2points" Text="36" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+                                    <Label Grid.Column="2" Grid.Row="1" x:Name="blue2points" Text="57" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+                                    <Label Grid.Column="3" Grid.Row="1" Text="{Binding blue2}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+
+                                    <Label Grid.Column="0" Grid.Row="2" Text="{Binding red3}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+                                    <Label Grid.Column="1" Grid.Row="2" x:Name="red3points" Text="36" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkRed" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+                                    <Label Grid.Column="2" Grid.Row="2" x:Name="blue3points" Text="57" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"/>
+                                    <Label Grid.Column="3" Grid.Row="2" Text="{Binding blue3}" FontFamily="Helvetica" FontSize="Large" FontAttributes="Bold" TextColor="DarkSlateBlue" Margin="0,5,0,0" HorizontalOptions="FillAndExpand" HorizontalTextAlignment="End"/>
+                                </Grid>
+
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </ScrollView>
+
+            </Frame>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

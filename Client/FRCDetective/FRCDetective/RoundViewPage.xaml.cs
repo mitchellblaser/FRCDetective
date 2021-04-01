@@ -18,12 +18,27 @@ namespace FRCDetective
     {
         public ObservableCollection<RoundData> RoundList = new ObservableCollection<RoundData>();
         GameData Game;
+        public string red1 { get; set; }
+        public string red2 { get; set; }
+        public string red3 { get; set; }
+        public string blue1 { get; set; }
+        public string blue2 { get; set; }
+        public string blue3 { get; set; }
+
         public RoundViewPage(GameData game)
         {
             InitializeComponent();
-            lstRounds.ItemsSource = RoundList;
+            
             Game = game;
-            lblTitle.Text = Game.DisplayName;
+            RoundSelect.Text = Game.DisplayName;
+
+            red1 = game.Red[0] != null ? game.Red[0].Team.ToString() : "####";
+            red2 = game.Red[1] != null ? game.Red[1].Team.ToString() : "####";
+            red3 = game.Red[2] != null ? game.Red[2].Team.ToString() : "####";
+            blue1 = game.Blue[0] != null ? game.Blue[0].Team.ToString() : "####";
+            blue2 = game.Blue[1] != null ? game.Blue[1].Team.ToString() : "####";
+            blue3 = game.Blue[2] != null ? game.Blue[2].Team.ToString() : "####";
+            BindingContext = this;
         }
         protected override void OnAppearing()
         {
@@ -60,8 +75,26 @@ namespace FRCDetective
             await file.DeleteAsync();
         }
 
-        async void ItemSelected(object sender, EventArgs e)
+        public async void OnEdit(object sender, EventArgs e)
         {
+            List<string> options = new List<string>();
+            foreach (RoundData item in Game.Red)
+            {
+                if (item != null)
+                {
+                    options.Add(item.Team.ToString());
+                }
+            }
+            foreach (RoundData item in Game.Blue)
+            {
+                if (item != null)
+                {
+                    options.Add(item.Team.ToString());
+                }
+            }
+            string result = await DisplayActionSheet("Team", "cancel", null, options.ToArray());
+
+            /*
             RoundData round = (RoundData)lstRounds.SelectedItem;
             if (!round.Synced)
             {
@@ -70,7 +103,12 @@ namespace FRCDetective
             else
             {
                 await DisplayAlert("Edit Error", "This entry has already been synced with the server. Please connect to the server to edit.", "OK");
-            }
+            }*/
+        }
+
+        async void ItemSelected(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new AnalysisPage());
         }
     }
 }
