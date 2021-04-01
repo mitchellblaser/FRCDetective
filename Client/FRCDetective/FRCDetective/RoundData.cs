@@ -31,6 +31,32 @@ namespace FRCDetective
         public bool Level { get; set; }
         public int Foul { get; set; }
         public int TechFoul { get; set; }
+        public string Notes { get; set; }
 
+        public int GetScore(bool subtractFouls = false)
+        {
+            int score = 0;
+
+            score += InitLine ? 5 : 0;
+
+            score += AutoLowGoal * 2;
+            score += AutoHighGoal * 4;
+            score += TeleopLowGoal * 1;
+            score += TeleopHighGoal * 2;
+
+            score += ColourwheelRotation ? 15 : 0;
+            score += ColourwheelPosition ? 20 : 0;
+
+            score += Climb == 0 ? 0 : 0;
+            score += Climb == 1 ? 5 : 0;
+            score += Climb == 2 ? 25 : 0;
+
+            score += Level ? 15 : 0;
+
+            score -= (subtractFouls ? 1 : 0) * Foul;
+            score -= (subtractFouls ? 5 : 0) * TechFoul;
+
+            return score;
+        }
     }
 }

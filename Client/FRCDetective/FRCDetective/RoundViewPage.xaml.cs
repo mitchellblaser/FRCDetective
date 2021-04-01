@@ -16,14 +16,37 @@ namespace FRCDetective
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RoundViewPage : ContentPage
     {
-        public ObservableCollection<RoundData> RoundList = new ObservableCollection<RoundData>();
         GameData Game;
+        public string red1 { get; set; }
+        public string red2 { get; set; }
+        public string red3 { get; set; }
+        public string blue1 { get; set; }
+        public string blue2 { get; set; }
+        public string blue3 { get; set; }
+
         public RoundViewPage(GameData game)
         {
             InitializeComponent();
-            lstRounds.ItemsSource = RoundList;
+            
             Game = game;
-            lblTitle.Text = Game.DisplayName;
+            RoundSelect.Text = Game.DisplayName;
+
+            red1 = game.Red[0] != null ? game.Red[0].Team.ToString() : "####";
+            red2 = game.Red[1] != null ? game.Red[1].Team.ToString() : "####";
+            red3 = game.Red[2] != null ? game.Red[2].Team.ToString() : "####";
+            blue1 = game.Blue[0] != null ? game.Blue[0].Team.ToString() : "####";
+            blue2 = game.Blue[1] != null ? game.Blue[1].Team.ToString() : "####";
+            blue3 = game.Blue[2] != null ? game.Blue[2].Team.ToString() : "####";
+
+            red1points.Text = game.Red[0].GetScore(true).ToString();
+            red2points.Text = game.Red[1].GetScore(true).ToString();
+            red3points.Text = game.Red[2].GetScore(true).ToString();
+
+            blue1points.Text = game.Blue[0].GetScore(true).ToString();
+            blue2points.Text = game.Blue[1].GetScore(true).ToString();
+            blue3points.Text = game.Blue[2].GetScore(true).ToString();
+
+
         }
         protected override void OnAppearing()
         {
@@ -31,38 +54,86 @@ namespace FRCDetective
         }
         async void Refresh()
         {
-            RoundList.Clear();
+            lblRed1.Text = red1;
+            lblRed2.Text = red2;
+            lblRed3.Text = red3;
+            lblBlue1.Text = blue1;
+            lblBlue2.Text = blue2;
+            lblBlue3.Text = blue3;
 
-            foreach (var item in Game.Red)
-            {
-                if (item != null)
-                {
-                    RoundList.Add(item);
-                }
-            }
-            foreach (var item in Game.Blue)
-            {
-                if (item != null)
-                {
-                    RoundList.Add(item);
-                }
-            }
+            lblRed1point.Text = red1;
+            lblRed2point.Text = red2;
+            lblRed3point.Text = red3;
+            lblBlue1point.Text = blue1;
+            lblBlue2point.Text = blue2;
+            lblBlue3point.Text = blue3;
+
+
         }
         public async void OnDelete(object sender, EventArgs e)
         {
-            var mi = ((MenuItem)sender);
-            RoundData round = (RoundData)mi.CommandParameter;
+            RoundData[] teams = Game.Red.Concat(Game.Blue).ToArray();
+            List<string> options = new List<string>();
+            foreach (RoundData team in teams)
+            {
+                if (team != null && !team.Synced)
+                {
+                    options.Add(team.Team.ToString());
+                }
+            }
+            string result = await DisplayActionSheet("Team", "cancel", null, options.ToArray());
 
-            RoundList.Remove(round);
+            if (!await DisplayAlert("Delete", "Are you sure you want to delete team " + result + "?", "Yes", "No")) { return; }
+            
+            red1 = red1 == result ? "####" : red1;
+            red2 = red2 == result ? "####" : red2;
+            red3 = red3 == result ? "####" : red3;
+            blue1 = blue1 == result ? "####" : blue1;
+            blue2 = blue2 == result ? "####" : blue2;
+            blue3 = blue3 == result ? "####" : blue3;
+            Refresh();
+            
+
+            RoundData round = null;
+            foreach (RoundData team in teams)
+            {
+                if (team != null && team.Team.ToString() == result)
+                {
+                    round = team;
+                }
+            }
+
+            
+
             IFolder rootFolder = FileSystem.Current.LocalStorage;
             IFolder folder = await rootFolder.CreateFolderAsync("RoundData", CreationCollisionOption.OpenIfExists);
             IFile file = await folder.CreateFileAsync(round.Filename, CreationCollisionOption.ReplaceExisting);
             await file.DeleteAsync();
         }
 
-        async void ItemSelected(object sender, EventArgs e)
+        public async void OnEdit(object sender, EventArgs e)
         {
-            RoundData round = (RoundData)lstRounds.SelectedItem;
+            RoundData[] teams = Game.Red.Concat(Game.Blue).ToArray();
+            List<string> options = new List<string>();
+            foreach (RoundData team in teams)
+            {
+                if (team != null && !team.Synced)
+                {
+                    options.Add(team.Team.ToString());
+                }
+            }
+            string result = await DisplayActionSheet("Team", "cancel", null, options.ToArray());
+
+
+            RoundData round = null;
+            foreach (RoundData team in teams)
+            {
+                if (team != null && team.Team.ToString() == result)
+                {
+                    round = team;
+                }
+            }
+
             if (!round.Synced)
             {
                 await Navigation.PushAsync(new NewGameEntryPage(round));
@@ -71,6 +142,11 @@ namespace FRCDetective
             {
                 await DisplayAlert("Edit Error", "This entry has already been synced with the server. Please connect to the server to edit.", "OK");
             }
+        }
+
+        async void ItemSelected(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new AnalysisPage());
         }
     }
 }
