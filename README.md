@@ -1,13 +1,13 @@
 # FRC Detective
 
-
-
 <img src="https://github.com/mitchellblaser/FRCDetective/blob/main/Readme/logo.png?raw=true" align=right width=225 />A scouting system for the First Robotics Competition which does not rely on an internet connection, or bluetooth/wifi mesh network.
 
 Developed by [@mitchellblaser](https://github.com/mitchellblaser) and [@Dilka30003](https://github.com/Dilka30003).
 
 View our progress and planned features for the future [at this link.](https://app.gitkraken.com/glo/board/YBvMzRdxdwARfCdr)
 
+
+(This is version 1. We've got a pretty cool new update coming for the 2022 season, so keep an eye out!)
 
 
 **Starting the server:**
@@ -43,8 +43,6 @@ The full list of possible command line arguments are:
 
 
 ### Requirements (Server)
-
-***The server application is not complete as of yet.***
 
 - Python 3
 - socket, tkinter, os, datetime (should all come with py3 install)
