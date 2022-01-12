@@ -1,1 +1,0 @@
-docker run --rm --mount type=bind,source=/etc/detective/Storage.json,target=/app/Storage.json --mount type=bind,source=/etc/detective/app.db,target=/app/webgui/app.db --mount type=bind,source=/etc/detective/adminusers.txt,target=/app/webgui/adminusers.txt -e TZ=Australia/Melbourne -p 5584:5584 -p 8080:8080 --name detective-server detective-server
