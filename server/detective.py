@@ -33,6 +33,7 @@ management_thread = threading.Thread(
     target=frcd.management.serve,
     args=(is_server_first_run, FRCD_SERVER_MANAGEMENT_PORT)
 )
+management_thread.setDaemon(True)
 management_thread.start()
 
 # Setup TCP/IP Socket
@@ -40,12 +41,21 @@ main_sock = frcd.network.ConfigureMainSocket()
 
 # Main Server Loop
 # (This is executed once per connection request)
-_connection, _address = main_sock.accept()
-server_thread = threading.Thread(
-    target=frcd.clienthandler.Handle,
-    args=(_connection, _address)
-)
-server_thread.start()
+server_should_run_loop = True
+while server_should_run_loop:
+    try:
+        _connection, _address = main_sock.accept()
+    except KeyboardInterrupt:
+        print("")
+        print("Detected Keyboard Interrupt. Cleanly Exiting...")
+        server_should_run_loop = False
+    
+    if server_should_run_loop:
+        server_thread = threading.Thread(
+            target=frcd.clienthandler.Handle,
+            args=(_connection, _address)
+        )
+        server_thread.start()
 
 # Application Cleanup on-exit
 main_sock.close()
