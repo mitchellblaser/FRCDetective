@@ -27,14 +27,17 @@ def Handle(connection, address):
         ready = select.select([connection], [], [], FRCD_SERVER_TIMEOUT_SECS)
         if ready[0]:
             data = connection.recv(FRCD_MAX_PACKET_SIZE)
-            # {
-            #   "request": "type"
-            #   "from":    [user, password(encrypted)]
-            #   "data":    {}
-            # }
+            if data != b'':
+                # {
+                #   "request": "type"
+                #   "from":    [user, password(encrypted)]
+                #   "data":    {}
+                # }
 
-            print(data)
-            StateMachine(json.loads(data))
+                StateMachine(json.loads(data))
+            else:
+                connected = False
+                connection.close()
 
         else:
             connected = False
@@ -56,6 +59,8 @@ def StateMachine(parsed_json):
         PutMatch(parsed_json)
     elif parsed_json["request"] == "PUT_CHUNK":
         PutChunk(parsed_json)
+    elif parsed_json["request"] == "GET_STATUS":
+        GetStatus(parsed_json)
     return
 
 
@@ -87,3 +92,5 @@ def PutChunk(parsed_json):
     return
 
 
+def GetStatus(parsed_json):
+    return
