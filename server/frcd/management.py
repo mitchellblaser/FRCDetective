@@ -7,8 +7,9 @@
 ############################################
 
 # Import External Libs
+from functools import partial
 import os
-from http.server import HTTPServer, CGIHTTPRequestHandler
+from http.server import HTTPServer, SimpleHTTPRequestHandler
 import getpass
 from pathlib import Path
 
@@ -42,9 +43,10 @@ def serve(management_port):
     Args:
         management_port (int): [Port for server]
     """
-    os.chdir("./web_shell")
+    Handler = partial(SimpleHTTPRequestHandler, directory="./web_shell")
+
     server = HTTPServer(server_address=("", management_port),
-    RequestHandlerClass=CGIHTTPRequestHandler)
+    RequestHandlerClass=Handler)
     server.serve_forever()
 
 # Ensure our package is able to run standalone for testing.

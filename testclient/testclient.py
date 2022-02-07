@@ -6,9 +6,11 @@ HOST = "127.0.0.1"
 PORT = 5584
 
 DATA = {
-    "request": "GET_DIFF",
-    "from": ["mblaser", "password"],
-    "data": {}
+    "request": "PUT_TEAM",
+    "from": ["username", "password"],
+    "data": {
+        "teamnumber": "5584"
+    }
 }
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:

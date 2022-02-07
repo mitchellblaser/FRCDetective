@@ -9,9 +9,14 @@
 # Import External Libs
 import select
 import json
+import time
 
 # Get Configuration Options
 from configuration import *
+
+# Import Internal Python Files
+import frcd.fileman
+from frcd.fileman import FileTypes
 
 def Handle(connection, address):
     """Main Handler Function for Client Communications.
@@ -34,7 +39,10 @@ def Handle(connection, address):
                 #   "data":    {}
                 # }
 
-                StateMachine(json.loads(data))
+                parsed_json = json.loads(data)
+                parsed_json["data"]["epoch_since_receive"] = time.time()
+
+                StateMachine(parsed_json)
             else:
                 connected = False
                 connection.close()
@@ -81,14 +89,29 @@ def GetChunk(parsed_json):
 
 
 def PutTeam(parsed_json):
+    frcd.fileman.update_file(
+        parsed_json["data"]["teamnumber"],
+        FileTypes.Team,
+        parsed_json
+    )
     return
 
 
 def PutMatch(parsed_json):
+    frcd.fileman.update_file(
+        parsed_json["data"]["matchid"],
+        FileTypes.Match,
+        parsed_json
+    )
     return
 
 
 def PutChunk(parsed_json):
+    frcd.fileman.update_file(
+        parsed_json["data"]["chunkid"],
+        FileTypes.Chunk,
+        parsed_json
+    )
     return
 
 
