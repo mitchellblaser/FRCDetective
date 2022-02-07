@@ -1,3 +1,4 @@
 *.log
 .frcdserver.conf
 __pycache__
+datastore

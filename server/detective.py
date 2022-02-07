@@ -24,14 +24,12 @@ import frcd.clienthandler
 print(frcd.motd.msg)
 
 # Read User-Defined Configuration File
-is_server_first_run = True
-if os.path.exists(".frcdserver.conf"):
-    is_server_first_run = False
+frcd.management.init(not os.path.exists(".frcdserver.conf"))
 
 # Begin Management Interface Web Server
 management_thread = threading.Thread(
     target=frcd.management.serve,
-    args=(is_server_first_run, FRCD_SERVER_MANAGEMENT_PORT)
+    args=(FRCD_SERVER_MANAGEMENT_PORT,)
 )
 management_thread.setDaemon(True)
 management_thread.start()
