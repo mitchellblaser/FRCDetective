@@ -23,13 +23,14 @@ def init(is_server_first_run):
         password = getpass.getpass("PASSWORD >>")
         print(frcd.motd.firstrun03)
         print(frcd.motd.firstrun04)
-        ##TODO: generate files and folders here
         Path(".frcdserver.conf").touch()
         Path("datastore").mkdir()
         Path("datastore/users").mkdir()
         Path("datastore/teams").mkdir()
         Path("datastore/matches").mkdir()
         Path("datastore/matchchunks").mkdir()
+        userfile = open("datastore/users/" + username + ".cred", "w")
+        userfile.write(username + "\n" + password + "\n" + "ADMIN")
         print(frcd.motd.firstrun05)
     return
 
