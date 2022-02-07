@@ -93,10 +93,28 @@ def GetTeam(parsed_json : dict) -> None:
 
 
 def GetMatch(parsed_json : dict) -> None:
+    _connection.sendall(
+        json.dumps(
+            {
+                "send_timestamp": time.time(),
+                "filename": parsed_json["data"]["matchid"] + ".team",
+                "data": frcd.fileman.get_file(parsed_json["data"]["matchid"], FileTypes.Match)
+            }
+        ).encode("utf-8")
+    )
     return
 
 
 def GetChunk(parsed_json : dict) -> None:
+    _connection.sendall(
+        json.dumps(
+            {
+                "send_timestamp": time.time(),
+                "filename": parsed_json["data"]["chunkid"] + ".team",
+                "data": frcd.fileman.get_file(parsed_json["data"]["chunkid"], FileTypes.Chunk)
+            }
+        ).encode("utf-8")
+    )
     return
 
 
