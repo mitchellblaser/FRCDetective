@@ -8,7 +8,6 @@
 
 # Import External Libs
 from functools import partial
-import os
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 import getpass
 from pathlib import Path
@@ -16,7 +15,7 @@ from pathlib import Path
 # Import Internal Python Files
 import frcd.motd
 
-def init(is_server_first_run):
+def init(is_server_first_run : bool) -> None:
     if is_server_first_run:
         print(frcd.motd.firstrun01)
         print(frcd.motd.firstrun02)
@@ -35,7 +34,7 @@ def init(is_server_first_run):
         print(frcd.motd.firstrun05)
     return
 
-def serve(management_port):
+def serve(management_port : int) -> None:
     """Set up and serve web management interface.
     Must be run in it's own thread as it is a
     blocking function.
@@ -48,6 +47,7 @@ def serve(management_port):
     server = HTTPServer(server_address=("", management_port),
     RequestHandlerClass=Handler)
     server.serve_forever()
+    return
 
 # Ensure our package is able to run standalone for testing.
 if __name__ == "__main__":

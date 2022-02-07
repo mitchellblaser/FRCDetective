@@ -10,6 +10,7 @@
 import select
 import json
 import time
+import socket
 
 # Get Configuration Options
 from configuration import *
@@ -18,13 +19,14 @@ from configuration import *
 import frcd.fileman
 from frcd.fileman import FileTypes
 
-def Handle(connection, address):
+def Handle(connection : socket.socket, address : tuple) -> None:
     """Main Handler Function for Client Communications.
 
     Args:
         connection (socket): [description]
         address ([type]): [description]
     """
+    global _connection
     print("Accepted Connection from Client at " + str(address) + ".")
     connected = True
     while connected:
@@ -42,6 +44,7 @@ def Handle(connection, address):
                 parsed_json = json.loads(data)
                 parsed_json["data"]["epoch_since_receive"] = time.time()
 
+                _connection = connection
                 StateMachine(parsed_json)
             else:
                 connected = False
@@ -52,7 +55,7 @@ def Handle(connection, address):
     return
 
 
-def StateMachine(parsed_json):
+def StateMachine(parsed_json : dict) -> None:
     if parsed_json["request"] == "GET_DIFF":
         GetDiff(parsed_json)
     elif parsed_json["request"] == "GET_TEAM":
@@ -72,48 +75,57 @@ def StateMachine(parsed_json):
     return
 
 
-def GetDiff(parsed_json):
+def GetDiff(parsed_json : dict) -> None:
     return
 
 
-def GetTeam(parsed_json):
+def GetTeam(parsed_json : dict) -> None:
+    _connection.sendall(
+        json.dumps(
+            {
+                "send_timestamp": time.time(),
+                "filename": parsed_json["data"]["teamnumber"] + ".team",
+                "data": frcd.fileman.get_file(parsed_json["data"]["teamnumber"], FileTypes.Team)
+            }
+        ).encode("utf-8")
+    )
     return
 
 
-def GetMatch(parsed_json):
+def GetMatch(parsed_json : dict) -> None:
     return
 
 
-def GetChunk(parsed_json):
+def GetChunk(parsed_json : dict) -> None:
     return
 
 
-def PutTeam(parsed_json):
+def PutTeam(parsed_json : dict) -> None:
     frcd.fileman.update_file(
         parsed_json["data"]["teamnumber"],
         FileTypes.Team,
-        parsed_json
+        parsed_json["data"]
     )
     return
 
 
-def PutMatch(parsed_json):
+def PutMatch(parsed_json : dict) -> None:
     frcd.fileman.update_file(
         parsed_json["data"]["matchid"],
         FileTypes.Match,
-        parsed_json
+        parsed_json["data"]
     )
     return
 
 
-def PutChunk(parsed_json):
+def PutChunk(parsed_json : dict) -> None:
     frcd.fileman.update_file(
         parsed_json["data"]["chunkid"],
         FileTypes.Chunk,
-        parsed_json
+        parsed_json["data"]
     )
     return
 
 
-def GetStatus(parsed_json):
+def GetStatus(parsed_json : dict) -> None:
     return

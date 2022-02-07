@@ -14,7 +14,7 @@ import socket
 
 # Sets up Main Socket for Handling Client Requests.
 # Returns type socket.socket
-def ConfigureMainSocket():
+def ConfigureMainSocket() -> socket.socket:
     """Sets up a socket with pre-configured options.
     To be saved to a variable locally for use later.
 
