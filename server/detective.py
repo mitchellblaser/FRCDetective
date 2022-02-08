@@ -28,6 +28,7 @@ print(frcd.motd.msg)
 frcd.management.init(not os.path.exists(".frcdserver.conf"))
 
 # Begin Management Interface Web Server
+#TODO: Implement proper server management thread
 management_thread = threading.Thread(
     target=frcd.management.serve,
     args=(FRCD_SERVER_MANAGEMENT_PORT,)

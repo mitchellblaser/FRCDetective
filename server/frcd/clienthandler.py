@@ -42,6 +42,10 @@ def Handle(connection : socket.socket, address : tuple) -> None:
                 # }
 
                 parsed_json = json.loads(data)
+                #FIXME: This should probably have it's timestamp set on *modification* and not 
+                #       server receive. If we store <previous file modification time> and
+                #       <new file modification time> we should be able to use this to calculate 
+                #       our diffs.
                 parsed_json["data"]["epoch_since_receive"] = time.time()
 
                 _connection = connection
@@ -52,6 +56,9 @@ def Handle(connection : socket.socket, address : tuple) -> None:
 
         else:
             connected = False
+    #TODO: Implement authentication and password encryption from clients
+    #      so that we can log which user does what and stop unallowed
+    #      access.
     return
 
 
@@ -76,6 +83,7 @@ def StateMachine(parsed_json : dict) -> None:
 
 
 def GetDiff(parsed_json : dict) -> None:
+    #TODO: Implement diff calculation
     return
 
 
@@ -146,4 +154,5 @@ def PutChunk(parsed_json : dict) -> None:
 
 
 def GetStatus(parsed_json : dict) -> None:
+    #TODO: Implement server status report
     return
