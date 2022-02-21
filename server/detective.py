@@ -44,18 +44,20 @@ main_sock = frcd.network.ConfigureMainSocket()
 server_should_run_loop = True
 while server_should_run_loop:
     try:
-        _connection, _address = main_sock.accept()
+        try:
+            _connection, _address = main_sock.accept()
+            server_thread = threading.Thread(
+                target=frcd.clienthandler.Handle,
+                args=(_connection, _address)
+            )
+            server_thread.start()
+        except TimeoutError:
+            print("Timed out.")
     except KeyboardInterrupt:
         print("")
         print("Detected Keyboard Interrupt. Cleanly Exiting...")
         server_should_run_loop = False
-    
-    if server_should_run_loop:
-        server_thread = threading.Thread(
-            target=frcd.clienthandler.Handle,
-            args=(_connection, _address)
-        )
-        server_thread.start()
+        
 
 # Application Cleanup on-exit
 main_sock.close()
