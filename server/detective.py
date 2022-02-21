@@ -52,7 +52,7 @@ while server_should_run_loop:
             )
             server_thread.start()
         except TimeoutError:
-            print("Timed out.")
+            pass
     except KeyboardInterrupt:
         print("")
         print("Detected Keyboard Interrupt. Cleanly Exiting...")

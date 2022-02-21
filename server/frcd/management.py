@@ -7,8 +7,7 @@
 ############################################
 
 # Import External Libs
-from functools import partial
-from http.server import HTTPServer, SimpleHTTPRequestHandler
+from flask import Flask
 import getpass
 from pathlib import Path
 
@@ -42,11 +41,12 @@ def serve(management_port : int) -> None:
     Args:
         management_port (int): [Port for server]
     """
-    Handler = partial(SimpleHTTPRequestHandler, directory="./web_shell")
+    global app
 
-    server = HTTPServer(server_address=("", management_port),
-    RequestHandlerClass=Handler)
-    server.serve_forever()
+    app = Flask(__name__)
+    from web_shell import routes
+
+    app.run(port=management_port)
     return
 
 # Ensure our package is able to run standalone for testing.
