@@ -11,6 +11,7 @@ import threading
 import os
 import sys
 from pathlib import Path
+import socket
 
 # Get Configuration Options
 from configuration import *
@@ -28,7 +29,6 @@ print(frcd.motd.msg)
 frcd.management.init(not os.path.exists(".frcdserver.conf"))
 
 # Begin Management Interface Web Server
-#TODO: Implement proper server management thread
 management_thread = threading.Thread(
     target=frcd.management.serve,
     args=(FRCD_SERVER_MANAGEMENT_PORT,)
@@ -52,6 +52,8 @@ while server_should_run_loop:
             )
             server_thread.start()
         except TimeoutError:
+            pass
+        except socket.timeout:
             pass
     except KeyboardInterrupt:
         print("")
