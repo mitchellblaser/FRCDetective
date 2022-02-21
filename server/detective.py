@@ -33,7 +33,7 @@ management_thread = threading.Thread(
     target=frcd.management.serve,
     args=(FRCD_SERVER_MANAGEMENT_PORT,)
 )
-management_thread.setDaemon(True)
+management_thread.daemon = True
 management_thread.start()
 
 # Setup TCP/IP Socket
