@@ -7,10 +7,9 @@
 ############################################
 
 # Import External Libs
-from flask import Flask
-from waitress import serve as wserve
 import getpass
 from pathlib import Path
+from web_shell import app
 
 # Import Internal Python Files
 import frcd.motd
@@ -42,12 +41,7 @@ def serve(management_port : int) -> None:
     Args:
         management_port (int): [Port for server]
     """
-    global app
-
-    app = Flask(__name__)
-    from web_shell import routes
-
-    wserve(app, host="0.0.0.0", port=management_port)
+    app.serve_app(management_port)
     return
 
 # Ensure our package is able to run standalone for testing.
