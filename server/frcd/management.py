@@ -20,6 +20,7 @@ def init(is_server_first_run : bool) -> None:
         print(frcd.motd.firstrun02)
         username = input("USERNAME >>")
         password = getpass.getpass("PASSWORD >>")
+        fullname = input("FULL NAME >>")
         print(frcd.motd.firstrun03)
         print(frcd.motd.firstrun04)
         Path(".frcdserver.conf").touch()
@@ -29,7 +30,7 @@ def init(is_server_first_run : bool) -> None:
         Path("datastore/matches").mkdir()
         Path("datastore/matchchunks").mkdir()
         userfile = open("datastore/users/" + username + ".cred", "w")
-        userfile.write(username + "\n" + password + "\n" + "ADMIN")
+        userfile.write(username + "\n" + password + "\n" + "ADMIN" + "\n" + fullname)
         print(frcd.motd.firstrun05)
     return
 
