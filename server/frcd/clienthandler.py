@@ -18,7 +18,8 @@ from configuration import *
 # Import Internal Python Files
 import frcd.fileman
 from frcd.fileman import FileTypes
-
+#TODO: Implement sending/updating schedule to push to clients. 
+#      Must be compatible with the blue alliance and also work with multiple fields (if applicable for comp)
 def Handle(connection : socket.socket, address : tuple) -> None:
     """Main Handler Function for Client Communications.
 
@@ -36,17 +37,12 @@ def Handle(connection : socket.socket, address : tuple) -> None:
             data = connection.recv(FRCD_MAX_PACKET_SIZE)
             if data != b'':
                 # {
-                #   "request": "type"
-                #   "from":    [user, password(encrypted)]
-                #   "data":    {}
+                #   "request":              "type"
+                #   "from":                 [user, password(encrypted)]
+                #   "data":                 {epoch_since_modify: 0000.0000, ...}
                 # }
 
                 parsed_json = json.loads(data)
-                #FIXME: This should probably have it's timestamp set on *modification* and not 
-                #       server receive. If we store <previous file modification time> and
-                #       <new file modification time> we should be able to use this to calculate 
-                #       our diffs.
-                parsed_json["data"]["epoch_since_receive"] = time.time()
 
                 _connection = connection
                 StateMachine(parsed_json)
@@ -58,7 +54,7 @@ def Handle(connection : socket.socket, address : tuple) -> None:
             connected = False
     #TODO: Implement authentication and password encryption from clients
     #      so that we can log which user does what and stop unallowed
-    #      access.
+    #      access. Easier to do this when calculating the cascade on-send?
     return
 
 
@@ -79,6 +75,12 @@ def StateMachine(parsed_json : dict) -> None:
         PutChunk(parsed_json)
     elif parsed_json["request"] == "GET_STATUS":
         GetStatus(parsed_json)
+    elif parsed_json["request"] == "PUT_SCHEDULE":
+        #TODO
+        PutSchedule(parsed_json)
+    elif parsed_json["request"] == "GET_SCHEDULE":
+        #TODO
+        GetSchedule(parsed_json)
     return
 
 
@@ -155,4 +157,10 @@ def PutChunk(parsed_json : dict) -> None:
 
 def GetStatus(parsed_json : dict) -> None:
     #TODO: Implement server status report
+    return
+
+def PutSchedule(parsed_json : dict) -> None:
+    return
+
+def GetSchedule(parsed_json : dict) -> None:
     return

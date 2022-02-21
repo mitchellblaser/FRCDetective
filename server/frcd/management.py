@@ -7,10 +7,9 @@
 ############################################
 
 # Import External Libs
-from functools import partial
-from http.server import HTTPServer, SimpleHTTPRequestHandler
 import getpass
 from pathlib import Path
+from web_shell import app
 
 # Import Internal Python Files
 import frcd.motd
@@ -21,6 +20,7 @@ def init(is_server_first_run : bool) -> None:
         print(frcd.motd.firstrun02)
         username = input("USERNAME >>")
         password = getpass.getpass("PASSWORD >>")
+        fullname = input("FULL NAME >>")
         print(frcd.motd.firstrun03)
         print(frcd.motd.firstrun04)
         Path(".frcdserver.conf").touch()
@@ -30,7 +30,7 @@ def init(is_server_first_run : bool) -> None:
         Path("datastore/matches").mkdir()
         Path("datastore/matchchunks").mkdir()
         userfile = open("datastore/users/" + username + ".cred", "w")
-        userfile.write(username + "\n" + password + "\n" + "ADMIN")
+        userfile.write(username + "\n" + password + "\n" + "ADMIN" + "\n" + fullname)
         print(frcd.motd.firstrun05)
     return
 
@@ -42,11 +42,7 @@ def serve(management_port : int) -> None:
     Args:
         management_port (int): [Port for server]
     """
-    Handler = partial(SimpleHTTPRequestHandler, directory="./web_shell")
-
-    server = HTTPServer(server_address=("", management_port),
-    RequestHandlerClass=Handler)
-    server.serve_forever()
+    app.serve_app(management_port)
     return
 
 # Ensure our package is able to run standalone for testing.

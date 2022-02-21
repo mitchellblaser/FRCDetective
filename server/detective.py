@@ -11,6 +11,7 @@ import threading
 import os
 import sys
 from pathlib import Path
+import socket
 
 # Get Configuration Options
 from configuration import *
@@ -28,12 +29,11 @@ print(frcd.motd.msg)
 frcd.management.init(not os.path.exists(".frcdserver.conf"))
 
 # Begin Management Interface Web Server
-#TODO: Implement proper server management thread
 management_thread = threading.Thread(
     target=frcd.management.serve,
     args=(FRCD_SERVER_MANAGEMENT_PORT,)
 )
-management_thread.setDaemon(True)
+management_thread.daemon = True
 management_thread.start()
 
 # Setup TCP/IP Socket
@@ -44,18 +44,22 @@ main_sock = frcd.network.ConfigureMainSocket()
 server_should_run_loop = True
 while server_should_run_loop:
     try:
-        _connection, _address = main_sock.accept()
+        try:
+            _connection, _address = main_sock.accept()
+            server_thread = threading.Thread(
+                target=frcd.clienthandler.Handle,
+                args=(_connection, _address)
+            )
+            server_thread.start()
+        except TimeoutError:
+            pass
+        except socket.timeout:
+            pass
     except KeyboardInterrupt:
         print("")
         print("Detected Keyboard Interrupt. Cleanly Exiting...")
         server_should_run_loop = False
-    
-    if server_should_run_loop:
-        server_thread = threading.Thread(
-            target=frcd.clienthandler.Handle,
-            args=(_connection, _address)
-        )
-        server_thread.start()
+        
 
 # Application Cleanup on-exit
 main_sock.close()
