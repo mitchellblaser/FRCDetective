@@ -8,6 +8,7 @@
 
 # Import External Libs
 from flask import Flask
+from waitress import serve as wserve
 import getpass
 from pathlib import Path
 
@@ -46,7 +47,7 @@ def serve(management_port : int) -> None:
     app = Flask(__name__)
     from web_shell import routes
 
-    app.run(port=management_port)
+    wserve(app, host="0.0.0.0", port=management_port)
     return
 
 # Ensure our package is able to run standalone for testing.

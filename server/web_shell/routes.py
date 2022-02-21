@@ -5,4 +5,4 @@ from frcd.management import app
 @app.route('/')
 @app.route('/index')
 def index():
-    return "Hello, World!"
+    return "Welcome to FRC Detective"
