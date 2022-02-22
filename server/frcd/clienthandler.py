@@ -107,7 +107,7 @@ def GetMatch(parsed_json : dict) -> None:
         json.dumps(
             {
                 "send_timestamp": time.time(),
-                "filename": parsed_json["data"]["matchid"] + ".team",
+                "filename": parsed_json["data"]["matchid"] + ".match",
                 "data": frcd.fileman.get_file(parsed_json["data"]["matchid"], FileTypes.Match)
             }
         ).encode("utf-8")
@@ -120,7 +120,7 @@ def GetChunk(parsed_json : dict) -> None:
         json.dumps(
             {
                 "send_timestamp": time.time(),
-                "filename": parsed_json["data"]["chunkid"] + ".team",
+                "filename": parsed_json["data"]["chunkid"] + ".chunk",
                 "data": frcd.fileman.get_file(parsed_json["data"]["chunkid"], FileTypes.Chunk)
             }
         ).encode("utf-8")
