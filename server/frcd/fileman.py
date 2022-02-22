@@ -87,9 +87,10 @@ def get_file_list() -> dict:
 
     return {
         "teams": _teams,
-        "matches": {},
-        "chunks": {}
+        "matches": _matches,
+        "chunks": _chunks
     }
+
 
 #TODO: Implement user get function - needs more info eg email?
 
