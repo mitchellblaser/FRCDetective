@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 import 'dart:async';
-
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/rendering.dart';
 
 const String applicationName = "FRCDetective";
@@ -12,17 +12,18 @@ void update_elements() {
   return;
 }
 
-double _boxHeight = 14;
+double _boxHeight = 0;
 String _logoPath = "assets/images/logo.png";
 
 void main() {
   runApp(const DetectiveApp());
   Timer.periodic(const Duration(milliseconds: 200), (Timer t) => { update_elements() });
   // Platform-specific code...
-  if (Platform.isAndroid) {
-    _boxHeight = 0;
-  } else if (Platform.isWindows) {
-    _logoPath = "assets/images/logo-small.png";
+  if (!kIsWeb) {
+    if (Platform.isWindows) {
+      _boxHeight = 14;
+      _logoPath = "assets/images/logo-small.png";
+    }
   }
 }
 
@@ -142,7 +143,7 @@ class _ServerSyncWidgetState extends State<ServerSyncWidget> {
                 },
                 child: SizedBox(
                   width: 370,
-                  height: 67 + _boxHeight,
+                  height: 72 + _boxHeight,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -186,7 +187,7 @@ class _LiveStreamWidgetState extends State<LiveStreamWidget> {
                 },
                 child: SizedBox(
                   width: 370,
-                  height: 67 + _boxHeight,
+                  height: 72 + _boxHeight,
                   child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                     Container(padding: const EdgeInsets.only(left: 25, bottom: 5), child: Image.asset("assets/images/livestream_icon.png", fit: BoxFit.contain, height: 44)),
                     Column(
