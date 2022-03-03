@@ -2,22 +2,30 @@ import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 import 'dart:async';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:flutter/rendering.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:web_socket_channel/status.dart' as status;
 
 const String applicationName = "FRCDetective";
 
-int counter = 0;
-void update_elements() {
-  counter++;
-  return;
+String serverAddress = "localhost:5584";
+int serverPollIntervalMS = 10000;
+
+void doServerUpdate() {
+  var channel = WebSocketChannel.connect(Uri.parse(serverAddress));
+  channel.sink.add("HELLO WORLD THIS IS A TEST");
+  channel.stream.listen(
+    (data) {
+      print(data);
+    },
+    onError: (error) => print(error),
+    onDone: () => channel.sink.close(status.normalClosure)
+  );
 }
 
 double _boxHeight = 0;
 String _logoPath = "assets/images/logo.png";
 
 void main() {
-  runApp(const DetectiveApp());
-  Timer.periodic(const Duration(milliseconds: 200), (Timer t) => { update_elements() });
   // Platform-specific code...
   if (!kIsWeb) {
     if (Platform.isWindows) {
@@ -25,13 +33,18 @@ void main() {
       _logoPath = "assets/images/logo-small.png";
     }
   }
+  // Run GUI
+  runApp(const DetectiveApp());
+  // Start Periodic Functions
+  Timer.periodic(Duration(milliseconds: serverPollIntervalMS), (Timer t) => { doServerUpdate() });
+  doServerUpdate();
 }
 
 TextStyle headerStyle = const TextStyle(fontSize: 48, fontFamily: 'LeagueSpartan');
-TextStyle bodyStyle = const TextStyle(fontSize: 20, fontFamily: 'Roboto');
+TextStyle bodyStyle = const TextStyle(fontSize: 20, fontFamily: 'Roboto', color: Colors.white);
 TextStyle bodySmallStyle = const TextStyle(fontSize: 16, fontFamily: 'Roboto');
 TextStyle bodyXSmallStyle = const TextStyle(fontSize: 14, fontFamily: 'Roboto');
-TextStyle bodyItalSmallStyle = const TextStyle(fontSize: 14, fontFamily: 'Roboto', fontStyle: FontStyle.italic);
+TextStyle bodyItalSmallStyle = const TextStyle(fontSize: 14, fontFamily: 'Roboto', fontStyle: FontStyle.italic, color: Colors.white);
 
 const _customColorValue = 0xFF000A59;
 const MaterialColor customColor = MaterialColor(
@@ -84,7 +97,7 @@ class _TeamInformationWidgetState extends State<TeamInformationWidget> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(padding: const EdgeInsets.only(top: 16, left: 22), child: Align(alignment: Alignment.centerLeft, child: Text("Your Team", style: bodyStyle))),
-                      Container(padding: const EdgeInsets.only(top: 2, left: 20),child: Align(alignment: Alignment.centerLeft, child: Text(counter.toString(), style: headerStyle))),
+                      Container(padding: const EdgeInsets.only(top: 2, left: 20),child: Align(alignment: Alignment.centerLeft, child: Text("5584", style: headerStyle))),
                       Container(padding: const EdgeInsets.only(top: 6, left: 20),child: Align(alignment: Alignment.centerLeft, child: Text("Chance of Victory: 58.2%", style: bodyItalSmallStyle))),
                       Container(padding: const EdgeInsets.only(top: 0, left: 20), child: Align(alignment: Alignment.centerLeft,
                         child: RichText(text: TextSpan(
