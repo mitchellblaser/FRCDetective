@@ -9,6 +9,7 @@ DATA = {
     "request": "PUT_TEAM",
     "from": ["username", "password"],
     "data": {
+        "epoch_since_modify": 0.00000,
         "teamnumber": "5584"
     }
 }
@@ -16,4 +17,4 @@ DATA = {
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT))
     s.sendall(json.dumps(DATA).encode("utf-8"))
-    print(s.recv(1024))
+    #print(s.recv(1024))

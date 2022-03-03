@@ -29,7 +29,7 @@ print(frcd.motd.msg)
 frcd.management.init(not os.path.exists(".frcdserver.conf"))
 
 # Begin Management Interface Web Server
-management_thread = threading.Thread(
+management_thread = threading.Thread( #TODO: REGEX NO @ IN USERNAME
     target=frcd.management.serve,
     args=(FRCD_SERVER_MANAGEMENT_PORT,)
 )
