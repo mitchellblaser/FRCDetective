@@ -1,25 +1,41 @@
 import 'package:flutter/material.dart';
-import 'dart:io' show Platform;
 import 'dart:async';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:web_socket_channel/status.dart' as status;
+import 'dart:io';
+import 'dart:typed_data';
+
+//TODO: This does not currently support web applications because of the incompatible WebSocket. Create wrapper?
 
 const String applicationName = "FRCDetective";
 
-String serverAddress = "localhost:5584";
 int serverPollIntervalMS = 10000;
 
-void doServerUpdate() {
-  var channel = WebSocketChannel.connect(Uri.parse(serverAddress));
-  channel.sink.add("HELLO WORLD THIS IS A TEST");
-  channel.stream.listen(
-    (data) {
-      print(data);
-    },
-    onError: (error) => print(error),
-    onDone: () => channel.sink.close(status.normalClosure)
-  );
+void doServerUpdate() async {
+    try {
+      var s = await Socket.connect('192.168.1.141', 5584).timeout(const Duration(seconds: 10)); //TODO: Error checking here in case server is not available
+      s.write('{"request": "PUT_TEAM", "data": {"teamnumber": "5584"}}');
+      s.listen(
+        (Uint8List data) {
+          final r = String.fromCharCodes(data);
+          print('$r');
+        },
+
+        onError: (error) {
+          print(error);
+          s.destroy();
+          s.close();
+        },
+
+        onDone: () {
+          print("done.");
+          s.destroy();
+          s.close();
+        }
+      );
+    }
+    on TimeoutException catch (e) {
+      return;
+    }
 }
 
 double _boxHeight = 0;

@@ -1,0 +1,4 @@
+flask
+waitress
+flask_wtf
+pathlib
