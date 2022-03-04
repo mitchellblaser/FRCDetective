@@ -41,7 +41,7 @@ def Handle(connection : socket.socket, address : tuple) -> None:
                 #   "from":                 [user, password(encrypted)]
                 #   "data":                 {epoch_since_modify: 0000.0000, ...}
                 # }
-
+                print(data)
                 parsed_json = json.loads(data)
 
                 _connection = connection
