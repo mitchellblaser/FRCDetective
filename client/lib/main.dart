@@ -1,18 +1,39 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:path_provider/path_provider.dart';
 
 //TODO: This does not currently support web applications because of the incompatible WebSocket. Create wrapper?
 
 const String applicationName = "FRCDetective";
 
+Icon ServerState = Icon(Icons.hourglass_bottom);
+
 int serverPollIntervalMS = 10000;
+
+void doServerUpdate_initial() async {
+  final directory = await getApplicationDocumentsDirectory();
+  final AppFilePath = directory.path;
+
+  try {
+    final List<String> contents = await File(AppFilePath + "/server.txt").readAsLines();
+    print("CONTENTS0 $contents[0]");
+    print("CONTENTS1 $contents[1]");
+  } 
+  on FileSystemException catch (e) {
+    return;
+  }
+
+  doServerUpdate();
+}
 
 void doServerUpdate() async {
     try {
-      var s = await Socket.connect('192.168.1.141', 5584).timeout(const Duration(seconds: 10)); //TODO: Error checking here in case server is not available
+      var s = await Socket.connect(_SERVER_ADDRESS_, int.parse(_SERVER_PORT_)).timeout(const Duration(seconds: 10)); //TODO: Error checking here in case server is not available
       s.write('{"request": "PUT_TEAM", "data": {"teamnumber": "5584"}}');
       s.listen(
         (Uint8List data) {
@@ -36,10 +57,18 @@ void doServerUpdate() async {
     on TimeoutException catch (e) {
       return;
     }
+    on FormatException catch (e) {
+      print("FormatException: $e");
+      ServerState = Icon(Icons.warning);
+      return;
+    }
 }
 
 double _boxHeight = 0;
 String _logoPath = "assets/images/logo.png";
+
+String _SERVER_ADDRESS_ = "";
+String _SERVER_PORT_ = "";
 
 void main() {
   // Platform-specific code...
@@ -53,7 +82,7 @@ void main() {
   runApp(const DetectiveApp());
   // Start Periodic Functions
   Timer.periodic(Duration(milliseconds: serverPollIntervalMS), (Timer t) => { doServerUpdate() });
-  doServerUpdate();
+  doServerUpdate_initial();
 }
 
 TextStyle headerStyle = const TextStyle(fontSize: 48, fontFamily: 'LeagueSpartan');
@@ -281,8 +310,22 @@ var _serverSyncWidget = const ServerSyncWidget();
 var _liveStreamWidget = const LiveStreamWidget();
 var _teamRankingsWidget = const TeamRankingsWidget();
 
-class DetectiveApp extends StatelessWidget {
+class DetectiveApp extends StatefulWidget {
   const DetectiveApp({Key? key}) : super(key: key);
+
+  @override
+  _DetectiveAppState createState() => _DetectiveAppState();
+}
+
+class _DetectiveAppState extends State<DetectiveApp> {
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      Timer.periodic(const Duration(milliseconds: 100), (Timer t) => setState((){}));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -300,14 +343,30 @@ class DetectiveApp extends StatelessWidget {
           appBar: AppBar(
             // title: const Text(applicationName),
             title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+
+                IconButton(
+                  icon: ServerState,
+                  // icon: Icon(Icons.link_off),
+                  // icon: Icon(Icons.link),
+                  onPressed: () => print("Settings"),
+                ),
+
                 Image.asset(
                   _logoPath,
                   fit: BoxFit.contain,
                   height: 46,
                   filterQuality: FilterQuality.high,
-                )
+                ),
+                
+                Builder(
+                  builder: (context) => IconButton(
+                    icon: Icon(Icons.settings),
+                    onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsPage())),
+                  ),
+                ),
+                
               ],
             ),
             backgroundColor: customColor,
@@ -342,6 +401,121 @@ class DetectiveApp extends StatelessWidget {
     );
   }
 }
+
+class SettingsPage extends StatelessWidget {
+  const SettingsPage({Key? key}) : super(key: key);
+
+@override
+  Widget build(BuildContext context) {
+
+    return MaterialApp(
+      // TODO: Return a different scaffold with two columns for tablets/laptops.
+      title: applicationName,
+      theme: ThemeData(
+        brightness: Brightness.dark,
+        primarySwatch: customColor,
+        primaryTextTheme: const TextTheme(
+          headline6: TextStyle(color: Colors.white)
+        )
+      ),
+      home: Scaffold(
+          appBar: AppBar(
+            // title: const Text(applicationName),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  _logoPath,
+                  fit: BoxFit.contain,
+                  height: 46,
+                  filterQuality: FilterQuality.high,
+                )
+              ],
+            ),
+            backgroundColor: customColor,
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                const SizedBox(height: 16),
+                Center(
+                  child: Column(children: [
+                    const Text("Server Connection"),
+                    const Padding(padding: EdgeInsets.only(bottom: 15)),
+                    Container(
+                      width: 370,
+                      child: TextField(
+                        controller: TextEditingController(text: _SERVER_ADDRESS_),
+                        onSubmitted: (String value) => {_SERVER_ADDRESS_ = value},
+                        maxLines: 1,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(left: 15, top: 35,),
+                          isDense: true,
+                          filled: true,
+                          fillColor: const Color(0xff424242),
+                          hintText: "IP Address",
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.white, width: 2.0),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.grey, width: 2.0),
+                            borderRadius: BorderRadius.circular(30),
+                          )
+                        ),
+                        style: TextStyle(fontFamily: 'LeagueSpartan'),
+                        textAlignVertical: TextAlignVertical.center,
+                      ),
+                    ),
+                    const Padding(padding: EdgeInsets.only(bottom: 10)),
+                    Container(
+                      width: 370,
+                      child: TextField(
+                        controller: TextEditingController(text: _SERVER_PORT_),
+                        onSubmitted: (String value) => {_SERVER_PORT_ = value},
+                        maxLines: 1,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(left: 15, top: 35,),
+                          isDense: true,
+                          filled: true,
+                          fillColor: const Color(0xff424242),
+                          hintText: "Port",
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.white, width: 2.0),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(color: Colors.grey, width: 2.0),
+                            borderRadius: BorderRadius.circular(30),
+                          )
+                        ),
+                        style: TextStyle(fontFamily: 'LeagueSpartan'),
+                        textAlignVertical: TextAlignVertical.center,
+                      ),
+                    ),
+                    const Padding(padding: EdgeInsets.only(bottom: 15)),
+
+                    ElevatedButton(
+                      child: const Text("Save Changes and Exit."),
+                      onPressed: () async {
+                        final directory = await getApplicationDocumentsDirectory();
+                        final AppFilePath = directory.path;
+                        print("APPFILEPATH $AppFilePath");
+                        final file = await File(AppFilePath + "/server.txt");
+                        file.writeAsString("$_SERVER_ADDRESS_\n$_SERVER_PORT_");
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],)
+                ),
+              ],
+            ),
+          )),
+    );
+  }
+
+}
+
 
 class NewRoundInfo extends StatelessWidget {
   const NewRoundInfo({Key? key}) : super(key: key);
