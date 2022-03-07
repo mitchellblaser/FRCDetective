@@ -77,7 +77,7 @@ class SettingsPage extends StatelessWidget {
                       width: 370,
                       child: TextField(
                         controller: TextEditingController(text: serverPort),
-                        onChanged: (String value) {_serverPort = value; print("value: $value");},
+                        onChanged: (String value) {_serverPort = value;},
                         maxLines: 1,
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.only(left: 15, top: 35,),
