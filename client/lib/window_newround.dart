@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'config.dart';
 import 'customcolor.dart';
-
+import 'styles.dart';
 
 class NewRoundInfo extends StatelessWidget {
   const NewRoundInfo({Key? key}) : super(key: key);
@@ -42,11 +42,87 @@ class NewRoundInfo extends StatelessWidget {
                 const SizedBox(height: 16),
                 Center(
                   child: Column(children: [
-                    const Text("Hello World"),
-                    ElevatedButton(
-                      child: const Text("Go Back"),
-                      onPressed: () {Navigator.pop(context);},
+                    
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(30),
+                          splashColor: customColor.withAlpha(50),
+                          child: SizedBox(
+                            width: 370,
+                            height: 170 + boxHeight,
+                            child: Column(
+                              children: [
+                                Container(padding: const EdgeInsets.only(top: 16, left: 22), child: Align(alignment: Alignment.centerLeft, child: Text("Round Information", style: bodyStyle))),
+                                Container(padding: const EdgeInsets.only(top: 4, left: 22), child: Align(alignment: Alignment.centerLeft, child: Text("Round: ", style: bodySmallStyle))),
+                              ],
+
+                            ),
+                          ),
+                        ),
                     ),
+                    const Padding(padding: EdgeInsets.only(top: 10)),
+
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(30),
+                          splashColor: customColor.withAlpha(50),
+                          child: SizedBox(
+                            width: 370,
+                            height: 170 + boxHeight,
+                            child: Column(
+                              children: [
+                                Container(padding: const EdgeInsets.only(top: 16, left: 22), child: Align(alignment: Alignment.centerLeft, child: Text("Autonomous", style: bodyStyle)))
+                              ],
+
+                            ),
+                          ),
+                        ),
+                    ),
+                    const Padding(padding: EdgeInsets.only(top: 10)),
+
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(30),
+                          splashColor: customColor.withAlpha(50),
+                          child: SizedBox(
+                            width: 370,
+                            height: 170 + boxHeight,
+                            child: Column(
+                              children: [
+                                Container(padding: const EdgeInsets.only(top: 16, left: 22), child: Align(alignment: Alignment.centerLeft, child: Text("Teleop", style: bodyStyle)))
+                              ],
+
+                            ),
+                          ),
+                        ),
+                    ),
+
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(30),
+                          splashColor: customColor.withAlpha(50),
+                          child: SizedBox(
+                            width: 370,
+                            height: 170 + boxHeight,
+                            child: Column(
+                              children: [
+                                Container(padding: const EdgeInsets.only(top: 16, left: 22), child: Align(alignment: Alignment.centerLeft, child: Text("Notes", style: bodyStyle)))
+                              ],
+
+                            ),
+                          ),
+                        ),
+                    )
+
+
                   ],)
                 ),
               ],
