@@ -65,6 +65,7 @@ flutter:
         - asset: assets/fonts/LeagueSpartan-Medium.ttf
 
   assets:
+    - assets/
     - assets/images/logo.png
     - assets/images/logo-small.png
     - assets/images/livestream_icon.png
