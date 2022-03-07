@@ -104,8 +104,12 @@ class SettingsPage extends StatelessWidget {
                       child: const Text("Save Changes and Exit."),
                       onPressed: () async {
                         // file.writeAsString("$_SERVER_ADDRESS_\n$_SERVER_PORT_");
-                        serverAddress = _serverAddress;
-                        serverPort = _serverPort;
+                        if (_serverAddress != "") {
+                          serverAddress = _serverAddress;
+                        }
+                        if (_serverPort != "") {
+                          serverPort = _serverPort;
+                        }
                         await writeFile("server.txt", "$serverAddress\n$serverPort");                        
                         Navigator.pop(context);
                       },
