@@ -110,15 +110,6 @@ class SettingsPage extends StatelessWidget {
                         Navigator.pop(context);
                       },
                     ),
-                    
-                    ElevatedButton(
-                      child: const Text("CHECK FILE"),
-                      onPressed: () async {
-                        // file.writeAsString("$_SERVER_ADDRESS_\n$_SERVER_PORT_");
-                        print(await readFile("server.txt"));
-                        Navigator.pop(context);
-                      },
-                    ),
                   ],)
                 ),
               ],
