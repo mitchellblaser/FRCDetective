@@ -4,8 +4,23 @@ import 'config.dart';
 import 'customcolor.dart';
 import 'styles.dart';
 
-class NewRoundInfo extends StatelessWidget {
+enum roundState {rQual, rFinal}
+
+class NewRoundInfo extends StatefulWidget {
   const NewRoundInfo({Key? key}) : super(key: key);
+
+  @override
+  _NewRoundInfoState createState() => _NewRoundInfoState();
+}
+
+class _NewRoundInfoState extends State<NewRoundInfo> {
+
+  roundState _roundState = roundState.rQual;
+
+  @override
+  void initState() {
+    return;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +66,71 @@ class NewRoundInfo extends StatelessWidget {
                           splashColor: customColor.withAlpha(50),
                           child: SizedBox(
                             width: 370,
-                            height: 170 + boxHeight,
+                            height: 120 + boxHeight,
                             child: Column(
                               children: [
                                 Container(padding: const EdgeInsets.only(top: 16, left: 22), child: Align(alignment: Alignment.centerLeft, child: Text("Round Information", style: bodyStyle))),
-                                Container(padding: const EdgeInsets.only(top: 4, left: 22), child: Align(alignment: Alignment.centerLeft, child: Text("Round: ", style: bodySmallStyle))),
+
+
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+
+                                    Padding(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                            Radio(value: roundState.rQual, groupValue: _roundState, onChanged: (roundState? value) {setState(() {_roundState = value!;});}),
+                                            const Text("Qualifier", textAlign: TextAlign.left,),
+                                          ],),
+
+                                          Row(
+                                            children: [
+                                            Radio(value: roundState.rFinal, groupValue: _roundState, onChanged: (roundState? value) {setState(() {_roundState = value!;});}),
+                                            const Text("Final", textAlign: TextAlign.left,),
+                                          ],)
+                                        ],
+                                      ),
+                                      padding: const EdgeInsets.only(top: 10, left: 16),
+                                    ),
+
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10, right: 22),
+                                      child: Container(
+
+                                        width: 80,
+                                        child: TextField(
+                                          controller: TextEditingController(text: ""),
+                                          onChanged: (String value) => {},
+                                          maxLines: 1,
+                                          decoration: InputDecoration(
+                                            contentPadding: const EdgeInsets.only(left: 15, top: 35, right: 15),
+                                            isDense: true,
+                                            filled: true,
+                                            fillColor: const Color(0xff424242),
+                                            hintText: "Rnd. #",
+                                            focusedBorder: OutlineInputBorder(
+                                              borderSide: const BorderSide(color: Colors.white, width: 2.0),
+                                              borderRadius: BorderRadius.circular(15),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: const BorderSide(color: Colors.grey, width: 2.0),
+                                              borderRadius: BorderRadius.circular(30),
+                                            )
+                                          ),
+                                          style: const TextStyle(fontFamily: 'LeagueSpartan'),
+                                          textAlignVertical: TextAlignVertical.center,
+                                          textAlign: TextAlign.center,
+                                        ),
+
+                                      )
+                                    )
+
+                                  ],
+                                )
+
                               ],
 
                             ),
@@ -129,11 +204,30 @@ class NewRoundInfo extends StatelessWidget {
                             maxLines: 5,
                           )
                         )
-
                       ],)
-
                     ),
-                    const Padding(padding: EdgeInsets.only(top: 15)),
+                    const Padding(padding: EdgeInsets.only(top: 25)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+
+                      children: [
+                        ElevatedButton(
+                          // Save Button
+                          child: const Icon(Icons.save),
+                          onPressed: () { Navigator.pop(context); },
+                        ),
+
+                        const Padding(padding: EdgeInsets.only(left: 50)),
+
+                        ElevatedButton(
+                          // Delete Button
+                          child: const Icon(Icons.delete),
+                          onPressed: () { Navigator.pop(context); },
+                        ),
+                      ],
+                    ),
+
+                    const Padding(padding: EdgeInsets.only(top: 25)),
 
 
                   ],)
