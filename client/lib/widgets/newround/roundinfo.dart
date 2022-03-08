@@ -28,7 +28,7 @@ class _RoundInfoWidgetState extends State<RoundInfoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Card( //TODO: Need to add team member selection - six options with manual override?
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30)),
         child: InkWell(

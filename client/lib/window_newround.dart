@@ -5,6 +5,7 @@ import 'customcolor.dart';
 import 'styles.dart';
 
 import 'widgets/newround/roundinfo.dart';
+import 'widgets/newround/notes.dart';
 
 class NewRoundInfo extends StatefulWidget {
   const NewRoundInfo({Key? key}) : super(key: key);
@@ -99,33 +100,7 @@ class _NewRoundInfoState extends State<NewRoundInfo> {
                     ),
                     const Padding(padding: EdgeInsets.only(top: 15)),
 
-                    Container(
-                      width: 370,
-                      height: 205,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF424242),
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                      ),
-
-                      child: Column(children: [
-                        Container(padding: const EdgeInsets.only(top: 16, left: 22), child: Align(alignment: Alignment.centerLeft, child: Text("Notes", style: bodyStyle))),
-
-                        Container(
-                          padding: const EdgeInsets.only(left:15, right: 15, top: 8),
-                          child: TextField(
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: const Color.fromARGB(255, 75, 75, 75),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20)
-                              ),
-                            ),
-                            keyboardType: TextInputType.multiline,
-                            maxLines: 5,
-                          )
-                        )
-                      ],)
-                    ),
+                    NotesWidget(),
                     const Padding(padding: EdgeInsets.only(top: 25)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
