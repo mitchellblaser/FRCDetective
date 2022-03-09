@@ -29,9 +29,6 @@ class _TeamRankingsWidgetState extends State<TeamRankingsWidget> {
               child: InkWell(
                 borderRadius: BorderRadius.circular(30),
                 splashColor: customColor.withAlpha(50),
-                onTap: () {
-                  print("Hello World");
-                },
                 child: SizedBox(
                   width: 370,
                   height: 400 + boxHeight,

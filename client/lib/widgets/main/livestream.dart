@@ -29,14 +29,11 @@ class _LiveStreamWidgetState extends State<LiveStreamWidget> {
               child: InkWell(
                 borderRadius: BorderRadius.circular(30),
                 splashColor: customColor.withAlpha(50),
-                onTap: () {
-                  print("Hello World");
-                },
                 child: SizedBox(
                   width: 370,
                   height: 72 + boxHeight,
                   child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                    Container(padding: const EdgeInsets.only(left: 25, bottom: 5), child: Image.asset("assets/images/livestream_icon.png", fit: BoxFit.contain, height: 44)),
+                    Container(padding: const EdgeInsets.only(left: 25, bottom: 5), child: Icon(Icons.play_circle, size: 40),),
                     Column(
                       children: [
                         Container(padding: const EdgeInsets.only(top: 16, left: 20), child: Align(alignment: Alignment.centerLeft, child: Text("Your event is live.", style: bodyStyle))),

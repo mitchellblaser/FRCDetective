@@ -29,9 +29,6 @@ class _TeamInformationWidgetState extends State<TeamInformationWidget> {
               child: InkWell(
                 borderRadius: BorderRadius.circular(30),
                 splashColor: customColor.withAlpha(50),
-                // onTap: () {
-
-                // },
                 child: SizedBox(
                   width: 370,
                   height: 170 + boxHeight,
