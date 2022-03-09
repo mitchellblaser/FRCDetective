@@ -44,6 +44,7 @@ void doServerUpdate() async {
       // String appFilePath = directory.path;
       // s.write('{"request": "PUT_CHUNK", "data": ' + File(appFilePath + "/datastore/matchchunks/" + "Q12_0" + ".chunk").readAsStringSync() + '}');
       // s.write('{"request": "GET_CHUNK", "data": {"chunkid": "Q12_0"}}');
+      print(await getFileList());
       s.write('{"request": "GET_DIFF", "data": ' + jsonEncode(await getFileList()) + '}');
       s.listen(
         (Uint8List data) {
@@ -100,7 +101,41 @@ void syncStackWithServer() async {
     }
   });
 
+  serverDiffList["data"]["txChunks"].forEach((String k, dynamic v) async {
+    for (int i=0; i < v.length; i++) {
 
+      for (int l=0; l < v.length; l++) {
+        var s = await Socket.connect(serverAddress, int.parse(serverPort)).timeout(const Duration(milliseconds: 100));
+
+        s.write('{"request": "GET_CHUNK", "data": {"chunkid": "' + k + '"}}');
+
+        s.listen(
+          (Uint8List data) {
+            final r = String.fromCharCodes(data);
+            // debugPrint(r);
+            final j = jsonDecode(r)["data"];
+            File f = File(appFilePath + "/datastore/matchchunks/" + k + ".chunk");
+            if (f.existsSync()) {
+              f.deleteSync();
+            }
+            f.writeAsStringSync(jsonEncode(j));
+          },
+
+          onError: (error) {
+            debugPrint(error);
+            s.destroy();
+            s.close();
+          },
+
+          onDone: () {
+            s.destroy();
+            s.close();
+          }
+        );
+      }
+
+    }
+  });
 
 }
 
