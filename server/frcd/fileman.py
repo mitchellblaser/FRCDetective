@@ -90,7 +90,7 @@ def get_file_list() -> dict:
         "matches": _matches,
         "chunks": _chunks
     }
-
+print(get_file_list())
 
 #TODO: Implement user get function - needs more info eg email?
 

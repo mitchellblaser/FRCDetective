@@ -84,8 +84,9 @@ class _NewRoundInfoState extends State<NewRoundInfo> {
                           onPressed: () { 
                             String chunkid = roundInfoWidget.roundString + "_" + roundInfoWidget.roundTeam.toString();
                             String out = jsonEncode(
-                              {"data": {
+                              {
                                 "epoch_since_modify": (DateTime.now().millisecondsSinceEpoch/1000),
+                                "user": "DetectiveApp", //TODO: This needs to be an individual ID
                                 "chunkid": chunkid,
                                 "team": roundInfoWidget.roundTeam,
                                 "round": roundInfoWidget.roundString,
@@ -96,7 +97,7 @@ class _NewRoundInfoState extends State<NewRoundInfo> {
                                 "tele_goal_low": teleopWidget.teleopLowGoal,
                                 "tele_hangar": teleopWidget.teleopClimb,
                                 "notes": notesWidget.notesContents,
-                              }}
+                              }
                             );
                             writeFile("datastore/matchchunks/" + chunkid + ".chunk", out);
                             Navigator.pop(context);

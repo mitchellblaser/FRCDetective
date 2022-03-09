@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -33,11 +35,15 @@ void doServerUpdate() async {
     try {
       var s = await Socket.connect(serverAddress, int.parse(serverPort)).timeout(const Duration(seconds: 10));
       serverState = const Icon(Icons.link);
-      s.write('{"request": "PUT_TEAM", "data": {"teamnumber": "5584"}}');
+
+      // final directory = await getApplicationDocumentsDirectory();
+      // String appFilePath = directory.path;
+      // s.write('{"request": "PUT_CHUNK", "data": ' + File(appFilePath + "/datastore/matchchunks/" + "Q12_0" + ".chunk").readAsStringSync() + '}');
+      s.write('{"request": "GET_CHUNK", "data": {"chunkid": "Q12_0"}}');
       s.listen(
         (Uint8List data) {
           final r = String.fromCharCodes(data);
-          print('$r');
+          print(jsonDecode(r));
         },
 
         onError: (error) {
