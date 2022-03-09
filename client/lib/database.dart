@@ -16,8 +16,6 @@ Future<Map> getFileList() async {
   for (int i=0; i < chunkfiles.length; i++) {
     List<String> file = File(chunkfiles[i].path).readAsLinesSync();
 
-    print(file);
-
     Map fileLast = jsonDecode(file.last);
     _chunkList[fileLast["chunkid"]] = [];
 
