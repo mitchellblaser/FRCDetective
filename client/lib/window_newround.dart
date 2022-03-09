@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'config.dart';
 import 'customcolor.dart';
+import 'filehandler.dart';
 
 import 'widgets/newround/roundinfo.dart';
 import 'widgets/newround/notes.dart';
@@ -81,10 +82,11 @@ class _NewRoundInfoState extends State<NewRoundInfo> {
                           // Save Button
                           child: const Icon(Icons.save),
                           onPressed: () { 
+                            String chunkid = roundInfoWidget.roundString + "_" + roundInfoWidget.roundTeam.toString();
                             String out = jsonEncode(
                               {"data": {
                                 "epoch_since_modify": (DateTime.now().millisecondsSinceEpoch/1000),
-                                "chunkid": roundInfoWidget.roundString + "_" + roundInfoWidget.roundTeam.toString(),
+                                "chunkid": chunkid,
                                 "team": roundInfoWidget.roundTeam,
                                 "round": roundInfoWidget.roundString,
                                 "auto_goal_high": autonomousWidget.autonomousHighGoal,
@@ -96,8 +98,8 @@ class _NewRoundInfoState extends State<NewRoundInfo> {
                                 "notes": notesWidget.notesContents,
                               }}
                             );
+                            writeFile("datastore/matchchunks/" + chunkid + ".chunk", out);
                             Navigator.pop(context);
-                            print(out);
                           },
                         ),
 

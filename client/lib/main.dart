@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:path_provider/path_provider.dart';
 
 import 'config.dart';
 import 'filehandler.dart';
@@ -15,6 +16,14 @@ void doServerUpdateInitial() async {
   final List<String> f = await readFile("server.txt");
   serverAddress = f[0];
   serverPort = f[1];
+
+  final directory = await getApplicationDocumentsDirectory();
+  String appFilePath = directory.path;
+  await Directory(appFilePath + "/datastore").create();
+  await Directory(appFilePath + "/datastore/matchchunks").create();
+  await Directory(appFilePath + "/datastore/matches").create();
+  await Directory(appFilePath + "/datastore/teams").create();
+  await Directory(appFilePath + "/datastore/users").create();
 
   doServerUpdate();
   return;
