@@ -31,7 +31,7 @@ class _LiveStreamWidgetState extends State<LiveStreamWidget> {
                 splashColor: customColor.withAlpha(50),
                 child: SizedBox(
                   width: 370,
-                  height: 72 + boxHeight,
+                  height: 72,
                   child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                     Container(padding: const EdgeInsets.only(left: 25, bottom: 5), child: Icon(Icons.play_circle, size: 40),),
                     Column(

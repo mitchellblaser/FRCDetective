@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'config.dart';
@@ -73,7 +75,24 @@ class _NewRoundInfoState extends State<NewRoundInfo> {
                         ElevatedButton(
                           // Save Button
                           child: const Icon(Icons.save),
-                          onPressed: () { Navigator.pop(context); },
+                          onPressed: () { 
+                            String out = jsonEncode(
+                              {"data": {
+                                "epoch_since_modify": (DateTime.now().millisecondsSinceEpoch/1000),
+                                "chunkid": "Q1_5584",
+                                "team": 5584,
+                                "round": "",
+                                "auto_goal_high": 0,
+                                "auto_goal_low": 0,
+                                "auto_taxi": false,
+                                "tele_goal_high": 0,
+                                "tele_goal_low": 0,
+                                "tele_hangar": "none",
+                              }}
+                            );
+                            Navigator.pop(context);
+                            print(out);
+                          },
                         ),
 
                         const Padding(padding: EdgeInsets.only(left: 50)),

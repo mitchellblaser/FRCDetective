@@ -22,7 +22,7 @@ class _NotesWidgetState extends State<NotesWidget> {
   Widget build(BuildContext context) {
     return Container(
       width: 370,
-      height: 205,
+      height: 202,
       decoration: const BoxDecoration(
         color: Color(0xFF424242),
         borderRadius: BorderRadius.all(Radius.circular(30)),

@@ -32,7 +32,7 @@ class _AutonomousWidgetState extends State<AutonomousWidget> {
                           splashColor: customColor.withAlpha(50),
                           child: SizedBox(
                             width: 370,
-                            height: 200 + boxHeight,
+                            height: 190 + boxHeight,
                             child: Column(
                               children: [
                                 Container(padding: const EdgeInsets.only(top: 16, left: 22), child: Align(alignment: Alignment.centerLeft, child: Text("Autonomous", style: bodyStyle))),
