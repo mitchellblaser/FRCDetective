@@ -33,7 +33,7 @@ void doServerUpdateInitial() async {
 
 void doServerUpdate() async {
     try {
-      var s = await Socket.connect(serverAddress, int.parse(serverPort)).timeout(const Duration(seconds: 10));
+      var s = await Socket.connect(serverAddress, int.parse(serverPort)).timeout(const Duration(milliseconds: serverPollIntervalMS));
       serverState = const Icon(Icons.link);
 
       // final directory = await getApplicationDocumentsDirectory();
