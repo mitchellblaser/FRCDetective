@@ -27,6 +27,6 @@ Future<List<String>> readFile(String filePath) async {
     return contents;
   } 
   on FileSystemException catch (e) {
-    return ["FileSystemException ($e)"];
+    return ["FileSystemException", "$e"];
   }
 }

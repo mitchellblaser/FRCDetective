@@ -29,9 +29,6 @@ class _ServerSyncWidgetState extends State<ServerSyncWidget> {
               child: InkWell(
                 borderRadius: BorderRadius.circular(30),
                 splashColor: Colors.grey.withAlpha(50),
-                onTap: () {
-                  print("Hello World");
-                },
                 child: SizedBox(
                   width: 370,
                   height: 72 + boxHeight,
