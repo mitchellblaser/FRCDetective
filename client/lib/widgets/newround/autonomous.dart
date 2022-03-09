@@ -64,7 +64,7 @@ class _AutonomousWidgetState extends State<AutonomousWidget> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
-                                    const Padding(child: Text("Low Goal"), padding: EdgeInsets.only(right: 50)),
+                                    const Padding(child: Text("Low Goal "), padding: EdgeInsets.only(right: 50)),
                                     Row(
                                       children: [
                                         ElevatedButton(
