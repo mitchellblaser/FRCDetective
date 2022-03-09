@@ -1,7 +1,7 @@
 # FRC Detective
 
 **The 2022 Update is out!**
-(a.k.a. the "We're going to comp tomorrow edition")
+(a.k.a. the "We're going to comp tomorrow edition")<br>
 This version doesn't have *every* feature we'd like to have implemented yet, but it's built on our new stack, and has been rewritten from the ground up to be more efficient and readable. View what is currently working or not working below...
 
 <img src="https://github.com/mitchellblaser/FRCDetective/blob/main/Readme/logo.png?raw=true" align=right width=225 />A scouting system for the First Robotics Competition which does not rely on an internet connection, or bluetooth/wifi mesh network.
