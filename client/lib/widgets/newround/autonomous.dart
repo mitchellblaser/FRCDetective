@@ -3,8 +3,14 @@ import 'package:FRCDetective/styles.dart';
 import 'package:FRCDetective/customcolor.dart';
 import 'package:FRCDetective/config.dart';
 
+import 'package:FRCDetective/widgets/util/updownlist.dart';
+
 class AutonomousWidget extends StatefulWidget {
-  const AutonomousWidget({Key? key}) : super (key: key);
+  AutonomousWidget({Key? key}) : super (key: key);
+
+  int autonomousHighGoal = 0;
+  int autonomousLowGoal = 0;
+  bool autonomousDidTaxi = false;
 
   @override
   _AutonomousWidgetState createState() => _AutonomousWidgetState();
@@ -43,18 +49,10 @@ class _AutonomousWidgetState extends State<AutonomousWidget> {
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
                                     const Padding(child: Text("High Goal"), padding: EdgeInsets.only(right: 50)),
-                                    Row(
-                                      children: [
-                                        ElevatedButton(
-                                          child: const Icon(Icons.keyboard_arrow_up),
-                                          onPressed: () {},
-                                        ),
-                                        Padding(child: Text("69", style: bodyStyle,), padding: const EdgeInsets.only(left: 10, right: 10)),
-                                        ElevatedButton(
-                                          child: const Icon(Icons.keyboard_arrow_down),
-                                          onPressed: () {},
-                                        ),
-                                      ],
+                                    UpDownList(
+                                      onUpdate: (int counter) {
+                                        widget.autonomousHighGoal = counter;
+                                      },
                                     )
                                   ],
                                 ),
@@ -65,18 +63,10 @@ class _AutonomousWidgetState extends State<AutonomousWidget> {
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
                                     const Padding(child: Text("Low Goal "), padding: EdgeInsets.only(right: 50)),
-                                    Row(
-                                      children: [
-                                        ElevatedButton(
-                                          child: const Icon(Icons.keyboard_arrow_up),
-                                          onPressed: () {},
-                                        ),
-                                        Padding(child: Text("69", style: bodyStyle,), padding: const EdgeInsets.only(left: 10, right: 10)),
-                                        ElevatedButton(
-                                          child: const Icon(Icons.keyboard_arrow_down),
-                                          onPressed: () {},
-                                        ),
-                                      ],
+                                    UpDownList(
+                                      onUpdate: (int counter) {
+                                        widget.autonomousLowGoal = counter;
+                                      },
                                     )
                                   ],
                                 ),
@@ -90,6 +80,7 @@ class _AutonomousWidgetState extends State<AutonomousWidget> {
                                       value: _didTaxi,
                                       onChanged: (bool? value) {
                                         setState(() {_didTaxi = value!;});
+                                        widget.autonomousDidTaxi = value!;
                                       },
                                     ),
                                     const Padding(padding: EdgeInsets.only(left: 5)),

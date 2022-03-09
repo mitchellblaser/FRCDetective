@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:FRCDetective/styles.dart';
 
 class NotesWidget extends StatefulWidget {
-  const NotesWidget({Key? key}) : super (key: key);
+  NotesWidget({Key? key}) : super (key: key);
+
+  String notesContents = "";
 
   @override
   _NotesWidgetState createState() => _NotesWidgetState();
@@ -43,6 +45,9 @@ class _NotesWidgetState extends State<NotesWidget> {
             ),
             keyboardType: TextInputType.multiline,
             maxLines: 5,
+            onChanged: (String value) {
+              widget.notesContents = value;
+            },
           )
         )
       ],)

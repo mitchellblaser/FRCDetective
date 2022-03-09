@@ -5,10 +5,16 @@ import 'package:FRCDetective/config.dart';
 import 'package:FRCDetective/customcolor.dart';
 import 'package:FRCDetective/styles.dart';
 
+import 'package:FRCDetective/widgets/util/updownlist.dart';
+
 enum ClimbState {none, low, mid, high, traversal}
 
 class TeleopWidget extends StatefulWidget {
-  const TeleopWidget({Key? key}) : super (key: key);
+  TeleopWidget({Key? key}) : super (key: key);
+
+  int teleopHighGoal = 0;
+  int teleopLowGoal = 0;
+  String teleopClimb = ClimbState.none.toString();
 
   @override
   _TeleopWidgetState createState() => _TeleopWidgetState();
@@ -47,18 +53,10 @@ class _TeleopWidgetState extends State<TeleopWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     const Padding(child: Text("High Goal"), padding: EdgeInsets.only(right: 50)),
-                    Row(
-                      children: [
-                        ElevatedButton(
-                          child: const Icon(Icons.keyboard_arrow_up),
-                          onPressed: () {},
-                        ),
-                        Padding(child: Text("69", style: bodyStyle,), padding: const EdgeInsets.only(left: 10, right: 10)),
-                        ElevatedButton(
-                          child: const Icon(Icons.keyboard_arrow_down),
-                          onPressed: () {},
-                        ),
-                      ],
+                    UpDownList(
+                      onUpdate: (int counter) {
+                        widget.teleopHighGoal = counter;
+                      },
                     )
                   ],
                 ),
@@ -69,18 +67,10 @@ class _TeleopWidgetState extends State<TeleopWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     const Padding(child: Text("Low Goal "), padding: EdgeInsets.only(right: 50)),
-                    Row(
-                      children: [
-                        ElevatedButton(
-                          child: const Icon(Icons.keyboard_arrow_up),
-                          onPressed: () {},
-                        ),
-                        Padding(child: Text("69", style: bodyStyle,), padding: const EdgeInsets.only(left: 10, right: 10)),
-                        ElevatedButton(
-                          child: const Icon(Icons.keyboard_arrow_down),
-                          onPressed: () {},
-                        ),
-                      ],
+                    UpDownList(
+                      onUpdate: (int counter) {
+                        widget.teleopLowGoal = counter;
+                      },
                     )
                   ],
                 ),
@@ -102,19 +92,19 @@ class _TeleopWidgetState extends State<TeleopWidget> {
                       children: [
                         Row(
                           children: [
-                          Radio(value: ClimbState.none, groupValue: _climbState, onChanged: (ClimbState? value) {setState(() {_climbState = value!;});}),
+                          Radio(value: ClimbState.none, groupValue: _climbState, onChanged: (ClimbState? value) {setState(() {_climbState = value!; widget.teleopClimb = value.toString();});}),
                           const Text("None", textAlign: TextAlign.left,),
                         ]),
 
                         Row(
                           children: [
-                          Radio(value: ClimbState.low, groupValue: _climbState, onChanged: (ClimbState? value) {setState(() {_climbState = value!;});}),
+                          Radio(value: ClimbState.low, groupValue: _climbState, onChanged: (ClimbState? value) {setState(() {_climbState = value!; widget.teleopClimb = value.toString();});}),
                           const Text("Low", textAlign: TextAlign.left,),
                         ]),
 
                         Row(
                           children: [
-                          Radio(value: ClimbState.mid, groupValue: _climbState, onChanged: (ClimbState? value) {setState(() {_climbState = value!;});}),
+                          Radio(value: ClimbState.mid, groupValue: _climbState, onChanged: (ClimbState? value) {setState(() {_climbState = value!; widget.teleopClimb = value.toString();});}),
                           const Text("Mid", textAlign: TextAlign.left,),
                         ]),
                       ],
@@ -126,13 +116,13 @@ class _TeleopWidgetState extends State<TeleopWidget> {
                         const Padding(padding: EdgeInsets.only(top: 31)),
                         Row(
                           children: [
-                          Radio(value: ClimbState.high, groupValue: _climbState, onChanged: (ClimbState? value) {setState(() {_climbState = value!;});}),
+                          Radio(value: ClimbState.high, groupValue: _climbState, onChanged: (ClimbState? value) {setState(() {_climbState = value!; widget.teleopClimb = value.toString();});}),
                           const Text("High", textAlign: TextAlign.left,),
                         ]),
 
                         Row(
                           children: [
-                          Radio(value: ClimbState.traversal, groupValue: _climbState, onChanged: (ClimbState? value) {setState(() {_climbState = value!;});}),
+                          Radio(value: ClimbState.traversal, groupValue: _climbState, onChanged: (ClimbState? value) {setState(() {_climbState = value!; widget.teleopClimb = value.toString();});}),
                           const Text("Traversal", textAlign: TextAlign.left,),
                         ]),
                       ],

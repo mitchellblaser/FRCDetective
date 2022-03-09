@@ -19,6 +19,11 @@ class NewRoundInfo extends StatefulWidget {
 
 class _NewRoundInfoState extends State<NewRoundInfo> {
 
+  RoundInfoWidget roundInfoWidget = RoundInfoWidget();
+  AutonomousWidget autonomousWidget = AutonomousWidget();
+  TeleopWidget teleopWidget = TeleopWidget();
+  NotesWidget notesWidget = NotesWidget();
+
   @override
   void initState() {
     return;
@@ -60,13 +65,13 @@ class _NewRoundInfoState extends State<NewRoundInfo> {
                 Center(
                   child: Column(children: [
                     
-                    const RoundInfoWidget(),
+                    roundInfoWidget,
                     const Padding(padding: EdgeInsets.only(top: 10)),
-                    const AutonomousWidget(),
+                    autonomousWidget,
                     const Padding(padding: EdgeInsets.only(top: 10)),
-                    const TeleopWidget(),
+                    teleopWidget,
                     const Padding(padding: EdgeInsets.only(top: 15)),
-                    const NotesWidget(),
+                    notesWidget,
                     const Padding(padding: EdgeInsets.only(top: 25)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -79,15 +84,16 @@ class _NewRoundInfoState extends State<NewRoundInfo> {
                             String out = jsonEncode(
                               {"data": {
                                 "epoch_since_modify": (DateTime.now().millisecondsSinceEpoch/1000),
-                                "chunkid": "Q1_5584",
-                                "team": 5584,
-                                "round": "",
-                                "auto_goal_high": 0,
-                                "auto_goal_low": 0,
-                                "auto_taxi": false,
-                                "tele_goal_high": 0,
-                                "tele_goal_low": 0,
-                                "tele_hangar": "none",
+                                "chunkid": roundInfoWidget.roundString + "_" + roundInfoWidget.roundTeam.toString(),
+                                "team": roundInfoWidget.roundTeam,
+                                "round": roundInfoWidget.roundString,
+                                "auto_goal_high": autonomousWidget.autonomousHighGoal,
+                                "auto_goal_low": autonomousWidget.autonomousLowGoal,
+                                "auto_taxi": autonomousWidget.autonomousDidTaxi,
+                                "tele_goal_high": teleopWidget.teleopHighGoal,
+                                "tele_goal_low": teleopWidget.teleopLowGoal,
+                                "tele_hangar": teleopWidget.teleopClimb,
+                                "notes": notesWidget.notesContents,
                               }}
                             );
                             Navigator.pop(context);
