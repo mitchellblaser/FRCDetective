@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -9,10 +8,13 @@ import 'package:path_provider/path_provider.dart';
 
 import 'config.dart';
 import 'filehandler.dart';
+import 'database.dart';
 
 import 'window_main.dart';
 
 //TODO: This does not currently support web applications because of the incompatible WebSocket. Create wrapper?
+
+Map serverDiffList = {};
 
 void doServerUpdateInitial() async {
   final List<String> f = await readFile("server.txt");
@@ -36,14 +38,18 @@ void doServerUpdate() async {
       var s = await Socket.connect(serverAddress, int.parse(serverPort)).timeout(const Duration(milliseconds: serverPollIntervalMS));
       serverState = const Icon(Icons.link);
 
+      getFileList();
+
       // final directory = await getApplicationDocumentsDirectory();
       // String appFilePath = directory.path;
       // s.write('{"request": "PUT_CHUNK", "data": ' + File(appFilePath + "/datastore/matchchunks/" + "Q12_0" + ".chunk").readAsStringSync() + '}');
-      s.write('{"request": "GET_CHUNK", "data": {"chunkid": "Q12_0"}}');
+      // s.write('{"request": "GET_CHUNK", "data": {"chunkid": "Q12_0"}}');
+      s.write('{"request": "GET_DIFF", "data": ' + jsonEncode(await getFileList()) + '}');
       s.listen(
         (Uint8List data) {
           final r = String.fromCharCodes(data);
-          print(jsonDecode(r));
+          serverDiffList = jsonDecode(r);
+          syncStackWithServer();
         },
 
         onError: (error) {
@@ -71,6 +77,31 @@ void doServerUpdate() async {
       serverState = const Icon(Icons.warning);
       return;
     }
+}
+
+void syncStackWithServer() async {
+
+  final directory = await getApplicationDocumentsDirectory();
+  String appFilePath = directory.path;
+
+  serverDiffList["data"]["rxChunks"].forEach((String k, dynamic v) async {
+    for (int i=0; i < v.length; i++) {
+
+      var s = await Socket.connect(serverAddress, int.parse(serverPort)).timeout(const Duration(milliseconds: 100));
+
+      List<String> currentFile = File(appFilePath + "/datastore/matchchunks/" + k + ".chunk").readAsLinesSync();
+
+      for (int l=0; l < currentFile.length; l++) {
+        Map currentLine = jsonDecode(currentFile[i]);
+        if (currentLine["user"] + "_" + currentLine["epoch_since_modify"].toString() == v[i]) {
+          s.write('{"request": "PUT_CHUNK", "data": ' + jsonEncode(currentLine) + '}');
+        }
+      }
+    }
+  });
+
+
+
 }
 
 void main() {
