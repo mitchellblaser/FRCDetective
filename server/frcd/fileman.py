@@ -54,7 +54,7 @@ def get_version_list(filename : str, type : FileTypes) -> list:
     for line in contents:
         _line = line.rstrip()
         _json = json.loads(_line)
-        versions.append(_json["user"] + str(_json["epoch_since_modify"]))
+        versions.append(_json["user"] + "_" + str(_json["epoch_since_modify"]))
     return versions
 
 
@@ -90,7 +90,102 @@ def get_file_list() -> dict:
         "matches": _matches,
         "chunks": _chunks
     }
-print(get_file_list())
+
+def calculate_diff(client_diff : dict) -> dict:
+
+    _fileList = get_file_list()
+
+    _rxChunks = {}
+    _rxMatches = {}
+    _rxTeams = {}
+
+    _txChunks = {}
+    _txMatches = {}
+    _txTeams = {}
+
+    print("Server File List:")
+    print(_fileList)
+    print("")
+    print("Client File List:")
+    print(client_diff)
+
+    for chunk in client_diff["chunks"]:
+        ## If server has some version of this chunk...
+        if chunk in _fileList["chunks"]:
+            _rxChunks[chunk] = []
+            for version in client_diff["chunks"][chunk]:
+                if version not in _fileList["chunks"][chunk]:
+                    _rxChunks[chunk].append(version)
+        ## If no versions exist on server, sync all...
+        else:
+            for version in chunk:
+                _rxChunks[chunk] = client_diff["chunks"][chunk]
+
+    for match in client_diff["matches"]:
+        ## If server has some version of this match...
+        if match in _fileList["matches"]:
+            _rxMatches[match] = []
+            for version in match:
+                if version not in _fileList["matches"][match]:
+                    _rxMatches[match].append(version)
+        ## If no versions exist on server, sync all...
+        else:
+            for version in match:
+                _rxMatches[match] = client_diff["matches"][match]
+
+    for team in client_diff["teams"]:
+        ## If server has some version of this team...
+        if team in _fileList["teams"]:
+            _rxTeams[team] = []
+            for version in team:
+                if version not in _fileList["teams"][team]:
+                    _rxTeams[team].append(version)
+        ## If no versions exist on server, sync all...
+        else:
+            for version in team:
+                _rxTeams[team] = client_diff["teams"][team]
+
+
+    for chunk in _fileList["chunks"]:
+        ## If server has some version of this chunk...
+        if chunk in client_diff["chunks"]:
+            _txChunks[chunk] = []
+            for version in _fileList["chunks"][chunk]:
+                if version not in _fileList["chunks"][chunk]:
+                    _txChunks[chunk].append(version)
+        ## If no versions exist on server, sync all...
+        else:
+            for version in chunk:
+                _txChunks[chunk] = _fileList["chunks"][chunk]
+
+    for match in _fileList["matches"]:
+        ## If server has some version of this chunk...
+        if match in client_diff["matches"]:
+            _txMatches[match] = []
+            for version in match:
+                if version not in _fileList["matches"][match]:
+                    _txMatches[chunk].append(version)
+        ## If no versions exist on server, sync all...
+        else:
+            for version in match:
+                _txMatches[match] = _fileList["matches"][match]
+
+    for team in _fileList["teams"]:
+        ## If server has some version of this chunk...
+        if team in client_diff["teams"]:
+            _txTeams[team] = []
+            for version in team:
+                if version not in _fileList["teams"][team]:
+                    _txTeams[team].append(version)
+        ## If no versions exist on server, sync all...
+        else:
+            for version in team:
+                _txTeams[team] = _fileList["teams"][team]
+
+    output = {"rxChunks": _rxChunks, "rxMatches": _rxMatches, "rxTeams": _rxTeams, "txChunks": _txChunks, "txMatches": _txMatches, "txTeams": _txTeams}
+    print("OUTPUT:")
+    print(output)
+    return output
 
 #TODO: Implement user get function - needs more info eg email?
 
