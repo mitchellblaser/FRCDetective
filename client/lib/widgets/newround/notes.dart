@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:FRCDetective/styles.dart';
 
 class NotesWidget extends StatefulWidget {
-  const NotesWidget({Key? key}) : super (key: key);
+  NotesWidget({Key? key}) : super (key: key);
+
+  String notesContents = "";
 
   @override
   _NotesWidgetState createState() => _NotesWidgetState();
@@ -22,7 +24,7 @@ class _NotesWidgetState extends State<NotesWidget> {
   Widget build(BuildContext context) {
     return Container(
       width: 370,
-      height: 205,
+      height: 202,
       decoration: const BoxDecoration(
         color: Color(0xFF424242),
         borderRadius: BorderRadius.all(Radius.circular(30)),
@@ -43,6 +45,9 @@ class _NotesWidgetState extends State<NotesWidget> {
             ),
             keyboardType: TextInputType.multiline,
             maxLines: 5,
+            onChanged: (String value) {
+              widget.notesContents = value;
+            },
           )
         )
       ],)

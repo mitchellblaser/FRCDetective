@@ -8,7 +8,10 @@ import 'package:FRCDetective/styles.dart';
 enum RoundState {rQual, rFinal}
 
 class RoundInfoWidget extends StatefulWidget {
-  const RoundInfoWidget({Key? key}) : super (key: key);
+  RoundInfoWidget({Key? key}) : super (key: key);
+
+  String roundString = "";
+  int roundTeam = 0;
 
   @override
   _RoundInfoWidgetState createState() => _RoundInfoWidgetState();
@@ -73,7 +76,14 @@ class _RoundInfoWidgetState extends State<RoundInfoWidget> {
                         width: 80,
                         child: TextField(
                           controller: TextEditingController(text: ""),
-                          onChanged: (String value) => {},
+                          onChanged: (String value) => {
+                            if (_roundState == RoundState.rQual) {
+                              widget.roundString = "Q" + value
+                            }
+                            else if (_roundState == RoundState.rFinal) {
+                              widget.roundString = "F" + value
+                            }
+                          },
                           maxLines: 1,
                           decoration: InputDecoration(
                             contentPadding: const EdgeInsets.only(left: 15, top: 35, right: 15),

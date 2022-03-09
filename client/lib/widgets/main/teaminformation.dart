@@ -31,7 +31,7 @@ class _TeamInformationWidgetState extends State<TeamInformationWidget> {
                 splashColor: customColor.withAlpha(50),
                 child: SizedBox(
                   width: 370,
-                  height: 170 + boxHeight,
+                  height: 170,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
