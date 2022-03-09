@@ -46,6 +46,8 @@ def Handle(connection : socket.socket, address : tuple) -> None:
 
                 _connection = connection
                 StateMachine(parsed_json)
+                connected = False
+                connection.close()
             else:
                 connected = False
                 connection.close()
@@ -85,7 +87,14 @@ def StateMachine(parsed_json : dict) -> None:
 
 
 def GetDiff(parsed_json : dict) -> None:
-    #TODO: Implement diff calculation
+    _connection.sendall(
+        json.dumps(
+            {
+                "send_timestamp": time.time(),
+                "data": frcd.fileman.calculate_diff(parsed_json["data"])
+            }
+        ).encode("utf-8")
+    )
     return
 
 
