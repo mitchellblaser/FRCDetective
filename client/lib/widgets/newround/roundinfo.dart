@@ -5,7 +5,7 @@ import 'package:FRCDetective/config.dart';
 import 'package:FRCDetective/customcolor.dart';
 import 'package:FRCDetective/styles.dart';
 
-enum roundState {rQual, rFinal}
+enum RoundState {rQual, rFinal}
 
 class RoundInfoWidget extends StatefulWidget {
   const RoundInfoWidget({Key? key}) : super (key: key);
@@ -16,7 +16,7 @@ class RoundInfoWidget extends StatefulWidget {
 
 class _RoundInfoWidgetState extends State<RoundInfoWidget> {
 
-  roundState _roundState = roundState.rQual;
+  RoundState _roundState = RoundState.rQual;
 
   @override
   void initState() {
@@ -52,13 +52,13 @@ class _RoundInfoWidgetState extends State<RoundInfoWidget> {
                         children: [
                           Row(
                             children: [
-                            Radio(value: roundState.rQual, groupValue: _roundState, onChanged: (roundState? value) {setState(() {_roundState = value!;});}),
+                            Radio(value: RoundState.rQual, groupValue: _roundState, onChanged: (RoundState? value) {setState(() {_roundState = value!;});}),
                             const Text("Qualifier", textAlign: TextAlign.left,),
                           ]),
 
                           Row(
                             children: [
-                            Radio(value: roundState.rFinal, groupValue: _roundState, onChanged: (roundState? value) {setState(() {_roundState = value!;});}),
+                            Radio(value: RoundState.rFinal, groupValue: _roundState, onChanged: (RoundState? value) {setState(() {_roundState = value!;});}),
                             const Text("Final", textAlign: TextAlign.left,),
                           ],)
                         ],
