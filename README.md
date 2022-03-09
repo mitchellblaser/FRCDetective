@@ -1,57 +1,45 @@
 # FRC Detective
 
+**The 2022 Update is out!**
+(a.k.a. the "We're going to comp tomorrow edition")<br>
+This version doesn't have *every* feature we'd like to have implemented yet, but it's built on our new stack, and has been rewritten from the ground up to be more efficient and readable. View what is currently working or not working below...
+
 <img src="https://github.com/mitchellblaser/FRCDetective/blob/main/Readme/logo.png?raw=true" align=right width=225 />A scouting system for the First Robotics Competition which does not rely on an internet connection, or bluetooth/wifi mesh network.
 
 Developed by [@mitchellblaser](https://github.com/mitchellblaser) and [@Dilka30003](https://github.com/Dilka30003).
 
-View our progress and planned features for the future [at this link.](https://app.gitkraken.com/glo/board/YBvMzRdxdwARfCdr)
+View our progress and planned features for the future on GitHub Issues.
 
+**What's working:**
 
-(This is version 1. We've got a pretty cool new update coming for the 2022 season, so keep an eye out!)
+- Server Data Read/Write
+- Server Socket Communications with Detective 2.0 JSON-Based Protocol
+- Client Server Socket Connection
+- Client Multi-Platform Targeting thanks to the Flutter Framework
+- Client Round Entry Page
+
+**What's not working:**
+
+- Server/Client Login Handshakes
+- Client Team Analysis - **This will be working before the competition - coming soon!**
+- Client TBA Schedule API Get
+- Server Schedule Sync to/from Clients to reduce reliance on network connection
+- Automatic Round Selection based on Schedule (if applicable)
+- Server Status Reporting over JSON Socket
+- Client Schedule Reporting
+- Match Prediction Algorithm
+
 
 
 **Starting the server:**
 
-The server requries Python 3 (and some additional libraries - mentioned below) to be installed. Once you've got it, you can just run:<img src="https://github.com/mitchellblaser/FRCDetective/blob/main/Readme/Server%20Window.png?raw=true" align=right width=350>
-
-If you're on a UNIX system, you can run the following command:
-
-```bash
-./detective -p [port]
-```
-
-For windows, you may need to run python3 ./detective, and then your options.
-
-The full list of possible command line arguments are:
-
-```bash
---address (-a) [IP ADDRESS]
-  Set the address for the server
-  (usually just use localhost)
-
---port (-p) [PORT] (Required)
-  Set the port to connect to
-
---debug (-d) [True/False]
-  Show debug messages
-
---graphics (-g) [windowed/lowlevel]
-  Set the graphics mode
-  (lowlevel for led output on raspberry pi)
-```
-
-
+Launch the `./detective.py` file inside the `server` folder with Python 3. Ensure your system has a network connection, and the server will start running.
 
 ### Requirements (Server)
 
 - Python 3
-- socket, tkinter, os, datetime (should all come with py3 install)
 - pip install:
    flask
    flask-wtf
-   flask-login
-   flask-sqlalchemy
-   flask-migrate
-   email-validator
-   flask-bootstrap
+   waitress
 
