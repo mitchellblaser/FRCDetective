@@ -37,10 +37,10 @@ def update_file(filename : str, type : FileTypes, contents : dict) -> None:
 def get_file(filename: str, type : FileTypes) -> str:
     lock.GetLock(type)
     f = __return_file_object__(filename, type, "r")
-    contents = f.read()
+    contents = f.readlines()
     f.close()
     lock.Release(type)
-    return contents
+    return contents[-1] ##TODO: This is a hotfix - stops versions from working and only sends the last one.
 
 def get_version_list(filename : str, type : FileTypes) -> list:
     #README: EACH ENTRY MUST HAVE A "epoch_since_modify" AND A "user" KEY VALUE PAIR.

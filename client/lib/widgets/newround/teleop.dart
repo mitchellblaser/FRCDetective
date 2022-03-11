@@ -13,7 +13,9 @@ class TeleopWidget extends StatefulWidget {
   TeleopWidget({Key? key}) : super (key: key);
 
   int teleopHighGoal = 0;
+  int teleopHighMiss = 0;
   int teleopLowGoal = 0;
+  int teleopLowMiss = 0;
   String teleopClimb = ClimbState.none.toString();
 
   @override
@@ -42,7 +44,7 @@ class _TeleopWidgetState extends State<TeleopWidget> {
           splashColor: customColor.withAlpha(50),
           child: SizedBox(
             width: 370,
-            height: 300 + boxHeight,
+            height: 390 + boxHeight,
             child: Column(
               children: [
                 Container(padding: const EdgeInsets.only(top: 16, left: 22), child: Align(alignment: Alignment.centerLeft, child: Text("Teleop", style: bodyStyle))),
@@ -61,7 +63,22 @@ class _TeleopWidgetState extends State<TeleopWidget> {
                   ],
                 ),
 
-                const Padding(padding: EdgeInsets.only(top: 20)),
+                const Padding(padding: EdgeInsets.only(top: 10)),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Padding(child: Text("High Miss"), padding: EdgeInsets.only(right: 50)),
+                    UpDownList(
+                      onUpdate: (int counter) {
+                        widget.teleopHighMiss = counter;
+                      },
+                      color: const Color.fromARGB(255, 2, 33, 46),
+                    )
+                  ],
+                ),
+
+                const Padding(padding: EdgeInsets.only(top: 28)),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -71,6 +88,21 @@ class _TeleopWidgetState extends State<TeleopWidget> {
                       onUpdate: (int counter) {
                         widget.teleopLowGoal = counter;
                       },
+                    )
+                  ],
+                ),
+
+                const Padding(padding: EdgeInsets.only(top: 10)),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Padding(child: Text("Low Miss "), padding: EdgeInsets.only(right: 50)),
+                    UpDownList(
+                      onUpdate: (int counter) {
+                        widget.teleopLowMiss = counter;
+                      },
+                      color: const Color.fromARGB(255, 2, 33, 46),
                     )
                   ],
                 ),

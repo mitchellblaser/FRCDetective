@@ -39,7 +39,7 @@ class _RoundInfoWidgetState extends State<RoundInfoWidget> {
           splashColor: customColor.withAlpha(50),
           child: SizedBox(
             width: 370,
-            height: 120 + boxHeight,
+            height: 154 + boxHeight,
             child: Column(
               children: [
                 Container(padding: const EdgeInsets.only(top: 16, left: 22), child: Align(alignment: Alignment.centerLeft, child: Text("Round Information", style: bodyStyle))),
@@ -74,15 +74,44 @@ class _RoundInfoWidgetState extends State<RoundInfoWidget> {
                       child: Container(
 
                         width: 80,
-                        child: TextField(
+                        child: Column(children: [
+                          TextField(
+                            controller: TextEditingController(text: ""),
+                            onChanged: (String value) => {
+                              if (_roundState == RoundState.rQual) {
+                                widget.roundString = "Q" + value
+                              }
+                              else if (_roundState == RoundState.rFinal) {
+                                widget.roundString = "F" + value
+                              }
+                            },
+                            maxLines: 1,
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.only(left: 15, top: 35, right: 15),
+                              isDense: true,
+                              filled: true,
+                              fillColor: const Color(0xff424242),
+                              hintText: "Rnd. #",
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.white, width: 2.0),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.grey, width: 2.0),
+                                borderRadius: BorderRadius.circular(30),
+                              )
+                            ),
+                            style: const TextStyle(fontFamily: 'LeagueSpartan'),
+                            textAlignVertical: TextAlignVertical.center,
+                            textAlign: TextAlign.center,
+                          ),
+
+                          Padding(padding: EdgeInsets.only(top: 10)),
+
+                          TextField(
                           controller: TextEditingController(text: ""),
                           onChanged: (String value) => {
-                            if (_roundState == RoundState.rQual) {
-                              widget.roundString = "Q" + value
-                            }
-                            else if (_roundState == RoundState.rFinal) {
-                              widget.roundString = "F" + value
-                            }
+                            widget.roundTeam = int.parse(value)
                           },
                           maxLines: 1,
                           decoration: InputDecoration(
@@ -90,7 +119,7 @@ class _RoundInfoWidgetState extends State<RoundInfoWidget> {
                             isDense: true,
                             filled: true,
                             fillColor: const Color(0xff424242),
-                            hintText: "Rnd. #",
+                            hintText: "Team #",
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: Colors.white, width: 2.0),
                               borderRadius: BorderRadius.circular(15),
@@ -103,7 +132,8 @@ class _RoundInfoWidgetState extends State<RoundInfoWidget> {
                           style: const TextStyle(fontFamily: 'LeagueSpartan'),
                           textAlignVertical: TextAlignVertical.center,
                           textAlign: TextAlign.center,
-                        ),
+                        )
+                        ],),
 
                       )
                     )

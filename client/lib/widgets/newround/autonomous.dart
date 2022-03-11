@@ -9,7 +9,9 @@ class AutonomousWidget extends StatefulWidget {
   AutonomousWidget({Key? key}) : super (key: key);
 
   int autonomousHighGoal = 0;
+  int autonomousHighMiss = 0;
   int autonomousLowGoal = 0;
+  int autonomousLowMiss = 0;
   bool autonomousDidTaxi = false;
 
   @override
@@ -38,7 +40,7 @@ class _AutonomousWidgetState extends State<AutonomousWidget> {
                           splashColor: customColor.withAlpha(50),
                           child: SizedBox(
                             width: 370,
-                            height: 190 + boxHeight,
+                            height: 280 + boxHeight,
                             child: Column(
                               children: [
                                 Container(padding: const EdgeInsets.only(top: 16, left: 22), child: Align(alignment: Alignment.centerLeft, child: Text("Autonomous", style: bodyStyle))),
@@ -57,7 +59,22 @@ class _AutonomousWidgetState extends State<AutonomousWidget> {
                                   ],
                                 ),
 
-                                const Padding(padding: EdgeInsets.only(top: 20)),
+                                const Padding(padding: EdgeInsets.only(top: 10)),
+
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    const Padding(child: Text("High Miss"), padding: EdgeInsets.only(right: 50)),
+                                    UpDownList(
+                                      onUpdate: (int counter) {
+                                        widget.autonomousHighGoal = counter;
+                                      },
+                                      color: const Color.fromARGB(255, 2, 33, 46),
+                                    )
+                                  ],
+                                ),
+
+                                const Padding(padding: EdgeInsets.only(top: 28)),
 
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -67,6 +84,21 @@ class _AutonomousWidgetState extends State<AutonomousWidget> {
                                       onUpdate: (int counter) {
                                         widget.autonomousLowGoal = counter;
                                       },
+                                    )
+                                  ],
+                                ),
+
+                                const Padding(padding: EdgeInsets.only(top: 10)),
+
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    const Padding(child: Text("Low Miss "), padding: EdgeInsets.only(right: 50)),
+                                    UpDownList(
+                                      onUpdate: (int counter) {
+                                        widget.autonomousHighGoal = counter;
+                                      },
+                                      color: const Color.fromARGB(255, 2, 33, 46),
                                     )
                                   ],
                                 ),
