@@ -67,7 +67,7 @@ class RoundInformationEntry {
 
 class TeamInformationEntry {
   int teamNumber;
-  Map<int, RoundInformationEntry> rounds = {};
+  SortedMap<int, RoundInformationEntry> rounds = SortedMap();
 
   int totalScore;
   int entries;

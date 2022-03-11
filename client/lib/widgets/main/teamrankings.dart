@@ -34,7 +34,7 @@ class _TeamRankingsWidgetState extends State<TeamRankingsWidget> {
                 splashColor: customColor.withAlpha(50),
                 child: SizedBox(
                   width: 370,
-                  height: 400,
+                  height: 4000,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [

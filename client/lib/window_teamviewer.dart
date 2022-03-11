@@ -7,6 +7,7 @@ import 'package:FRCDetective/widgets/newround/teleop.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:FRCDetective/widgets/viewer/notes.dart';
 
 import 'config.dart';
 import 'filehandler.dart';
@@ -44,8 +45,11 @@ class TeamViewerPage extends StatelessWidget {
     accuracyAutonomousSum = 0;
     accuracyAutonomousCounter = 0;
 
-    for (int i=0; i < teamInformation.rounds.length; i++) {
-      RoundInformationEntry _round = teamInformation.rounds[teamInformation.rounds.keys.toList()[i]]!;
+    // for (int i=0; i < teamInformation.rounds.length; i++) {
+    teamInformation.rounds.forEach((key, value) {
+      // RoundInformationEntry _round = teamInformation.rounds[teamInformation.rounds.keys.toList()[i]]!;
+      RoundInformationEntry _round = value;
+      // print(key);
       int _autoLine = 0;
       if (_round.autoCrossTaxi = true) {
         _autoLine = 2;
@@ -66,7 +70,7 @@ class TeamViewerPage extends StatelessWidget {
 
       accuracyAutonomousSum = accuracyAutonomousSum + (1-(_round.autoHighMiss-_round.autoLowMiss)/(_round.autoHighGoal+_round.autoLowGoal))*100;
       accuracyAutonomousCounter = accuracyAutonomousCounter + 1;
-    }
+    });
 
     return _data;
 
@@ -76,9 +80,18 @@ class TeamViewerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     getListOfScores();
     Image teamImage = Image.asset("assets/images/logo.png");
+    String rank = "";
 
     if (File(mainAppFilePath + "/datastore/teamimage/" + teamNumber.toString() + ".jpg").existsSync()) {
       teamImage = Image.file(File(mainAppFilePath + "/datastore/teamimage/" + teamNumber.toString() + ".jpg"));
+    }
+    int ranking = -1;
+    int _teamCounter = 1;
+    for (var key in sortedTeamList.keys.toList()) {
+      if (key.toString() == teamNumber.toString()) {
+        ranking = _teamCounter;
+      }
+      _teamCounter++;
     }
     
     return MaterialApp(
@@ -157,11 +170,12 @@ class TeamViewerPage extends StatelessWidget {
                         splashColor: customColor.withAlpha(50),
                         child: SizedBox(
                           width: 370,
-                          height: 56,
+                          height: 94,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Container(padding: const EdgeInsets.only(top: 12, left: 20),child: Align(alignment: Alignment.centerLeft, child: Text("Average Score: " + (teamInformation.totalScore.abs()/teamInformation.entries.abs()).toString() + "pts.", style: bodyStyle))),
+                              Container(padding: const EdgeInsets.only(top: 12, left: 20),child: Align(alignment: Alignment.centerLeft, child: Text("Average Score: " + (teamInformation.totalScore.abs()/teamInformation.entries.abs()).toStringAsFixed(2) + "pts.", style: bodyStyle))),
+                              Container(padding: const EdgeInsets.only(top: 12, left: 20),child: Align(alignment: Alignment.centerLeft, child: Text("Rank: " + ranking.toString()))),
                             ],
                           ),
                         ),
@@ -222,14 +236,14 @@ class TeamViewerPage extends StatelessWidget {
                         splashColor: customColor.withAlpha(50),
                         child: SizedBox(
                           width: 370,
-                          height: 170,
+                          height: 104,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Container(padding: const EdgeInsets.only(top: 12, left: 20),child: Align(alignment: Alignment.centerLeft, child: Text("Accuracy", style: bodyStyle))),
                               
-                              Text("Teleop: " + (accuracyTeleopSum/accuracyTeleopCounter).toString() + "%"),
-                              Text("Autonomous: " + (accuracyAutonomousSum/accuracyAutonomousCounter).toString() + "%"),
+                              Align(child: Padding(child: Text("Teleop: " + (accuracyTeleopSum/accuracyTeleopCounter).toStringAsFixed(2) + "%", textAlign: TextAlign.left,), padding: EdgeInsets.only(left: 20, top: 10),), alignment: Alignment.centerLeft),
+                              Align(child: Padding(child: Text("Autonomous: " + (accuracyAutonomousSum/accuracyAutonomousCounter).toStringAsFixed(2) + "%", textAlign: TextAlign.left,), padding: EdgeInsets.only(left: 20),), alignment: Alignment.centerLeft),
 
                             ],
                           ),
@@ -237,7 +251,9 @@ class TeamViewerPage extends StatelessWidget {
                       ),
                   ),
 
-                  const Padding(padding: EdgeInsets.only(top: 10)),
+                  const Padding(padding: EdgeInsets.only(top: 14)),
+
+                  for (var round in teamInformation.rounds.keys.toList()) Container(child: NotesWidget(notesContents: teamInformation.rounds[round]!.notes.toString(), roundname: (teamInformation.rounds[round]!.isQualifier ? "Q" : "F") + teamInformation.rounds[round]!.roundNumber.toString()), padding: EdgeInsets.only(bottom: 20)),
 
                 ],
               ),

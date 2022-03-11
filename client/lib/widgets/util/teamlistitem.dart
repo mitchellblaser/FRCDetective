@@ -33,7 +33,7 @@ class _TeamListItemState extends State<TeamListItem> {
           children: [
             Column(children: [
               Text(widget.team, style: bodyStyle),
-              Text(widget.score.abs().toString(), style: bodyItalSmallStyle),
+              Text(widget.score.abs().toStringAsFixed(2), style: bodyItalSmallStyle),
             ]),
             IconButton(
               icon: Icon(Icons.arrow_circle_right_rounded),
