@@ -3,14 +3,17 @@ import 'dart:io';
 
 import 'package:FRCDetective/main.dart';
 import 'package:FRCDetective/styles.dart';
+import 'package:FRCDetective/widgets/newround/teleop.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 import 'config.dart';
 import 'filehandler.dart';
 import 'customcolor.dart';
 
 import 'widgets/viewer/scorevstime.dart' as score_vs_time;
+import 'package:FRCDetective/widgets/viewer/scorechart.dart';
 
 String _serverAddress = "";
 String _serverPort = "";
@@ -23,23 +26,59 @@ Future<String> getFilePath() async {
 
 class TeamViewerPage extends StatelessWidget {
   int teamNumber;
+  TeamInformationEntry teamInformation;
 
-  TeamViewerPage({Key? key, required this.teamNumber}) : super(key: key);
+  TeamViewerPage({Key? key, required this.teamNumber, required this.teamInformation}) : super(key: key);
+  
+  double accuracyTeleopSum = 0;
+  int accuracyTeleopCounter = 0;
+  double accuracyAutonomousSum = 0;
+  double accuracyAutonomousCounter = 0;
 
-  score_vs_time.ScoreSeries round1 = score_vs_time.ScoreSeries(roundInt: 1, scoreAutonomous: 12, scoreTeleop: 18);
-  score_vs_time.ScoreSeries round2 = score_vs_time.ScoreSeries(roundInt: 2, scoreAutonomous: 14, scoreTeleop: 19);
-  score_vs_time.ScoreSeries round3 = score_vs_time.ScoreSeries(roundInt: 3, scoreAutonomous: 13, scoreTeleop: 14);
+  List<score_vs_time.ScoreSeries> getListOfScores() {
+    List<score_vs_time.ScoreSeries> _data = [];
+
+    accuracyTeleopSum = 0;
+    accuracyTeleopCounter = 0;
+
+    accuracyAutonomousSum = 0;
+    accuracyAutonomousCounter = 0;
+
+    for (int i=0; i < teamInformation.rounds.length; i++) {
+      RoundInformationEntry _round = teamInformation.rounds[teamInformation.rounds.keys.toList()[i]]!;
+      int _autoLine = 0;
+      if (_round.autoCrossTaxi = true) {
+        _autoLine = 2;
+      }
+      int _climb = 0;
+      if (_round.climb == ClimbState.low) {_climb = 4;}
+      else if (_round.climb == ClimbState.mid) {_climb = 6;}
+      else if (_round.climb == ClimbState.high) {_climb = 10;}
+      else if (_round.climb == ClimbState.traversal) {_climb = 15;}
+      _data.add(score_vs_time.ScoreSeries(
+        roundInt: _round.roundNumber,
+        scoreAutonomous: _round.autoHighGoal*4 + _round.autoLowGoal*2 + _autoLine,
+        scoreTeleop: _round.teleopHighGoal*2 + _round.teleopLowGoal*1 + _climb
+      ));
+
+      accuracyTeleopSum = accuracyTeleopSum + (1-(_round.teleopHighMiss-_round.teleopLowMiss)/(_round.teleopHighGoal+_round.teleopLowGoal))*100;
+      accuracyTeleopCounter = accuracyTeleopCounter + 1;
+
+      accuracyAutonomousSum = accuracyAutonomousSum + (1-(_round.autoHighMiss-_round.autoLowMiss)/(_round.autoHighGoal+_round.autoLowGoal))*100;
+      accuracyAutonomousCounter = accuracyAutonomousCounter + 1;
+    }
+
+    return _data;
+
+  }
 
   @override
   Widget build(BuildContext context) {
+    getListOfScores();
+    Image teamImage = Image.asset("assets/images/logo.png");
 
-  Image teamImage = Image.asset("assets/images/logo.png");
-
-    try {
-      teamImage = Image.file(File(mainAppFilePath + "/datastore/teamimage/" + teamNumber.toString() +".jpg"));
-    }
-    on FileSystemException {
-      debugPrint("No Image for Team Found.");
+    if (File(mainAppFilePath + "/datastore/teamimage/" + teamNumber.toString() + ".jpg").existsSync()) {
+      teamImage = Image.file(File(mainAppFilePath + "/datastore/teamimage/" + teamNumber.toString() + ".jpg"));
     }
     
     return MaterialApp(
@@ -56,14 +95,21 @@ class TeamViewerPage extends StatelessWidget {
           appBar: AppBar(
             // title: const Text(applicationName),
             title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+
+                IconButton(icon: Icon(Icons.arrow_back), onPressed: () {
+                  Navigator.pop(context);
+                },),
+
                 Image.asset(
                   logoPath,
                   fit: BoxFit.contain,
                   height: 46,
                   filterQuality: FilterQuality.high,
-                )
+                ),
+
+                IconButton(icon: Icon(null), onPressed: () {},),
               ],
             ),
             backgroundColor: customColor,
@@ -74,6 +120,7 @@ class TeamViewerPage extends StatelessWidget {
                 children: [
 
                   const Padding(padding: EdgeInsets.only(top: 12)),
+                  
                   Card(
                     shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
@@ -110,22 +157,91 @@ class TeamViewerPage extends StatelessWidget {
                         splashColor: customColor.withAlpha(50),
                         child: SizedBox(
                           width: 370,
-                          height: 170,
+                          height: 56,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Container(padding: const EdgeInsets.only(top: 12, left: 20),child: Align(alignment: Alignment.centerLeft, child: Text("Score vs Time", style: bodyStyle))),
+                              Container(padding: const EdgeInsets.only(top: 12, left: 20),child: Align(alignment: Alignment.centerLeft, child: Text("Average Score: " + (teamInformation.totalScore.abs()/teamInformation.entries.abs()).toString() + "pts.", style: bodyStyle))),
                             ],
                           ),
                         ),
                       ),
-                  )
+                  ),
+
+                  const Padding(padding: EdgeInsets.only(top: 10)),
+
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(30),
+                        splashColor: customColor.withAlpha(50),
+                        child: SizedBox(
+                          width: 370,
+                          height: 200,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(padding: const EdgeInsets.only(top: 12, left: 20),child: Align(alignment: Alignment.centerLeft, child: Text("Score Tracker (Teleop)", style: bodyStyle))),
+                              ScoreChart(data: getListOfScores()),
+                            ],
+                          ),
+                        ),
+                      ),
+                  ),
+
+                  Padding(padding: EdgeInsets.only(top: 10)),
+
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(30),
+                        splashColor: customColor.withAlpha(50),
+                        child: SizedBox(
+                          width: 370,
+                          height: 200,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(padding: const EdgeInsets.only(top: 12, left: 20),child: Align(alignment: Alignment.centerLeft, child: Text("Score Tracker (Autonomous)", style: bodyStyle))),
+                              ScoreChartAutonomous(data: getListOfScores()),
+                            ],
+                          ),
+                        ),
+                      ),
+                  ),
+
+                  Padding(padding: EdgeInsets.only(bottom: 10)),
+                  
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(30),
+                        splashColor: customColor.withAlpha(50),
+                        child: SizedBox(
+                          width: 370,
+                          height: 170,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(padding: const EdgeInsets.only(top: 12, left: 20),child: Align(alignment: Alignment.centerLeft, child: Text("Accuracy", style: bodyStyle))),
+                              
+                              Text("Teleop: " + (accuracyTeleopSum/accuracyTeleopCounter).toString() + "%"),
+                              Text("Autonomous: " + (accuracyAutonomousSum/accuracyAutonomousCounter).toString() + "%"),
+
+                            ],
+                          ),
+                        ),
+                      ),
+                  ),
+
+                  const Padding(padding: EdgeInsets.only(top: 10)),
 
                 ],
               ),
-            )
-            
-            
+            ),
           )),
     );
   }

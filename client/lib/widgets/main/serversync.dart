@@ -31,7 +31,7 @@ class _ServerSyncWidgetState extends State<ServerSyncWidget> {
                 splashColor: Colors.grey.withAlpha(50),
                 child: SizedBox(
                   width: 370,
-                  height: 72,
+                  height: 80,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [

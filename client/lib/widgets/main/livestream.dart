@@ -31,9 +31,9 @@ class _LiveStreamWidgetState extends State<LiveStreamWidget> {
                 splashColor: customColor.withAlpha(50),
                 child: SizedBox(
                   width: 370,
-                  height: 72,
+                  height: 82,
                   child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                    Container(padding: const EdgeInsets.only(left: 25, bottom: 5), child: Icon(Icons.play_circle, size: 40),),
+                    Container(padding: const EdgeInsets.only(top: 5, left: 25, bottom: 5), child: const Icon(Icons.play_circle, size: 40),),
                     Column(
                       children: [
                         Container(padding: const EdgeInsets.only(top: 16, left: 20), child: Align(alignment: Alignment.centerLeft, child: Text("Your event is live.", style: bodyStyle))),

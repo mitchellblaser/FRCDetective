@@ -1,3 +1,4 @@
+import 'package:FRCDetective/main.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -5,6 +6,7 @@ import 'package:FRCDetective/styles.dart';
 import 'package:FRCDetective/customcolor.dart';
 
 import 'package:FRCDetective/window_teamviewer.dart';
+import 'package:FRCDetective/widgets/util/teamlistitem.dart';
 
 class TeamRankingsWidget extends StatefulWidget {
   const TeamRankingsWidget({Key? key}) : super (key: key);
@@ -36,14 +38,9 @@ class _TeamRankingsWidgetState extends State<TeamRankingsWidget> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Container(padding: const EdgeInsets.only(top: 16, left: 22), child: Align(alignment: Alignment.centerLeft, child: Text("Team Rankings", style: bodyStyle))),
-                      
-                      Builder(
-                        builder: (context) => ElevatedButton(
-                          child: const Text("Show Team 5584"),
-                          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => TeamViewerPage(teamNumber: 5584))),
-                        ),
-                      ),
+                      Container(padding: const EdgeInsets.only(top: 16, left: 22, bottom: 6), child: Align(alignment: Alignment.centerLeft, child: Text("Team Rankings", style: bodyStyle))),
+
+                      for (var _team in sortedTeamList.keys) TeamListItem(team: _team.toString(), score: sortedTeamList[_team]),
 
                     ],
                   ),

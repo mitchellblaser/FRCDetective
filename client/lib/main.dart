@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'package:FRCDetective/widgets/newround/teleop.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:path_provider/path_provider.dart';
+import 'package:sortedmap/sortedmap.dart';
 
 import 'config.dart';
 import 'filehandler.dart';
@@ -17,13 +19,63 @@ import 'window_main.dart';
 
 Map serverDiffList = {};
 
-Map clientList = {};
+SortedMap sortedTeamList = SortedMap(const Ordering.byValue());
 class ClientEntry {
   int totalScore;
   int entries;
   
   ClientEntry({required this.totalScore, required this.entries});
 }
+
+
+class RoundInformationEntry {
+  bool isQualifier;
+  int roundNumber;
+  int teamNumber;
+
+  int autoLowGoal;
+  int autoLowMiss;
+  int autoHighGoal;
+  int autoHighMiss;
+  bool autoCrossTaxi;
+
+  int teleopLowGoal;
+  int teleopLowMiss;
+  int teleopHighGoal;
+  int teleopHighMiss;
+  ClimbState climb;
+
+  String notes;
+
+  RoundInformationEntry({
+    required this.isQualifier,
+    required this.roundNumber,
+    required this.teamNumber,
+    required this.autoLowGoal,
+    required this.autoLowMiss,
+    required this.autoHighGoal,
+    required this.autoHighMiss,
+    required this.autoCrossTaxi,
+    required this.teleopLowGoal,
+    required this.teleopLowMiss,
+    required this.teleopHighGoal,
+    required this.teleopHighMiss,
+    required this.climb,
+    required this.notes
+  });
+}
+
+class TeamInformationEntry {
+  int teamNumber;
+  Map<int, RoundInformationEntry> rounds = {};
+
+  int totalScore;
+  int entries;
+
+  TeamInformationEntry({required this.teamNumber, required this.totalScore, required this.entries});
+}
+
+Map<String, TeamInformationEntry> teamInformation = {};
 
 String mainAppFilePath = "";
 
@@ -47,8 +99,12 @@ void doServerUpdateInitial() async {
 }
 
 Future<void> getChunkData() async {
-  clientList = {};
-  (await getFileList())["chunks"].forEach((dynamic k, dynamic v) async {
+  teamInformation = {};
+
+  // (await getFileList())["chunks"].forEach((dynamic k, dynamic v) async {
+  Iterable<String> chunkdata = (await getFileList())["chunks"].keys.toList().cast<String>();
+  await Future.forEach(chunkdata, (String k) async {
+
     Map _fileData = jsonDecode((await readFile("datastore/matchchunks/" + k + ".chunk")).last);
     String _client = k.split("_")[1];
 
@@ -61,29 +117,62 @@ Future<void> getChunkData() async {
 
     if (_fileData["auto_taxi"] == true) { _score = _score + 2; }
 
-    print("_client $_client");
-
-    if (!clientList.keys.contains(_client)) {
-      print("!contains");
-      clientList[_client] = ClientEntry(entries: 1, totalScore: _score);
+    if (!teamInformation.keys.contains(_client)) {
+      teamInformation[_client] = TeamInformationEntry(
+        teamNumber: int.parse(_client),
+        entries: 1,
+        totalScore: _score
+      );
     }
     else {
-      print("contains");
-      clientList[_client].totalScore = clientList[_client].totalScore + _score;
-      clientList[_client].entries = clientList[_client].entries + 1;
+      teamInformation[_client]!.totalScore = teamInformation[_client]!.totalScore + _score;
+      teamInformation[_client]!.entries = teamInformation[_client]!.entries + 1;
     }
+
+    bool _qual = true;
+    ClimbState _climb = ClimbState.none;
+    if (_fileData["round"][0] == "F") {_qual = false;}
+    if (_fileData["tele_hangar"] == "ClimbState.low") {_climb = ClimbState.low;}
+    if (_fileData["tele_hangar"] == "ClimbState.mid") {_climb = ClimbState.mid;}
+    if (_fileData["tele_hangar"] == "ClimbState.high") {_climb = ClimbState.high;}
+    if (_fileData["tele_hangar"] == "ClimbState.traversal") {_climb = ClimbState.traversal;}
+
+    // print();
+
+    teamInformation[_client]!.rounds[int.parse(_fileData["round"].substring(1))] = RoundInformationEntry(
+      isQualifier: _qual,
+      roundNumber: int.parse(_fileData["round"].substring(1)),
+      teamNumber: _fileData["team"],
+      autoLowGoal: _fileData["auto_goal_low"],
+      autoLowMiss: _fileData["auto_miss_low"],
+      autoHighGoal: _fileData["auto_goal_high"],
+      autoHighMiss: _fileData["auto_miss_high"],
+      autoCrossTaxi: _fileData["auto_taxi"],
+      teleopLowGoal: _fileData["tele_goal_low"],
+      teleopLowMiss: _fileData["tele_miss_low"],
+      teleopHighGoal: _fileData["tele_goal_high"],
+      teleopHighMiss: _fileData["tele_miss_high"],
+      climb: _climb,
+      notes: _fileData["notes"]
+    );
   });
+  return;
 }
 
 void doServerUpdate() async {
-
   await getChunkData();
+
+  teamInformation.forEach((key, value) {
+    sortedTeamList.addAll({key.toString(): -(value.totalScore/value.entries)});
+  });
+
+  // print(sortedClientList);
 
   try {
     var s = await Socket.connect(serverAddress, int.parse(serverPort)).timeout(const Duration(milliseconds: serverPollIntervalMS));
     serverState = const Icon(Icons.link);
     
-    print(await getFileList());
+    // print(await getFileList());
     s.write('{"request": "GET_DIFF", "data": ' + jsonEncode(await getFileList()) + '}');
     s.listen(
       (Uint8List data) {
@@ -99,7 +188,7 @@ void doServerUpdate() async {
       },
 
       onDone: () {
-        print("done.");
+        // print("done.");
         s.destroy();
         s.close();
       }

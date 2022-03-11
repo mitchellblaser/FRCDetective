@@ -1,20 +1,21 @@
 import 'package:FRCDetective/customcolor.dart';
+import 'package:FRCDetective/main.dart';
 import 'package:flutter/material.dart';
+
+import 'package:FRCDetective/window_teamviewer.dart';
 
 import 'package:FRCDetective/styles.dart';
 
-class UpDownList extends StatefulWidget {
-  final Function onUpdate;
-  final Color color;
-  const UpDownList({Key? key, required this.onUpdate, this.color = customColor}) : super(key: key);
+class TeamListItem extends StatefulWidget {
+  String team;
+  double score;
+  TeamListItem({Key? key, required this.team, required this.score}) : super(key: key);
 
   @override
-  _UpDownListState createState() => _UpDownListState();
+  _TeamListItemState createState() => _TeamListItemState();
 }
 
-class _UpDownListState extends State<UpDownList> {
-
-  int _counterState = 0;
+class _TeamListItemState extends State<TeamListItem> {
 
   @override
   void initState() {
@@ -24,37 +25,30 @@ class _UpDownListState extends State<UpDownList> {
   @override
   Widget build(BuildContext context) {
 
-    return Row(
-      children: [
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(primary: widget.color),
-          child: const Icon(Icons.keyboard_arrow_up),
-          onPressed: () {
-            if (_counterState < 99) {
-              _counterState++;
-            }
-            setState(() {
-              
-            });
-            widget.onUpdate(_counterState);
-          },
-        ),
-        Padding(child: Text(_counterState.toString().padLeft(2, "0"), style: bodyStyle,), padding: const EdgeInsets.only(left: 10, right: 10)),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(primary: widget.color),
-          child: const Icon(Icons.keyboard_arrow_down),
-          onPressed: () {
-            if (_counterState > 0) {
-              _counterState--;
-            }
-            setState(() {
-              
-            });
-            widget.onUpdate(_counterState);
-          },
-        ),
-      ],
-    );
+    return Container(
+      // color: Colors.grey,
+      child: Padding(padding: EdgeInsets.only(left: 24, right: 20, bottom: 6, top: 6),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(children: [
+              Text(widget.team, style: bodyStyle),
+              Text(widget.score.abs().toString(), style: bodyItalSmallStyle),
+            ]),
+            IconButton(
+              icon: Icon(Icons.arrow_circle_right_rounded),
+              onPressed: () {
+                try {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => TeamViewerPage(teamNumber: int.parse(widget.team), teamInformation: teamInformation[widget.team]!,)));
+                }
+                on CastError {
 
+                }
+              }
+            )
+          ]
+        ),
+      )
+    );
   }
 }
