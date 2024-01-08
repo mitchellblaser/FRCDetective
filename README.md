@@ -1,8 +1,8 @@
 # FRC Detective
 
-**The 2022 Update is out!**
-(a.k.a. the "We're going to comp tomorrow edition")<br>
-This version doesn't have *every* feature we'd like to have implemented yet, but it's built on our new stack, and has been rewritten from the ground up to be more efficient and readable. View what is currently working or not working below...
+**We are currently developing FRCD 2024!**
+Keep yourself posted for updates soon.<br>
+This version will be significantly closer to feature-complete than GameDay 2022 v1.0 Release. We will likely still not hit every feature on our wishlist, but we are planning to greatly improve our client-side application, and include a handful of new features. For more detail, check out the list below...
 
 <img src="https://github.com/mitchellblaser/FRCDetective/blob/main/Readme/logo.png?raw=true" align=right width=225 />A scouting system for the First Robotics Competition which does not rely on an internet connection, or bluetooth/wifi mesh network.
 
@@ -12,28 +12,31 @@ View our progress and planned features for the future on GitHub Issues.
 
 **What's working:**
 
-- Server Data Read/Write
-- Server Socket Communications with Detective 2.0 JSON-Based Protocol
-- Client Server Socket Connection
-- Client Multi-Platform Targeting thanks to the Flutter Framework
-- Client Round Entry Page
+- Server socket communications with FRCD2 JSON-Based Protocol
+- Server Data Store/Reply for Matches, Teams, and Chunks.
+- Multi-Platform Client Application targeting Android, iOS and Windows.
+- Game Scouting Entry Page
+- Team Leaderboard and Analysis
 
-**What's not working:**
+**Goals for 2024:**
 
-- Server/Client Login Handshakes
-- Client Team Analysis - **This will be working before the competition - coming soon!**
+- Pre-game match analysis and strategy breakdown.
+- Individual User Logins, and logging per data entry.
+- Synchronisation of match schedule from server to client.
+- Blue Alliance match schedule and name import - offline file or online API.
+
+**Future Goals:**
+
 - Client TBA Schedule API Get
-- Server Schedule Sync to/from Clients to reduce reliance on network connection
-- Automatic Round Selection based on Schedule (if applicable)
 - Server Status Reporting over JSON Socket
-- Client Schedule Reporting
+- Client-side Schedule Adjustment (in case of variation from TBA)
 - Match Prediction Algorithm
-
-
 
 **Starting the server:**
 
-Launch the `./detective.py` file inside the `server` folder with Python 3. Ensure your system has a network connection, and the server will start running.
+Launch the `./detective.py` file inside the `server` folder with Python 3. Ensure your system has a local network connection, and the server will start running.
+
+You will be prompted to complete a first-time setup, including creating an administrator login. Server data files will be initialised in `server/datastore/*`.
 
 ### Requirements (Server)
 
@@ -42,4 +45,6 @@ Launch the `./detective.py` file inside the `server` folder with Python 3. Ensur
    flask
    flask-wtf
    waitress
+   pathlib
+
 
