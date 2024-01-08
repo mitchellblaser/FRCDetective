@@ -5,7 +5,6 @@ import 'dart:async';
 import 'package:FRCDetective/styles.dart';
 import 'package:FRCDetective/customcolor.dart';
 
-import 'package:FRCDetective/window_teamviewer.dart';
 import 'package:FRCDetective/widgets/util/teamlistitem.dart';
 
 class TeamRankingsWidget extends StatefulWidget {
@@ -34,7 +33,7 @@ class _TeamRankingsWidgetState extends State<TeamRankingsWidget> {
                 splashColor: customColor.withAlpha(50),
                 child: SizedBox(
                   width: 370,
-                  height: 4000,
+                  height: 400,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [

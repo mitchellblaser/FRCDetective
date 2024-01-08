@@ -9,7 +9,7 @@ Future<void> writeFile(String filePath, String contents) async {
   try {
     final File file = File(appFilePath + "/" + filePath);
     if (!await file.exists()) {
-      await file.create();
+      await file.create(recursive: false, exclusive: true);
     }
     await file.writeAsString(contents);
     return;

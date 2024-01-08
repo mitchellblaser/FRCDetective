@@ -1,5 +1,3 @@
-import 'package:charts_flutter/flutter.dart';
-import 'package:flutter/foundation.dart';
 
 class ScoreSeries {
   final int roundInt;

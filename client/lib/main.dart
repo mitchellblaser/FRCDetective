@@ -11,7 +11,6 @@ import 'package:sortedmap/sortedmap.dart';
 import 'config.dart';
 import 'filehandler.dart';
 import 'database.dart';
-import 'package:FRCDetective/main.dart' as mainapp;
 
 import 'window_main.dart';
 
@@ -300,6 +299,6 @@ void main() {
   // Run GUI
   runApp(const DetectiveApp());
   // Start Periodic Functions
-  Timer.periodic(const Duration(milliseconds: serverPollIntervalMS), (Timer t) => { doServerUpdate() });
+  Timer.periodic(const Duration(milliseconds: serverPollIntervalMS), (Timer t) => doServerUpdate() );
   doServerUpdateInitial();
 }

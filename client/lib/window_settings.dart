@@ -20,7 +20,7 @@ class SettingsPage extends StatelessWidget {
         brightness: Brightness.dark,
         primarySwatch: customColor,
         primaryTextTheme: const TextTheme(
-          headline6: TextStyle(color: Colors.white)
+          titleLarge: TextStyle(color: Colors.white)
         )
       ),
       home: Scaffold(
@@ -47,7 +47,7 @@ class SettingsPage extends StatelessWidget {
                   child: Column(children: [
                     const Text("Server Connection"),
                     const Padding(padding: EdgeInsets.only(bottom: 15)),
-                    Container(
+                    SizedBox(
                       width: 370,
                       child: TextField(
                         controller: TextEditingController(text: serverAddress),
@@ -73,7 +73,7 @@ class SettingsPage extends StatelessWidget {
                       ),
                     ),
                     const Padding(padding: EdgeInsets.only(bottom: 10)),
-                    Container(
+                    SizedBox(
                       width: 370,
                       child: TextField(
                         controller: TextEditingController(text: serverPort),

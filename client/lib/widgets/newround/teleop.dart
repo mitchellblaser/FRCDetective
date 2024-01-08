@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 
 import 'package:FRCDetective/config.dart';
 import 'package:FRCDetective/customcolor.dart';

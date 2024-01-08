@@ -41,7 +41,8 @@ dev_dependencies:
   msix: ^3.3.0
   path_provider: ^2.0.9
   charts_flutter: ^0.12.0
-  sortedmap: ^0.5.1
+  sortedmap: ^0.5.3
+  file: ^7.0.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

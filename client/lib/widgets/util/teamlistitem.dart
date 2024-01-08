@@ -1,4 +1,3 @@
-import 'package:FRCDetective/customcolor.dart';
 import 'package:FRCDetective/main.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +26,7 @@ class _TeamListItemState extends State<TeamListItem> {
 
     return Container(
       // color: Colors.grey,
-      child: Padding(padding: EdgeInsets.only(left: 24, right: 20, bottom: 6, top: 6),
+      child: Padding(padding: const EdgeInsets.only(left: 24, right: 20, bottom: 6, top: 6),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -36,14 +35,15 @@ class _TeamListItemState extends State<TeamListItem> {
               Text(widget.score.abs().toStringAsFixed(2), style: bodyItalSmallStyle),
             ]),
             IconButton(
-              icon: Icon(Icons.arrow_circle_right_rounded),
+              icon: const Icon(Icons.arrow_circle_right_rounded),
               onPressed: () {
                 try {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => TeamViewerPage(teamNumber: int.parse(widget.team), teamInformation: teamInformation[widget.team]!,)));
                 }
-                on CastError {
-
-                }
+                // on CastError {
+                  
+                // }
+                on TypeError {}
               }
             )
           ]

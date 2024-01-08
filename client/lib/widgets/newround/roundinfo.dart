@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
 
 import 'package:FRCDetective/config.dart';
 import 'package:FRCDetective/customcolor.dart';
@@ -71,7 +70,7 @@ class _RoundInfoWidgetState extends State<RoundInfoWidget> {
 
                     Padding(
                       padding: const EdgeInsets.only(top: 10, right: 22),
-                      child: Container(
+                      child: SizedBox(
 
                         width: 80,
                         child: Column(children: [
@@ -106,7 +105,7 @@ class _RoundInfoWidgetState extends State<RoundInfoWidget> {
                             textAlign: TextAlign.center,
                           ),
 
-                          Padding(padding: EdgeInsets.only(top: 10)),
+                          const Padding(padding: EdgeInsets.only(top: 10)),
 
                           TextField(
                           controller: TextEditingController(text: ""),

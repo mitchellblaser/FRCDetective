@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:FRCDetective/main.dart';
@@ -6,11 +5,9 @@ import 'package:FRCDetective/styles.dart';
 import 'package:FRCDetective/widgets/newround/teleop.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:FRCDetective/widgets/viewer/notes.dart';
 
 import 'config.dart';
-import 'filehandler.dart';
 import 'customcolor.dart';
 
 import 'widgets/viewer/scorevstime.dart' as score_vs_time;
@@ -101,7 +98,7 @@ class TeamViewerPage extends StatelessWidget {
         brightness: Brightness.dark,
         primarySwatch: customColor,
         primaryTextTheme: const TextTheme(
-          headline6: TextStyle(color: Colors.white)
+          titleLarge: TextStyle(color: Colors.white)
         )
       ),
       home: Scaffold(
@@ -111,7 +108,7 @@ class TeamViewerPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
 
-                IconButton(icon: Icon(Icons.arrow_back), onPressed: () {
+                IconButton(icon: const Icon(Icons.arrow_back), onPressed: () {
                   Navigator.pop(context);
                 },),
 
@@ -122,7 +119,7 @@ class TeamViewerPage extends StatelessWidget {
                   filterQuality: FilterQuality.high,
                 ),
 
-                IconButton(icon: Icon(null), onPressed: () {},),
+                IconButton(icon: const Icon(null), onPressed: () {},),
               ],
             ),
             backgroundColor: customColor,
@@ -204,7 +201,7 @@ class TeamViewerPage extends StatelessWidget {
                       ),
                   ),
 
-                  Padding(padding: EdgeInsets.only(top: 10)),
+                  const Padding(padding: EdgeInsets.only(top: 10)),
 
                   Card(
                     shape: RoundedRectangleBorder(
@@ -226,7 +223,7 @@ class TeamViewerPage extends StatelessWidget {
                       ),
                   ),
 
-                  Padding(padding: EdgeInsets.only(bottom: 10)),
+                  const Padding(padding: EdgeInsets.only(bottom: 10)),
                   
                   Card(
                     shape: RoundedRectangleBorder(
@@ -242,8 +239,8 @@ class TeamViewerPage extends StatelessWidget {
                             children: [
                               Container(padding: const EdgeInsets.only(top: 12, left: 20),child: Align(alignment: Alignment.centerLeft, child: Text("Accuracy", style: bodyStyle))),
                               
-                              Align(child: Padding(child: Text("Teleop: " + (accuracyTeleopSum/accuracyTeleopCounter).toStringAsFixed(2) + "%", textAlign: TextAlign.left,), padding: EdgeInsets.only(left: 20, top: 10),), alignment: Alignment.centerLeft),
-                              Align(child: Padding(child: Text("Autonomous: " + (accuracyAutonomousSum/accuracyAutonomousCounter).toStringAsFixed(2) + "%", textAlign: TextAlign.left,), padding: EdgeInsets.only(left: 20),), alignment: Alignment.centerLeft),
+                              Align(child: Padding(child: Text("Teleop: " + (accuracyTeleopSum/accuracyTeleopCounter).toStringAsFixed(2) + "%", textAlign: TextAlign.left,), padding: const EdgeInsets.only(left: 20, top: 10),), alignment: Alignment.centerLeft),
+                              Align(child: Padding(child: Text("Autonomous: " + (accuracyAutonomousSum/accuracyAutonomousCounter).toStringAsFixed(2) + "%", textAlign: TextAlign.left,), padding: const EdgeInsets.only(left: 20),), alignment: Alignment.centerLeft),
 
                             ],
                           ),
@@ -253,7 +250,7 @@ class TeamViewerPage extends StatelessWidget {
 
                   const Padding(padding: EdgeInsets.only(top: 14)),
 
-                  for (var round in teamInformation.rounds.keys.toList()) Container(child: NotesWidget(notesContents: teamInformation.rounds[round]!.notes.toString(), roundname: (teamInformation.rounds[round]!.isQualifier ? "Q" : "F") + teamInformation.rounds[round]!.roundNumber.toString()), padding: EdgeInsets.only(bottom: 20)),
+                  for (var round in teamInformation.rounds.keys.toList()) Container(child: NotesWidget(notesContents: teamInformation.rounds[round]!.notes.toString(), roundname: (teamInformation.rounds[round]!.isQualifier ? "Q" : "F") + teamInformation.rounds[round]!.roundNumber.toString()), padding: const EdgeInsets.only(bottom: 20)),
 
                 ],
               ),

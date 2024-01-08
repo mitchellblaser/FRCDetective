@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:FRCDetective/window_teamviewer.dart';
-import 'package:FRCDetective/main.dart';
 
 import 'package:FRCDetective/customcolor.dart';
-import 'package:FRCDetective/config.dart';
 import 'package:FRCDetective/styles.dart';
 
 class TeamInformationWidget extends StatefulWidget {
@@ -34,7 +31,7 @@ class _TeamInformationWidgetState extends State<TeamInformationWidget> {
           splashColor: customColor.withAlpha(50),
           child: SizedBox(
             width: 370,
-            height: 180,
+            height: 210,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [

@@ -27,7 +27,7 @@ class _UpDownListState extends State<UpDownList> {
     return Row(
       children: [
         ElevatedButton(
-          style: ElevatedButton.styleFrom(primary: widget.color),
+          style: ElevatedButton.styleFrom(backgroundColor: widget.color),
           child: const Icon(Icons.keyboard_arrow_up),
           onPressed: () {
             if (_counterState < 99) {
@@ -41,7 +41,7 @@ class _UpDownListState extends State<UpDownList> {
         ),
         Padding(child: Text(_counterState.toString().padLeft(2, "0"), style: bodyStyle,), padding: const EdgeInsets.only(left: 10, right: 10)),
         ElevatedButton(
-          style: ElevatedButton.styleFrom(primary: widget.color),
+          style: ElevatedButton.styleFrom(backgroundColor: widget.color),
           child: const Icon(Icons.keyboard_arrow_down),
           onPressed: () {
             if (_counterState > 0) {

@@ -5,7 +5,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 class ScoreChart extends StatelessWidget {
   final List<ScoreSeries> data;
 
-  ScoreChart({required this.data});
+  const ScoreChart({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class ScoreChart extends StatelessWidget {
 class ScoreChartAutonomous extends StatelessWidget {
   final List<ScoreSeries> data;
 
-  ScoreChartAutonomous({required this.data});
+  const ScoreChartAutonomous({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

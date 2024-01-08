@@ -43,7 +43,7 @@ class _DetectiveAppState extends State<DetectiveApp> {
         brightness: Brightness.dark,
         primarySwatch: customColor,
         primaryTextTheme: const TextTheme(
-          headline6: TextStyle(color: Colors.white)
+          titleLarge: TextStyle(color: Colors.white)
         )
       ),
       home: Scaffold(
