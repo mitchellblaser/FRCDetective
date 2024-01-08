@@ -21,6 +21,4 @@ On Unix systems, you can start the detective with `./detective -p [port]`. On sy
 
 <a class="btn" href="/download/DetectiveServer-Release.zip"><i class="fa fa-download"></i> Download Server</a>         
 
-
-
-Looking for Installation Instructions? Click <a href="/docs/Installation Instructions">Here</a>.
+Looking for Installation Instructions? Click <a href="/FRCDetective/docs/Installation Instructions">Here</a>.

@@ -7,15 +7,16 @@ parent: Docs
 ## Installation Instructions
 
 #### Server
+
 To install a prebuilt release of the FRC Detective Server application, which has been tested and verified to work, download it from our website, and upload it to your server/computer.
 
-For the Server to work, you'll need to have the Docker engine installed on your system. If you don't already have it, read the instructions <a href="https://docs.docker.com/engine/install/">here.</a> For Linux systems, you'll want the Docker Engine, and Windows/Mac users will need to get the entire Docker Desktop application.
+For the Server to work, you'll need to have the Docker engine installed on your system. If you don't already have it, read the instructions <a href="https://docs.docker.com/engine/install/">here.</a> For Linux systems, you'll want the Docker Engine, and Windows/Mac users will need to install the Docker Desktop application.
 
-Once Docker's installed, grab a copy of the latest Server Release from our <a href="/download">Download Page</a>.
+Once Docker's installed, grab a copy of the latest Server Release from our <a href="/FRCDetective/download">Download Page</a>.
 
 <br>
 ##### Linux and macOS Instructions:
-Move to your Downloads directory and run `unzip ./DetectiveServer-Release.zip && cd DetectiveServer-Release`. If you don't have the unzip binary installed, use your package manager to  get it. Now that you're in the directory, run `./install-linux.sh` (**not** as root, but as your default user.) If prompted, enter your user password for the sudo command.
+Move to your Downloads directory and run `unzip ./DetectiveServer-Release.zip && cd DetectiveServer-Release`. Now that you're in the directory, run `./install-linux.sh` (**not** as root, but as your default user.) If prompted, enter your user password for the sudo command.
 
 Inside the Installation Script, we'll load the docker image in, copy the required files to /etc/detective on your disk, and install a `frcdetective` binary that you can launch from the command line once finished.
 
