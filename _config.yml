@@ -2,5 +2,5 @@ remote_theme: pmarsceill/just-the-docs
 title: "FRC Detective"
 description: "A Decentralized Scouting Solution for the First Robotics Competition."
 logo: "/assets/header.png"
-url: "https://frcdetective.tech"
+url: "mitchellblaser.github.io/FRCDetective"
 baseurl: "/"
