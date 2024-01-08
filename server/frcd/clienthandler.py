@@ -24,8 +24,8 @@ def Handle(connection : socket.socket, address : tuple) -> None:
     """Main Handler Function for Client Communications.
 
     Args:
-        connection (socket): [description]
-        address ([type]): [description]
+        connection (socket): [Pass WebSocket object from main detective.py]
+        address (tuple): [Client connection details]
     """
     global _connection
     print("Accepted Connection from Client at " + str(address) + ".")
