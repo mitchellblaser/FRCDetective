@@ -29,7 +29,7 @@ class _YourTeamState extends State<YourTeam> {
   @override
   Widget build(BuildContext context) {
 
-    widget.emitter.on("updateYourTeam", null, (event, event_context) {
+    widget.emitter.on("updateYourTeam", null, (event, eventContext) {
       List eventdata = event.eventData as List;
       update(eventdata[0], eventdata[1], eventdata[2]);
     });
@@ -53,6 +53,13 @@ class _YourTeamState extends State<YourTeam> {
         ),
 
       ),
-    );
+    );  
   }
+
+  @override
+  void dispose() {
+    widget.emitter.clear();
+    super.dispose();
+  }
+
 }
