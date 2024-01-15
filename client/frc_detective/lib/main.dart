@@ -52,8 +52,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           body: TabBarView(children: [
             Summary(),
-            Icon(Icons.home),
-            Icon(Icons.home),
+            const Icon(Icons.home),
+            const Icon(Icons.home),
           ])
         )
       )

@@ -37,6 +37,15 @@ class ActivityMenu extends StatelessWidget {
                 decoration: BoxDecoration(color: mainColor.withAlpha(200), borderRadius: defaultRadius,),
                 padding: const EdgeInsets.all(6),
                 width: 90,
+                child: const Column(children: [Icon(Icons.construction, color: Colors.white,), Text("Pit Scouting", style: appBarTitle, textAlign: TextAlign.center,)]),
+              ),
+            ),
+            
+            MaterialButton(onPressed: () {},
+              child: Container(
+                decoration: BoxDecoration(color: mainColor.withAlpha(200), borderRadius: defaultRadius,),
+                padding: const EdgeInsets.all(6),
+                width: 90,
                 child: const Column(children: [Icon(Icons.add, color: Colors.white,), Text("Scout Game", style: appBarTitle, textAlign: TextAlign.center,)]),
               ),
             ),
