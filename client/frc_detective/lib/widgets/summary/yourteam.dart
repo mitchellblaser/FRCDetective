@@ -34,8 +34,10 @@ class _YourTeamState extends State<YourTeam> {
       update(eventdata[0], eventdata[1], eventdata[2]);
     });
 
+    widget.emitter.emit("requestUpdate", null, "Summary.YourTeam");
+
     return Container(
-      padding: const EdgeInsets.only(left: 30, right: 30, bottom: 30),
+      padding: const EdgeInsets.all(30),
       child: Container(
 
         decoration: BoxDecoration(color: mainColor.withAlpha(215), borderRadius: const BorderRadius.all(Radius.circular(20.0)), boxShadow: [BoxShadow(blurRadius: 4, offset: const Offset(0,2), color: Colors.black.withOpacity(0.3))],),

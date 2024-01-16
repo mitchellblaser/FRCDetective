@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:eventify/eventify.dart';
 
 import 'appconfig.dart';
 
 import 'widgets/summary/summary.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final EventEmitter emitter = EventEmitter();
 
   // This widget is the root of your application.
   @override
@@ -20,13 +23,15 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor:mainColor),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: appTitle),
+      home: MyHomePage(title: appTitle, emitter: emitter),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+  final EventEmitter emitter;
+
+  const MyHomePage({super.key, required this.title, required this.emitter});
 
   final String title;
 
@@ -51,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
             backgroundColor: mainColor,
           ),
           body: TabBarView(children: [
-            Summary(),
+            Summary(emitter: widget.emitter),
             const Icon(Icons.home),
             const Icon(Icons.home),
           ])
