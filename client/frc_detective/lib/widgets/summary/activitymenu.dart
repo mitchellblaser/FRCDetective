@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frc_detective/appconfig.dart';
 
 import 'package:frc_detective/widgets/scoutgame/scoutgame.dart';
+import 'package:frc_detective/widgets/pitscout/pitscout.dart';
 
 class ActivityMenu extends StatelessWidget {
   const ActivityMenu({super.key});
@@ -34,7 +35,7 @@ class ActivityMenu extends StatelessWidget {
               ),
             ),
 
-            MaterialButton(onPressed: () {},
+            MaterialButton(onPressed: () {Navigator.push(context, MaterialPageRoute(builder: ((context) => const PitScouting())));},
               child: Container(
                 decoration: BoxDecoration(color: mainColor.withAlpha(200), borderRadius: defaultRadius,),
                 padding: const EdgeInsets.all(6),

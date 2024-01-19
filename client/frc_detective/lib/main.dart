@@ -58,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
           body: TabBarView(children: [
             Summary(emitter: widget.emitter),
             const Icon(Icons.home),
-            const Icon(Icons.home),
+            const Icon(Icons.home), 
           ])
         )
       )
