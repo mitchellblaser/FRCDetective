@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:eventify/eventify.dart';
+import 'package:flutter/services.dart';
 
 import 'package:frc_detective/appconfig.dart';
 
@@ -29,6 +30,9 @@ class _TeamAbilitiesState extends State<TeamAbilities> {
         padding: const EdgeInsets.all(30),
         width: 250,
         child: Column(children: [
+
+        TextField(keyboardType: TextInputType.number, decoration: InputDecoration(hintText: "Team number"), inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]),
+        
         CheckboxListTile(title: Text("Climb"),value: _climb, onChanged: (bool? climbCheck) {
           if (climbCheck !=null){
             setState(() {
